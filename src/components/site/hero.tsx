@@ -14,6 +14,8 @@ import {
   Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useOrbitStore } from "@/lib/orbit-store";
+import { useCaseScenarios } from "@/lib/recommend";
 
 const orbitBlocks = [
   { icon: PenLine, accent: "aurora", label: "Writing", x: "-58%", y: "-10%", delay: 0 },
@@ -39,6 +41,17 @@ const stats = [
 ];
 
 export function Hero() {
+  const openQuiz = useOrbitStore((s) => s.openQuiz);
+  const setSearch = useOrbitStore((s) => s.setSearch);
+
+  const startScenario = (taskId: string, budget: Parameters<typeof openQuiz>[0] extends infer P ? P extends { budget?: infer B } ? B : never : never) => {
+    openQuiz({ task: taskId, budget });
+  };
+
+  const scrollToExplore = () => {
+    document.querySelector("#explore")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section id="top" className="relative overflow-hidden">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-10 pt-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:px-8 lg:pb-20 lg:pt-20">
@@ -94,7 +107,7 @@ export function Hero() {
             tool in seconds, not hours.
           </motion.p>
 
-          {/* Search bar */}
+          {/* Search + quiz CTA */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,29 +120,35 @@ export function Hero() {
                 <input
                   type="text"
                   placeholder="Try “write blog posts” or “generate video”…"
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") scrollToExplore();
+                  }}
                   className="h-13 w-full rounded-xl border border-border bg-card/80 py-3.5 pl-12 pr-4 text-sm shadow-sm outline-none backdrop-blur transition-colors placeholder:text-muted-foreground/70 focus:border-aurora/60 focus:ring-2 focus:ring-aurora/25"
                 />
               </div>
-              <button className="group inline-flex h-13 items-center justify-center gap-2 rounded-xl border border-aurora/50 bg-aurora px-5 font-semibold text-primary-foreground block-shadow-aurora transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-aurora-soft">
+              <button
+                onClick={() => openQuiz()}
+                className="group inline-flex h-13 items-center justify-center gap-2 rounded-xl border border-aurora/50 bg-aurora px-5 font-semibold text-primary-foreground block-shadow-aurora transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-aurora-soft"
+              >
                 <Sparkles className="h-4.5 w-4.5" />
                 Find my tool
                 <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
 
-            {/* quick chips */}
+            {/* use-case scenario chips */}
             <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-xs text-muted-foreground">Popular:</span>
-              {["Free writing assistant", "Image generator", "Code copilot", "Voice cloning"].map(
-                (q) => (
-                  <button
-                    key={q}
-                    className="rounded-md border border-border bg-card/60 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-aurora/40 hover:text-foreground"
-                  >
-                    {q}
-                  </button>
-                )
-              )}
+              <span className="text-xs text-muted-foreground">I want to:</span>
+              {useCaseScenarios.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => startScenario(s.task, s.budget)}
+                  className="rounded-md border border-border bg-card/60 px-2.5 py-1 text-xs text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-aurora/40 hover:text-foreground"
+                >
+                  {s.label}
+                </button>
+              ))}
             </div>
           </motion.div>
 
@@ -163,14 +182,14 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.15 }}
           className="relative mx-auto aspect-square w-full max-w-[34rem] lg:max-w-[30rem]"
         >
-          <OrbitVisual />
+          <OrbitVisual onLaunch={() => openQuiz()} />
         </motion.div>
       </div>
     </section>
   );
 }
 
-function OrbitVisual() {
+function OrbitVisual({ onLaunch }: { onLaunch: () => void }) {
   return (
     <div className="relative h-full w-full">
       {/* orbit rings */}
@@ -178,9 +197,13 @@ function OrbitVisual() {
       <div className="absolute inset-[2%] rounded-full border border-white/[0.04]" />
       <div className="absolute inset-[20%] rounded-full border border-dashed border-white/[0.05] animate-spin-reverse-slow" />
 
-      {/* center core */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="relative grid h-28 w-28 place-items-center rounded-2xl border border-aurora/50 bg-gradient-to-br from-aurora/25 to-aurora/5 block-shadow-aurora glow-aurora sm:h-32 sm:w-32">
+      {/* center core — clickable, launches quiz */}
+      <button
+        onClick={onLaunch}
+        aria-label="Launch the find-my-tool quiz"
+        className="group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <div className="relative grid h-28 w-28 place-items-center rounded-2xl border border-aurora/50 bg-gradient-to-br from-aurora/25 to-aurora/5 block-shadow-aurora glow-aurora transition-transform group-hover:scale-105 sm:h-32 sm:w-32">
           <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-aurora/30" />
           <div className="grid h-16 w-16 place-items-center rounded-xl border border-aurora/40 bg-ink/70 sm:h-20 sm:w-20">
             <Sparkles className="h-7 w-7 text-aurora text-glow-aurora sm:h-8 sm:w-8" />
@@ -189,7 +212,7 @@ function OrbitVisual() {
             AI Core
           </span>
         </div>
-      </div>
+      </button>
 
       {/* floating category blocks */}
       {orbitBlocks.map((b, i) => {

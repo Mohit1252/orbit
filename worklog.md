@@ -111,3 +111,51 @@ Stage Summary:
   - ESLint clean.
 - Remaining for future rounds: light/dark theme toggle, real backend (Prisma + search API), tool "alternatives" in modal, save/favorite tools, persistent compare via URL params.
 
+
+---
+Task ID: 3
+Agent: webDevReview (scheduled cron)
+Task: QA the Phase 2 site, then advance with high-impact features: favorites system, similar tools in modal, trending launches carousel, back-to-top + keyboard shortcuts, and styling polish.
+
+Work Log:
+- Read worklog.md to understand Phase 2 status (filtering, detail modal, dynamic compare all complete & verified).
+- QA pass via agent-browser: clean session, confirmed no runtime errors, lint clean, all Phase 2 features intact (match count, compare tray, sort tabs, modal, dynamic compare deck).
+- Planned Phase 3 scope: favorites system → similar tools → trending carousel → floating controls + keyboard shortcuts → styling polish.
+- Extended `src/lib/orbit-store.ts`: added `favoriteIds: string[]`, `favoritesOnly: boolean`, `toggleFavorite`, `clearFavorites`, `toggleFavoritesOnly` actions. Added localStorage persistence (`orbit:favorites` key) with SSR-safe `loadFavorites`/`persistFavorites` helpers + `hydrateFavorites()` function. Updated `filterAndSortTools` to accept `favoritesOnly` + `favoriteIds` params. Updated `resetFilters` to also clear `favoritesOnly`.
+- Extended `src/lib/ai-data.ts`: added `getSimilarTools(tool, n)` — ranks tools by shared category (weight 3) + shared tasks (weight 1 each), ties broken by rating. Added `getTrendingLaunches(limit)` — sorts by launch year desc then rating.
+- Created `src/components/site/favorite-button.tsx`: reusable heart button with accent-colored active state (nebula pink), `stopPropagation` option so it doesn't trigger card click, sm/md sizes.
+- Created `src/components/site/rating-bar.tsx`: 5-segment blocky rating bar — each segment fills proportionally to represent 0.2 increments of a 0–5 rating. Matches neobrutalist aesthetic.
+- Updated `src/components/site/tool-card.tsx`: added FavoriteButton in footer next to Compare button. Added RatingBar in the meta row (visual rating alongside the numeric rating). Moved badge to hidden on small screens (`hidden sm:inline-block`) to prevent overflow.
+- Updated `src/components/site/filter-panel.tsx`: added "Show my favorites (N)" toggle button (nebula accent) that appears when favorites exist. Updated filter count to include favoritesOnly. Updated `filterAndSortTools` call with new params.
+- Updated `src/components/site/featured-tools.tsx`: reads `favoritesOnly` + `favoriteIds` from store, passes to `filterAndSortTools`.
+- Updated `src/components/site/navbar.tsx`: added favorites button with count badge (heart icon + count pill). Clicking toggles favoritesOnly and scrolls to tools. Responsive: badge moves to corner on mobile. Uses nebula accent for favorites.
+- Created `src/components/site/trending-launches.tsx`: horizontal scroll carousel of newest tools (sorted by launch year). Snap-x scrolling with left/right arrow buttons. Compact card variant with launch-year ribbon, logo, name, tagline, rating, price, and favorite button.
+- Updated `src/components/site/tool-detail-dialog.tsx`: added FavoriteButton in header (next to close). Added RatingBar in the rating display. Added "Similar tools" section with 3 related tools (clickable → opens that tool's detail). Fixed semantic structure: `DialogTitle`/`DialogDescription` now properly scoped to sr-only elements (was incorrectly wrapping the entire body via `asChild`).
+- Created `src/components/site/floating-controls.tsx`: back-to-top floating button (appears after 600px scroll, aurora accent). Keyboard shortcuts: "/" focuses mission-control search input, "Esc" closes detail modal. Uses `useOrbitStore.getState()` to read modal state synchronously.
+- Created `src/components/site/store-hydration.tsx`: client-side effect that calls `hydrateFavorites()` on mount to load persisted favorites from localStorage.
+- Updated `src/app/page.tsx`: added TrendingLaunches (between Categories and FeaturedTools), FloatingControls, and StoreHydration.
+- Fixed a bug: keyboard shortcut "/" used `input[type="text"]` selector which didn't match because React doesn't set the `type` attribute in the DOM for default-type inputs. Changed to `section#explore input`.
+- Styling polish: rating bars on tool cards + modal, launch-year ribbons on trending cards, hover accent lines, heart fill states, consistent nebula accent for favorites throughout.
+
+Stage Summary:
+- **Phase 3 complete & verified.** The homepage is now a richer, more interactive discovery experience with persistent user preferences.
+- New files: `favorite-button.tsx`, `rating-bar.tsx`, `trending-launches.tsx`, `floating-controls.tsx`, `store-hydration.tsx`.
+- Key features delivered this round:
+  1. **Favorites system** — heart buttons on every tool card + trending card + detail modal. Persisted to localStorage across sessions. Navbar shows live count badge + toggles a "favorites only" filter. Filter panel shows "Show my favorites (N)" toggle when favorites exist.
+  2. **Similar tools** in the detail modal — 3 algorithmically-ranked alternatives (shared category + tasks) that navigate between tools without closing the modal.
+  3. **Trending launches carousel** — horizontal snap-scroll of newest tools with arrow controls and compact cards.
+  4. **Back-to-top button** — floating aurora button that appears after scrolling 600px.
+  5. **Keyboard shortcuts** — "/" focuses search, "Esc" closes modal.
+  6. **Rating bars** — 5-segment blocky visual rating on cards + modal.
+  7. **Semantic accessibility fix** — DialogTitle/DialogDescription properly scoped (was wrapping entire modal body).
+- Verification (agent-browser + VLM):
+  - Clean session: no errors, 5 tools render, 15 favorite buttons, trending carousel + back-to-top present.
+  - Favorited ChatGPT via card heart → navbar badge appeared, filter panel showed "Show my favorites (1)". ✅
+  - Toggled favorites-only → "Matching 1 tool" (only ChatGPT). ✅
+  - Opened ChatGPT modal → Similar tools section showed Claude, Notion AI, Gemini (3 tools). ✅
+  - Clicked Claude in similar tools → modal switched to Claude detail. ✅
+  - Scrolled → back-to-top button became visible. ✅
+  - Closed modal, pressed "/" → search input focused. ✅
+  - VLM confirmed all 5 views (hero, categories, trending, tools, modal) render with no visual problems.
+  - ESLint clean.
+- Remaining for future rounds: light/dark theme toggle, real backend (Prisma + search API), persistent compare via URL params, tool screenshots in modal, user accounts/auth.

@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import type { AiTool } from "@/lib/ai-data";
 import { accentClasses, AccentChip } from "./block";
 import { useOrbitStore } from "@/lib/orbit-store";
+import { FavoriteButton } from "./favorite-button";
+import { RatingBar } from "./rating-bar";
 
 export function ToolCard({
   tool,
@@ -57,7 +59,7 @@ export function ToolCard({
           {tool.badge && (
             <span
               className={cn(
-                "shrink-0 rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
+                "hidden shrink-0 rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide sm:inline-block",
                 a.bgSoft,
                 a.border,
                 a.text
@@ -87,16 +89,16 @@ export function ToolCard({
           ))}
         </div>
 
-        {/* meta row */}
-        <div className="mt-4 flex items-center gap-3 px-4">
-          <div className="flex items-center gap-1">
+        {/* meta row: rating bar + tasks */}
+        <div className="mt-4 flex flex-col gap-2 px-4">
+          <div className="flex items-center gap-2">
             <Star className="h-3.5 w-3.5 fill-star text-star" />
             <span className="text-sm font-semibold">{tool.rating.toFixed(1)}</span>
+            <RatingBar rating={tool.rating} accent={tool.accent} />
             <span className="text-xs text-muted-foreground">
               ({(tool.reviews / 1000).toFixed(1)}k)
             </span>
           </div>
-          <span className="h-3 w-px bg-border" />
           <div className="flex items-center gap-1.5">
             {tool.tasks.slice(0, 2).map((t) => (
               <AccentChip key={t} accent={tool.accent}>
@@ -130,13 +132,13 @@ export function ToolCard({
         </div>
       </button>
 
-      {/* compare action footer */}
-      <div className="border-t border-border/60 bg-ink/30 p-4">
+      {/* compare + favorite footer */}
+      <div className="flex items-center gap-2 border-t border-border/60 bg-ink/30 p-4">
         <button
           onClick={() => onToggle?.(tool.id)}
           aria-pressed={selected}
           className={cn(
-            "inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-all",
+            "inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-all",
             selected
               ? "border-aurora/60 bg-aurora/15 text-aurora"
               : "border-border bg-ink/40 text-muted-foreground hover:border-aurora/40 hover:text-foreground"
@@ -148,10 +150,11 @@ export function ToolCard({
             </>
           ) : (
             <>
-              <Plus className="h-3.5 w-3.5" /> Add to compare
+              <Plus className="h-3.5 w-3.5" /> Compare
             </>
           )}
         </button>
+        <FavoriteButton toolId={tool.id} accent={tool.accent} />
       </div>
 
       {/* hover accent line */}

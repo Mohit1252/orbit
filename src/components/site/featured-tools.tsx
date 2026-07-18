@@ -32,9 +32,19 @@ export function FeaturedTools() {
   const searchQuery = useOrbitStore((s) => s.searchQuery);
   const activeTasks = useOrbitStore((s) => s.activeTasks);
   const budget = useOrbitStore((s) => s.budget);
+  const favoritesOnly = useOrbitStore((s) => s.favoritesOnly);
+  const favoriteIds = useOrbitStore((s) => s.favoriteIds);
   const list = useMemo(
-    () => filterAndSortTools({ searchQuery, activeTasks, budget, sort }),
-    [searchQuery, activeTasks, budget, sort]
+    () =>
+      filterAndSortTools({
+        searchQuery,
+        activeTasks,
+        budget,
+        sort,
+        favoritesOnly,
+        favoriteIds,
+      }),
+    [searchQuery, activeTasks, budget, sort, favoritesOnly, favoriteIds]
   );
 
   return (

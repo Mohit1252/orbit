@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Rocket, Sparkles } from "lucide-react";
+import { Menu, X, Rocket, Sparkles, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useOrbitStore } from "@/lib/orbit-store";
 
 const navLinks = [
   { label: "Explore", href: "#explore" },
@@ -14,6 +15,20 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const favoriteCount = useOrbitStore((s) => s.favoriteIds.length);
+  const toggleFavoritesOnly = useOrbitStore((s) => s.toggleFavoritesOnly);
+  const favoritesOnly = useOrbitStore((s) => s.favoritesOnly);
+  const openQuiz = useOrbitStore((s) => s.openQuiz);
+
+  const onFavClick = () => {
+    toggleFavoritesOnly();
+    // scroll to tools if turning on
+    if (!favoritesOnly) {
+      setTimeout(() => {
+        document.querySelector("#tools")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-ink/70 backdrop-blur-xl">
@@ -47,6 +62,36 @@ export function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-2 md:flex">
+          {/* Favorites */}
+          <button
+            onClick={onFavClick}
+            aria-pressed={favoritesOnly}
+            aria-label={`Favorites (${favoriteCount})`}
+            className={cn(
+              "relative inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border px-2.5 text-sm font-medium transition-all",
+              favoritesOnly
+                ? "border-nebula/60 bg-nebula/15 text-nebula"
+                : "border-border bg-card text-muted-foreground hover:border-nebula/40 hover:text-nebula"
+            )}
+          >
+            <Heart
+              className={cn("h-4 w-4", (favoritesOnly || favoriteCount > 0) && "fill-nebula")}
+            />
+            {favoriteCount > 0 && (
+              <span className="min-w-5 rounded-md border border-nebula/40 bg-nebula/15 px-1 text-center text-[11px] font-bold text-nebula">
+                {favoriteCount}
+              </span>
+            )}
+          </button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => openQuiz()}
+            className="gap-1.5 text-muted-foreground hover:text-aurora"
+          >
+            <Sparkles className="h-4 w-4" />
+            Find my tool
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -64,13 +109,33 @@ export function Navbar() {
         </div>
 
         {/* Mobile toggle */}
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 place-items-center rounded-md border border-border bg-card md:hidden"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={onFavClick}
+            aria-pressed={favoritesOnly}
+            aria-label={`Favorites (${favoriteCount})`}
+            className={cn(
+              "relative grid h-10 w-10 place-items-center rounded-md border transition-colors",
+              favoritesOnly
+                ? "border-nebula/60 bg-nebula/15 text-nebula"
+                : "border-border bg-card text-muted-foreground"
+            )}
+          >
+            <Heart className={cn("h-4.5 w-4.5", (favoritesOnly || favoriteCount > 0) && "fill-nebula")} />
+            {favoriteCount > 0 && (
+              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full border border-nebula/50 bg-nebula px-1 text-[9px] font-bold text-ink">
+                {favoriteCount}
+              </span>
+            )}
+          </button>
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="grid h-10 w-10 place-items-center rounded-md border border-border bg-card"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

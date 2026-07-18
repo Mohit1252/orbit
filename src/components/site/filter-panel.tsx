@@ -16,6 +16,7 @@ import {
   Rocket,
   Check,
   X,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { budgetTiers, taskOptions, type BudgetTier } from "@/lib/ai-data";
@@ -41,13 +42,25 @@ export function FilterPanel() {
   const clearTasks = useOrbitStore((s) => s.clearTasks);
   const setBudget = useOrbitStore((s) => s.setBudget);
   const resetFilters = useOrbitStore((s) => s.resetFilters);
+  const favoritesOnly = useOrbitStore((s) => s.favoritesOnly);
+  const toggleFavoritesOnly = useOrbitStore((s) => s.toggleFavoritesOnly);
+  const favoriteIds = useOrbitStore((s) => s.favoriteIds);
   const list = useMemo(
-    () => filterAndSortTools({ searchQuery, activeTasks, budget, sort: "all" }),
-    [searchQuery, activeTasks, budget]
+    () =>
+      filterAndSortTools({
+        searchQuery,
+        activeTasks,
+        budget,
+        sort: "all",
+        favoritesOnly,
+        favoriteIds,
+      }),
+    [searchQuery, activeTasks, budget, favoritesOnly, favoriteIds]
   );
   const matchCount = list.length;
 
-  const filterCount = activeTasks.length + (budget ? 1 : 0) + (searchQuery ? 1 : 0);
+  const filterCount =
+    activeTasks.length + (budget ? 1 : 0) + (searchQuery ? 1 : 0) + (favoritesOnly ? 1 : 0);
   const hasFilters = filterCount > 0;
 
   const scrollToTools = () => {
@@ -113,6 +126,26 @@ export function FilterPanel() {
             </button>
           )}
         </div>
+
+        {/* favorites-only quick toggle */}
+        {favoriteIds.length > 0 && (
+          <div className="mt-5">
+            <button
+              onClick={toggleFavoritesOnly}
+              aria-pressed={favoritesOnly}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all",
+                favoritesOnly
+                  ? "border-nebula/60 bg-nebula/15 text-nebula block-shadow-nebula"
+                  : "border-border bg-ink/40 text-muted-foreground hover:border-nebula/40 hover:text-nebula"
+              )}
+            >
+              <Heart className={cn("h-4 w-4", favoritesOnly && "fill-nebula")} />
+              {favoritesOnly ? "Showing favorites" : `Show my favorites (${favoriteIds.length})`}
+              {favoritesOnly && <X className="h-3.5 w-3.5" />}
+            </button>
+          </div>
+        )}
 
         {/* task selector */}
         <div className="mt-5">

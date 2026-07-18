@@ -846,3 +846,30 @@ export const taskOptions: string[] = [
 export function getToolById(id: string): AiTool | undefined {
   return tools.find((t) => t.id === id);
 }
+
+/**
+ * Returns up to `n` tools similar to the given tool, ranked by:
+ *   1. shared category (weight 3)
+ *   2. shared tasks (weight 1 each)
+ * Excludes the tool itself. Ties broken by rating.
+ */
+export function getSimilarTools(tool: AiTool, n = 3): AiTool[] {
+  return tools
+    .filter((t) => t.id !== tool.id)
+    .map((t) => {
+      let score = 0;
+      if (t.category === tool.category) score += 3;
+      score += t.tasks.filter((task) => tool.tasks.includes(task)).length;
+      return { tool: t, score };
+    })
+    .sort((a, b) => b.score - a.score || b.tool.rating - a.tool.rating)
+    .slice(0, n)
+    .map((x) => x.tool);
+}
+
+/** Tools sorted by launch year descending (newest first). */
+export function getTrendingLaunches(limit = 8): AiTool[] {
+  return [...tools]
+    .sort((a, b) => Number(b.launched) - Number(a.launched) || b.rating - a.rating)
+    .slice(0, limit);
+}
