@@ -67,3 +67,47 @@ src/
 4. **Compare deck interactivity** — make the comparison table dynamically populated from the "Added to compare" selection instead of hardcoded ChatGPT/Claude/Gemini.
 5. **Light theme support** via next-themes if desired.
 6. **Real data + search** — backend API + Prisma models for tools, full-text search, real ratings.
+
+---
+Task ID: 2
+Agent: webDevReview (scheduled cron)
+Task: QA the Phase 1 homepage, then advance with high-impact features: wire filters to the tool grid, add a tool detail modal, make the comparison deck dynamic, expand data, and polish styling.
+
+Work Log:
+- Read worklog.md to understand Phase 1 status (homepage visual pass complete & verified).
+- QA pass via agent-browser: opened page, snapshot (437 nodes), screenshotted all 6 sections (hero/categories/tools/compare/how/footer). Confirmed no runtime errors, lint clean, all sections render.
+- VLM visual QA: confirmed hero/categories/tools render cleanly; the only flagged "1 Issue" badge is the Next.js dev overlay (cross-origin warning), not a UI bug.
+- Planned Phase 2 scope: global state store → expanded data → wire filters → detail modal → dynamic compare → styling polish.
+- Created `src/lib/orbit-store.ts`: zustand store with searchQuery, activeTasks, budget, sort, compareIds, detailToolId + actions. Exported pure `filterAndSortTools()` for derived data (avoids the zustand v5 selector infinite-loop gotcha).
+- Expanded `src/lib/ai-data.ts`: doubled dataset to 16 tools (added DALL·E 3, Suno, GitHub Copilot, Stable Diffusion, Synthesia, DeepSeek, Notion AI, Sora). Added detailed fields: `description`, `launched`, `pricing` tiers, `pros`, `cons`, canonical `spec` object, `website`. Added `specKeys` array + `budgetRank` map + `getToolById` helper.
+- Rewired `filter-panel.tsx` to the store: live match count, clearable search input (X button), task clear-with-count, budget "any budget" reset, functional Reset + Launch buttons (scrolls to tools). Match count updates live.
+- Rewired `featured-tools.tsx`: reads filter primitives from store, computes filtered+sorted list via useMemo. Added sort tabs (Featured/Most popular/Top rated/All tools). Added empty state with reset CTA. Added compare tray with removable tool chips + clear-all. AnimatePresence layout animations on grid.
+- Rewired `tool-card.tsx`: card body is now a button that opens the detail modal via store. Compare button separate in footer. Line-clamped tagline, "Details" affordance.
+- Built `tool-detail-dialog.tsx`: full modal using shadcn Dialog. Header banner (logo, badge, rating, reviews, launch year, description, tags). Pricing tiers grid (3 cols, first marked "Best value"). Capabilities grid (all specKeys, boolean → check/X, highlighted rows). Pros (aurora) / Cons (coral) two-column. Task chips. Sticky footer with Add-to-compare + Visit-site (external link).
+- Rewrote `comparison.tsx`: fully dynamic deck driven by compareIds from store. Dynamic grid columns (1 label + N tool cols). Per-tool remove button. Crown on highest-rated "winner". Winner banner when 2+ tools. Empty state with "Browse tools" CTA. "Add another tool" link back to directory.
+- Styling polish: bolder 3D block shadows (6px → 7px offset) + inset top-left white highlight on every accent shadow for a stronger extruded-block feel. hover-lift increased to -3px.
+- Built `count-up.tsx`: animated number counter (easeOutCubic, inView-triggered) with decimal support. Applied to `stats.tsx` (500+, 120K, 60K, 4.8 all count up on scroll). Added per-stat hover accent bar.
+- Fixed a critical runtime bug: `useOrbitStore(selectFilteredTools)` caused an infinite re-render loop ("Maximum update depth exceeded" → client-side exception) because zustand v5 uses `Object.is` equality and the selector returned a new array each call. Refactored to select primitives + `useMemo(filterAndSortTools(...))`.
+- Fixed task-filter semantics: AND (tool must cover ALL selected tasks) was too restrictive — with default ["Writing","Images"] no tool matched (0 results). Switched to OR (tool covers ANY selected task) for intuitive browse behavior.
+- Wired `ToolDetailDialog` into `page.tsx`.
+
+Stage Summary:
+- **Phase 2 complete & verified.** The homepage is now a functional, interactive AI tool discovery experience — not just a visual mockup.
+- New files: `src/lib/orbit-store.ts`, `src/components/site/tool-detail-dialog.tsx`, `src/components/site/count-up.tsx`.
+- Key features delivered this round:
+  1. **Global zustand store** unifying filter/search/compare/detail state across all sections.
+  2. **Real filtering** — task (OR) + budget (at-or-below tier) + full-text search across name/vendor/tagline/tags/tasks, with live match count and 4 sort modes.
+  3. **Tool detail modal** — rich per-tool view with pricing tiers, capability grid, pros/cons, launch year, external link.
+  4. **Dynamic comparison deck** — populated from the user's compare selection (up to 3), with auto-computed winner + crown, per-tool removal, and an empty state.
+  5. **Expanded dataset** — 16 real AI tools with full specs, across all 8 categories.
+  6. **Animated stat counters** + bolder neobrutalist 3D shadows with inset highlights.
+- Verification (agent-browser + VLM):
+  - Clean browser session: page loads, `hasError:false`, 5 tools render with default filters.
+  - Toggled "Coding" task → match count went 5 → 7 (live update). ✅
+  - Typed "voice" in search → 7 → 1 result (ChatGPT). ✅
+  - Opened ChatGPT detail modal → 4 sections, pricing tiers, pros/cons, buttons all present. ✅
+  - Added Claude to compare → tray "3/3", deck shows ChatGPT/Midjourney/Claude with winner banner. ✅
+  - VLM confirmed hero, modal, and 3-way compare deck render with no visual problems.
+  - ESLint clean.
+- Remaining for future rounds: light/dark theme toggle, real backend (Prisma + search API), tool "alternatives" in modal, save/favorite tools, persistent compare via URL params.
+

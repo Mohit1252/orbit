@@ -11,6 +11,7 @@ import { HowItWorks } from "@/components/site/how-it-works";
 import { Stats } from "@/components/site/stats";
 import { CTA } from "@/components/site/cta";
 import { Footer } from "@/components/site/footer";
+import { ToolDetailDialog } from "@/components/site/tool-detail-dialog";
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
         <CTA />
       </main>
       <Footer />
+      <ToolDetailDialog />
     </div>
   );
 }

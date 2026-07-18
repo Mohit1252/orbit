@@ -1,33 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Check, X, GitCompareArrows, Crown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Check,
+  X,
+  GitCompareArrows,
+  Crown,
+  Plus,
+  Sparkles,
+  Trophy,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./categories";
 import { accentClasses } from "./block";
-
-type Row = {
-  label: string;
-  values: (string | boolean)[];
-  highlight?: boolean;
-};
-
-const columns = [
-  { name: "ChatGPT", vendor: "OpenAI", accent: "aurora" as const, logo: "✦", price: "Freemium" },
-  { name: "Claude", vendor: "Anthropic", accent: "star" as const, logo: "✸", price: "Freemium" },
-  { name: "Gemini", vendor: "Google", accent: "teal" as const, logo: "✧", price: "Freemium" },
-];
-
-const rows: Row[] = [
-  { label: "Best for", values: ["General chat & tasks", "Long documents & nuance", "Google ecosystem"] },
-  { label: "Context window", values: ["128K", "200K", "1M"], highlight: true },
-  { label: "Image generation", values: [true, false, true] },
-  { label: "Voice mode", values: [true, true, true] },
-  { label: "Code execution", values: [true, true, true] },
-  { label: "Web browsing", values: [true, true, true] },
-  { label: "Offline / open weights", values: [false, false, false] },
-  { label: "Starting price", values: ["Free · $20/mo", "Free · $20/mo", "Free · $20/mo"], highlight: true },
-];
+import {
+  getToolById,
+  specKeys,
+  type AccentColor,
+} from "@/lib/ai-data";
+import { useOrbitStore, MAX_COMPARE_TOOLS } from "@/lib/orbit-store";
 
 function Cell({ value }: { value: string | boolean }) {
   if (typeof value === "boolean") {
@@ -45,12 +36,30 @@ function Cell({ value }: { value: string | boolean }) {
 }
 
 export function Comparison() {
+  const compareIds = useOrbitStore((s) => s.compareIds);
+  const toggleCompare = useOrbitStore((s) => s.toggleCompare);
+  const openDetail = useOrbitStore((s) => s.openDetail);
+
+  const selected = compareIds
+    .map((id) => getToolById(id))
+    .filter((t): t is NonNullable<typeof t> => !!t);
+
+  // pick a "winner" = highest rating among selected (for the crown)
+  const winnerId =
+    selected.length > 0
+      ? selected.reduce((best, t) => (t.rating > best.rating ? t : best)).id
+      : null;
+
+  // dynamic grid columns: 1 label col + N tool cols
+  const colCount = Math.max(selected.length, 1);
+  const gridTemplate = `1.1fr repeat(${colCount}, minmax(0, 1fr))`;
+
   return (
     <section id="compare" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <SectionHeading
         eyebrow="Side by side"
         title="Compare before you commit"
-        description="Stack up to three tools against the specs that matter — capability, context, price — and pick a winner with confidence."
+        description="Add up to three tools from the directory above and they line up here against the specs that matter — capability, context, price."
       />
 
       <motion.div
@@ -60,84 +69,157 @@ export function Comparison() {
         transition={{ duration: 0.5 }}
         className="mt-10 overflow-hidden rounded-2xl border border-border bg-card/70 backdrop-blur block-shadow-neutral"
       >
-        {/* column headers */}
-        <div className="grid grid-cols-[1.2fr_1fr_1fr_1fr] gap-2 border-b border-border bg-ink/40 p-4">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <GitCompareArrows className="h-4 w-4 text-aurora" />
-            Spec
-          </div>
-          {columns.map((c, i) => {
-            const a = accentClasses[c.accent];
-            return (
-              <div key={c.name} className="flex items-center gap-2">
-                <span
-                  className={cn(
-                    "grid h-9 w-9 place-items-center rounded-lg border font-display text-sm font-bold",
-                    a.bgSoft,
-                    a.border,
-                    a.text
-                  )}
-                >
-                  {c.logo}
-                </span>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1">
-                    <span className="truncate text-sm font-bold">{c.name}</span>
-                    {i === 0 && <Crown className="h-3.5 w-3.5 text-star" />}
-                  </div>
-                  <div className="truncate text-[11px] text-muted-foreground">
-                    {c.vendor}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* rows */}
-        <div>
-          {rows.map((row, idx) => (
-            <div
-              key={row.label}
-              className={cn(
-                "grid grid-cols-[1.2fr_1fr_1fr_1fr] items-center gap-2 px-4 py-3",
-                idx % 2 === 1 && "bg-ink/20",
-                row.highlight && "bg-aurora/[0.04]"
-              )}
+        <AnimatePresence mode="wait">
+          {selected.length === 0 ? (
+            <EmptyCompare key="empty" />
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
+              {/* column headers */}
               <div
-                className={cn(
-                  "text-xs font-semibold uppercase tracking-wide",
-                  row.highlight ? "text-aurora" : "text-muted-foreground"
-                )}
+                className="grid gap-2 border-b border-border bg-ink/40 p-4"
+                style={{ gridTemplateColumns: gridTemplate }}
               >
-                {row.label}
-              </div>
-              {row.values.map((v, i) => (
-                <div key={i} className="flex items-center">
-                  <Cell value={v} />
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <GitCompareArrows className="h-4 w-4 text-aurora" />
+                  Spec
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
+                {selected.map((t) => {
+                  const a = accentClasses[t.accent];
+                  const isWinner = t.id === winnerId;
+                  return (
+                    <div key={t.id} className="flex items-center gap-2">
+                      <button
+                        onClick={() => openDetail(t.id)}
+                        className={cn(
+                          "grid h-9 w-9 shrink-0 place-items-center rounded-lg border font-display text-sm font-bold transition-transform hover:-translate-y-0.5",
+                          a.bgSoft,
+                          a.border,
+                          a.text
+                        )}
+                        aria-label={`View ${t.name} details`}
+                      >
+                        {t.logo}
+                      </button>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="truncate text-sm font-bold">{t.name}</span>
+                          {isWinner && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
+                        </div>
+                        <div className="truncate text-[11px] text-muted-foreground">
+                          {t.vendor}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => toggleCompare(t.id)}
+                        aria-label={`Remove ${t.name}`}
+                        className="ml-auto grid h-6 w-6 shrink-0 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:border-coral/40 hover:text-coral"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
 
-        {/* footer cta */}
-        <div className="flex flex-col gap-3 border-t border-border bg-ink/40 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted-foreground">
-            Highlighted rows are weighted heaviest in your match score.
-          </p>
-          <div className="flex gap-2">
-            <button className="inline-flex h-9 items-center justify-center rounded-lg border border-border bg-ink/40 px-4 text-xs font-semibold text-muted-foreground hover:text-foreground">
-              Swap tools
-            </button>
-            <button className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-aurora/50 bg-aurora px-4 text-xs font-semibold text-primary-foreground block-shadow-aurora hover:bg-aurora-soft">
-              <Crown className="h-3.5 w-3.5" />
-              See full breakdown
-            </button>
-          </div>
-        </div>
+              {/* rows */}
+              <div>
+                {specKeys.map((sk, idx) => (
+                  <div
+                    key={sk.key}
+                    className={cn(
+                      "grid items-center gap-2 px-4 py-3",
+                      idx % 2 === 1 && "bg-ink/20",
+                      sk.highlight && "bg-aurora/[0.04]"
+                    )}
+                    style={{ gridTemplateColumns: gridTemplate }}
+                  >
+                    <div
+                      className={cn(
+                        "text-xs font-semibold uppercase tracking-wide",
+                        sk.highlight ? "text-aurora" : "text-muted-foreground"
+                      )}
+                    >
+                      {sk.label}
+                    </div>
+                    {selected.map((t) => (
+                      <div key={t.id} className="flex items-center">
+                        <Cell value={t.spec[sk.key]} />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              {/* winner banner */}
+              {winnerId && selected.length > 1 && (
+                <div className="flex items-center gap-3 border-t border-border bg-star/[0.06] p-4">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg border border-star/40 bg-star/10 text-star">
+                    <Trophy className="h-4.5 w-4.5" />
+                  </span>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-semibold text-foreground">
+                      {selected.find((t) => t.id === winnerId)?.name}
+                    </span>{" "}
+                    edges ahead on rating in your shortlist. Adjust your picks to
+                    see how the winner changes.
+                  </p>
+                </div>
+              )}
+
+              {/* footer cta */}
+              <div className="flex flex-col gap-3 border-t border-border bg-ink/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-muted-foreground">
+                  {selected.length}/{MAX_COMPARE_TOOLS} slots used · highlighted
+                  rows are weighted heaviest in your match score.
+                </p>
+                <a
+                  href="#tools"
+                  className="inline-flex h-9 items-center justify-center gap-1.5 self-start rounded-lg border border-aurora/50 bg-aurora px-4 text-xs font-semibold text-primary-foreground block-shadow-aurora hover:bg-aurora-soft sm:self-auto"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  Add another tool
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </section>
   );
 }
+
+function EmptyCompare() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex flex-col items-center justify-center px-6 py-16 text-center"
+    >
+      <span className="grid h-16 w-16 place-items-center rounded-xl border border-dashed border-border bg-ink/40 text-muted-foreground">
+        <Sparkles className="h-7 w-7" />
+      </span>
+      <h3 className="mt-4 font-display text-lg font-bold">Your compare deck is empty</h3>
+      <p className="mt-1 max-w-md text-sm text-muted-foreground">
+        Head up to the directory and tap{" "}
+        <span className="font-semibold text-foreground">Add to compare</span> on
+        any tool. They&apos;ll line up here side-by-side.
+      </p>
+      <a
+        href="#tools"
+        className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-aurora/50 bg-aurora px-5 text-sm font-semibold text-primary-foreground block-shadow-aurora transition-all hover:bg-aurora-soft"
+      >
+        <Plus className="h-4 w-4" />
+        Browse tools
+      </a>
+    </motion.div>
+  );
+}
+
+// keep the AccentColor import referenced for type clarity in some bundlers
+export type { AccentColor };
