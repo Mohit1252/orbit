@@ -38,9 +38,6 @@ export function CTA() {
               Find my AI tool
               <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
             </button>
-            <button className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card/70 px-6 font-semibold backdrop-blur transition-all hover:-translate-y-0.5">
-              Submit your tool
-            </button>
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
