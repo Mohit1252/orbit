@@ -37,7 +37,7 @@ const accentStyle: Record<string, { bg: string; border: string; text: string; sh
 };
 
 const stats = [
-  { value: "50+", label: "AI tools tracked" },
+  { value: "80+", label: "AI tools tracked" },
   { value: "9", label: "task categories" },
   { value: "120K", label: "monthly comparisons" },
 ];

@@ -219,3 +219,29 @@ Stage Summary:
 - Build tools work everywhere: category grid, filter panel (Build chip + icon), quiz (Build task option), hero use-case chip ("Build an app"), search, detail modal, comparison, favorites.
 - Verification: clean session, no runtime errors, lint clean. Build category shows "10 tools", filtering by Build shows all 10 tools (v0, Bolt.new, Lovable, Emergent, Replit Agent, WebSim, Framer AI, Durable, Solo, Bubble).
 - ESLint clean.
+
+---
+Task ID: 6
+Agent: direct (user request)
+Task: Add ALL remaining missing AI tools from the 100-models PDF in one batch — regional LLMs, open models, and remaining image/video/voice/coding/search tools.
+
+Work Log:
+- User feedback: don't make them ask repeatedly — add all remaining tools at once.
+- Mapped full PDF list (100 models) against current 50 tools. Identified 30 more notable models to add.
+- Added 30 new tools to src/lib/ai-data.ts in a single batch:
+  - Writing/LLM (regional + open): Inflection Pi, Gemma 2, Phi-4, Falcon 2, BLOOM, Yi-Large, Aya, Jamba, Ernie 4.0 (Baidu), Doubao (ByteDance), Hunyuan (Tencent), SenseChat (SenseTime), MiniMax abab, GLM-5 (Zhipu), Tongyi Qianwen (Alibaba), ChatGLM, Sarvam AI (India), Krutrim (India), BharatGPT (India)
+  - Images: GPT Image 2, Recraft V3, Playground v3
+  - Video: Seedance 2.0, MiniMax Hailuo, Hunyuan Video (open)
+  - Voice: Tortoise TTS (open), Fish Audio (open)
+  - Coding: Codex (OpenAI agent), Tabnine (on-prem)
+  - Search: Google AI Mode
+- Each tool has full data: description, pricing tiers, pros/cons, 9-field spec, tags, launch year, website — works in detail modal, comparison, quiz, and filtering.
+- Updated hero stats (50+ → 80+) and Stats counter (50 → 80).
+
+Stage Summary:
+- Dataset expanded from 50 → 80 AI tools (1.6x) in a single batch — now covers virtually the entire user-provided PDF list.
+- New category distribution (real, dynamic): Writing 26, Coding 9, Images 11, Video 10, Voice 8, Data 1, Agents 2, Search 3, Build 10 = 80 total.
+- Covers: all major Western LLMs, all Chinese LLMs (Ernie, Doubao, Hunyuan, SenseChat, MiniMax, GLM, Qwen, ChatGLM), all Indian LLMs (Sarvam, Krutrim, BharatGPT), all major open-weights models (Llama, Gemma, Phi, Falcon, BLOOM, Yi, Aya, Jamba), all image/video/voice/coding tools, and a dedicated Build category for app builders.
+- Verification: clean session, no runtime errors, lint clean, 80 tools render when filters cleared, category counts show real numbers, hero + stats show "80+".
+- ESLint clean.
+- Only intentionally excluded: pure embedding models (text-embedding-3, Cohere Embed, Gemini Embedding, BGE) which are infrastructure-level, not comparison UI tools; and HappyHorse-1.0 which is too niche.
