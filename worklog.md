@@ -245,3 +245,29 @@ Stage Summary:
 - Verification: clean session, no runtime errors, lint clean, 80 tools render when filters cleared, category counts show real numbers, hero + stats show "80+".
 - ESLint clean.
 - Only intentionally excluded: pure embedding models (text-embedding-3, Cohere Embed, Gemini Embedding, BGE) which are infrastructure-level, not comparison UI tools; and HappyHorse-1.0 which is too niche.
+
+---
+Task ID: 7
+Agent: direct (user session — multi-fix + strategy)
+Task: Multiple user-requested fixes + monetization/SEO strategy discussion.
+
+Work Log:
+- Added 80 AI tools total (expanded from 50): regional LLMs (Ernie, Doubao, Hunyuan, GLM, Qwen, ChatGLM, Sarvam, Krutrim, BharatGPT), open models (Gemma, Phi-4, Falcon, BLOOM, Yi, Aya, Jamba), missing image/video/voice/coding tools.
+- Fixed ratings to real benchmarks: Claude 4.8 (SWE-bench #1), Gemini 4.7 (longest context), ChatGPT 4.6 (most popular), Midjourney 4.8 (aesthetic ELO #1), FLUX 4.8 (technical ELO #1), DALL-E 3 4.5 (text accuracy #1).
+- Restored Claude Fable 5 (public) + Mythos 5 (limited access) with proper `access` field in AiModel interface.
+- Built weighted scoring system (src/lib/scoring.ts): formula = capability×0.4 + rating×0.3 + price×0.2 + breadth×0.1. N/A vs Fail distinction (grey dash for non-applicable, red X for missing). Category-wise winners (5 categories). Expandable "Why this won?" score breakdown per tool.
+- Added use-case selector in compare deck (6 options: general/coding/images/video/voice/research) — scores re-weight live.
+- Added `compareUseCase` + `setCompareUseCase` to orbit-store.
+- Fixed category cards: now clickable, set filter + scroll to tools. Empty categories show "No tools yet".
+- Fixed detail modal: heart + close buttons had z-index issue (sticky footer covered them). Added z-20/z-30 to header.
+- Simplified footer: removed placeholder links (Blog/Guides/API/About/Contact/Privacy/Terms), kept only functional (Explore sections, Compare by task, About).
+- Removed "Sign in" button from navbar.
+- Removed "500+" text everywhere (hero badge + browse button). Now shows real counts.
+- Limited featured tools to 9 on homepage (perf) + "Browse all N tools +M more" expand button.
+- Removed "Submit your tool" button from CTA section — only "Find my AI tool" remains.
+- Strategy discussion: monetization (affiliate primary, AdSense secondary), single vs multi-page SEO, deploy process (Vercel).
+
+Stage Summary:
+- Site is feature-complete for homepage. 80 tools, real benchmarks, model-level comparison, weighted scoring, full interactivity.
+- Pending for tomorrow: .gitignore + sitemap.ts + robots.txt (deploy prep), affiliate links implementation, production build test.
+- ESLint clean throughout. No runtime errors.
