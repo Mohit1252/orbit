@@ -75,6 +75,9 @@ interface Block3DProps extends React.HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   shadow?: boolean;
   as?: "div" | "section" | "article" | "button";
+  /** forward button-specific props (onClick already comes from HTMLAttributes) */
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 /**
