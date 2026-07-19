@@ -3,10 +3,13 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { categories } from "@/lib/ai-data";
+import { categories, getCategoryCounts } from "@/lib/ai-data";
 import { accentClasses, Block3D } from "./block";
 
 export function Categories() {
+  // Compute real tool counts per category from the actual tools array.
+  const counts = getCategoryCounts();
+
   return (
     <section id="categories" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <SectionHeading
@@ -45,13 +48,16 @@ export function Categories() {
                   </span>
                   <span
                     className={cn(
-                      "rounded-md border px-2 py-0.5 text-[11px] font-semibold",
+                      "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold",
                       a.bgSoft,
                       a.border,
                       a.text
                     )}
                   >
-                    {c.count}
+                    {counts[c.id] ?? 0}
+                    <span className="opacity-70">
+                      {counts[c.id] === 1 ? "tool" : "tools"}
+                    </span>
                   </span>
                 </div>
 

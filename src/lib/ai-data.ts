@@ -33,7 +33,7 @@ export const categories: Category[] = [
     label: "Writing",
     icon: PenLine,
     accent: "aurora",
-    count: 84,
+    count: 0, // computed in getCategoryCounts()
     blurb: "Drafts, copy & long-form",
   },
   {
@@ -41,7 +41,7 @@ export const categories: Category[] = [
     label: "Coding",
     icon: Code2,
     accent: "teal",
-    count: 67,
+    count: 0,
     blurb: "Copilots & dev agents",
   },
   {
@@ -49,7 +49,7 @@ export const categories: Category[] = [
     label: "Images",
     icon: ImageIcon,
     accent: "nebula",
-    count: 102,
+    count: 0,
     blurb: "Art, design & photo",
   },
   {
@@ -57,7 +57,7 @@ export const categories: Category[] = [
     label: "Video",
     icon: Clapperboard,
     accent: "coral",
-    count: 48,
+    count: 0,
     blurb: "Generation & editing",
   },
   {
@@ -65,7 +65,7 @@ export const categories: Category[] = [
     label: "Voice",
     icon: AudioLines,
     accent: "star",
-    count: 39,
+    count: 0,
     blurb: "TTS, music & cloning",
   },
   {
@@ -73,7 +73,7 @@ export const categories: Category[] = [
     label: "Data",
     icon: Database,
     accent: "aurora",
-    count: 31,
+    count: 0,
     blurb: "Analysis & research",
   },
   {
@@ -81,7 +81,7 @@ export const categories: Category[] = [
     label: "Agents",
     icon: Bot,
     accent: "nebula",
-    count: 27,
+    count: 0,
     blurb: "Autonomous workflows",
   },
   {
@@ -89,10 +89,24 @@ export const categories: Category[] = [
     label: "Search",
     icon: Search,
     accent: "teal",
-    count: 22,
+    count: 0,
     blurb: "Answer engines",
   },
 ];
+
+/**
+ * Returns a map of categoryId -> actual number of tools in that category,
+ * computed from the real `tools` array. Use this instead of the hardcoded
+ * `count` field so the UI always reflects reality.
+ */
+export function getCategoryCounts(): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const c of categories) counts[c.id] = 0;
+  for (const t of tools) {
+    if (counts[t.category] !== undefined) counts[t.category]++;
+  }
+  return counts;
+}
 
 export type BudgetTier = "Free" | "Freemium" | "$" | "$$" | "$$$";
 
