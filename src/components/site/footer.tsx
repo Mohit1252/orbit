@@ -1,27 +1,42 @@
 "use client";
 
 import { Rocket, Github, Twitter, Linkedin, Send } from "lucide-react";
+import { useOrbitStore } from "@/lib/orbit-store";
 
-const footerNav = [
-  {
-    title: "Explore",
-    links: ["All tools", "Categories", "New launches", "Top rated", "Free tools"],
-  },
-  {
-    title: "Compare",
-    links: ["Writing models", "Image generators", "Code copilots", "Voice & TTS", "AI agents"],
-  },
-  {
-    title: "Resources",
-    links: ["Blog", "Guides", "API", "Changelog", "Status"],
-  },
-  {
-    title: "Company",
-    links: ["About", "Contact", "Privacy", "Terms", "Submit a tool"],
-  },
+/** Category-filter links that actually work (set filter + scroll to tools). */
+function filterLink(label: string, task: string) {
+  return { label, task };
+}
+
+const exploreLinks = [
+  { label: "All tools", href: "#tools" },
+  { label: "Categories", href: "#categories" },
+  { label: "Trending", href: "#top" }, // trending section has no id; scroll top then it's right after categories
+  { label: "Compare deck", href: "#compare" },
+  { label: "How it works", href: "#how" },
+];
+
+const compareLinks = [
+  filterLink("Writing models", "Writing"),
+  filterLink("Image generators", "Images"),
+  filterLink("Code copilots", "Coding"),
+  filterLink("Voice & TTS", "Voice"),
+  filterLink("AI agents", "Agents"),
 ];
 
 export function Footer() {
+  const setBudget = useOrbitStore((s) => s.setBudget);
+
+  const clickFilter = (task: string) => {
+    useOrbitStore.setState({ activeTasks: [task] });
+    setBudget(null);
+    setTimeout(() => {
+      document
+        .querySelector("#tools")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
+
   return (
     <footer className="relative mt-auto border-t border-border bg-ink/80 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -58,9 +73,9 @@ export function Footer() {
           </form>
         </div>
 
-        {/* link columns */}
-        <div className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
-          <div className="col-span-2">
+        {/* link columns — only functional links */}
+        <div className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="col-span-2 sm:col-span-1">
             <a href="#top" className="flex items-center gap-2.5">
               <span className="grid h-9 w-9 place-items-center rounded-lg border border-aurora/40 bg-aurora/10">
                 <Rocket className="h-4.5 w-4.5 text-aurora" strokeWidth={2.4} />
@@ -87,25 +102,62 @@ export function Footer() {
             </div>
           </div>
 
-          {footerNav.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {col.title}
-              </h4>
-              <ul className="mt-3 space-y-2">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Explore — page sections */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Explore
+            </h4>
+            <ul className="mt-3 space-y-2">
+              {exploreLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Compare by task — sets filter + scrolls to tools */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Compare by task
+            </h4>
+            <ul className="mt-3 space-y-2">
+              {compareLinks.map((l) => (
+                <li key={l.label}>
+                  <button
+                    onClick={() => clickFilter(l.task)}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {l.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* About — keep only real ones */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              About
+            </h4>
+            <ul className="mt-3 space-y-2">
+              <li>
+                <a href="#how" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  How it works
+                </a>
+              </li>
+              <li>
+                <a href="#top" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Submit a tool
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* bottom bar */}
@@ -113,18 +165,10 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © 2026 ORBIT. Navigating the AI universe.
           </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <a href="#" className="hover:text-foreground">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-foreground">
-              Terms
-            </a>
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-aurora" />
-              All systems nominal
-            </span>
-          </div>
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-aurora" />
+            All systems nominal
+          </span>
         </div>
       </div>
     </footer>
