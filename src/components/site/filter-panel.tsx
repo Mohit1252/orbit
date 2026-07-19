@@ -13,6 +13,7 @@ import {
   Database,
   Bot,
   Search as SearchIcon,
+  Blocks,
   Rocket,
   Check,
   X,
@@ -31,6 +32,7 @@ const taskIcons: Record<string, typeof PenLine> = {
   Data: Database,
   Agents: Bot,
   Search: SearchIcon,
+  Build: Blocks,
 };
 
 export function FilterPanel() {

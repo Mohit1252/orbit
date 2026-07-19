@@ -18,6 +18,7 @@ import {
   Database,
   Bot,
   Search as SearchIcon,
+  Blocks,
   Star,
   ArrowUpRight,
   Heart,
@@ -52,6 +53,7 @@ const taskIcons: Record<string, typeof PenLine> = {
   Data: Database,
   Agents: Bot,
   Search: SearchIcon,
+  Build: Blocks,
 };
 
 const STEPS = ["task", "budget", "priority", "team"] as const;

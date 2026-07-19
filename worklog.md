@@ -186,3 +186,36 @@ Stage Summary:
 - All new tools have complete data: description, 2-3 pricing tiers, pros/cons, 9-field spec object, tags, launch year, website — so they work fully in the detail modal, comparison deck, quiz, and filtering.
 - Verification: clean session, no runtime errors, lint clean, 40 tools render when filters cleared, category counts show real numbers, hero + stats show "40+".
 - ESLint clean.
+
+---
+Task ID: 5
+Agent: direct (user request)
+Task: Add website/app builder AI tools (no-code & agentic builders) that were missing — including Emergent, v0, Bolt, Lovable, etc.
+
+Work Log:
+- User pointed out the site had no "build a website/app" AI tools (like Emergent). Created a new "Build" category for these.
+- Added `Blocks` icon import from lucide-react.
+- Added new category `build` ("Build", Blocks icon, aurora accent, "App & website builders") to the categories array in ai-data.ts.
+- Added "Build" to taskOptions array (now 9 task types).
+- Added 10 website/app builder AI tools with full data:
+  - v0 (Vercel) — React+Tailwind UI generation
+  - Bolt.new (StackBlitz) — in-browser full-stack apps
+  - Lovable — full-stack MVPs with Supabase
+  - Emergent — agentic builder that plans & ships software
+  - Replit Agent — prompt-to-deployed app
+  - WebSim — free instant interactive apps
+  - Framer AI — no-code marketing sites
+  - Durable — 30-sec business websites
+  - Solo — free solopreneur websites
+  - Bubble — powerful no-code SaaS builder
+- Updated taskIcons map in filter-panel.tsx and quiz-dialog.tsx to include Build → Blocks.
+- Added Build orbit block to hero.tsx (now 7 floating blocks).
+- Added "Build an app" use-case scenario chip to recommend.ts.
+- Updated taskRelated() in recommend.ts to group Build with Coding+Agents (adjacent credit).
+- Updated hero stats ("40+" → "50+", "8" → "9 categories") and Stats counter (40 → 50).
+
+Stage Summary:
+- New "Build" category added with 10 app/website builder AI tools — dataset now 50 tools total across 9 categories.
+- Build tools work everywhere: category grid, filter panel (Build chip + icon), quiz (Build task option), hero use-case chip ("Build an app"), search, detail modal, comparison, favorites.
+- Verification: clean session, no runtime errors, lint clean. Build category shows "10 tools", filtering by Build shows all 10 tools (v0, Bolt.new, Lovable, Emergent, Replit Agent, WebSim, Framer AI, Durable, Solo, Bubble).
+- ESLint clean.

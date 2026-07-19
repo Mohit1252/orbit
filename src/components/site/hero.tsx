@@ -11,6 +11,7 @@ import {
   Clapperboard,
   AudioLines,
   Bot,
+  Blocks,
   Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ const orbitBlocks = [
   { icon: Clapperboard, accent: "coral", label: "Video", x: "-5%", y: "62%", delay: 1.2 },
   { icon: AudioLines, accent: "star", label: "Voice", x: "-66%", y: "40%", delay: 0.6 },
   { icon: Bot, accent: "nebula", label: "Agents", x: "40%", y: "-58%", delay: 1.0 },
+  { icon: Blocks, accent: "aurora", label: "Build", x: "-78%", y: "-30%", delay: 1.4 },
 ];
 
 const accentStyle: Record<string, { bg: string; border: string; text: string; shadow: string; glow: string }> = {
@@ -35,8 +37,8 @@ const accentStyle: Record<string, { bg: string; border: string; text: string; sh
 };
 
 const stats = [
-  { value: "40+", label: "AI tools tracked" },
-  { value: "8", label: "task categories" },
+  { value: "50+", label: "AI tools tracked" },
+  { value: "9", label: "task categories" },
   { value: "120K", label: "monthly comparisons" },
 ];
 

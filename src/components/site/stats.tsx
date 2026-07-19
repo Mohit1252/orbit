@@ -5,7 +5,7 @@ import { TrendingUp, Users, Star, Zap } from "lucide-react";
 import { CountUp } from "./count-up";
 
 const stats = [
-  { icon: Zap, to: 40, suffix: "+", decimals: 0, label: "AI tools indexed", accent: "text-aurora" },
+  { icon: Zap, to: 50, suffix: "+", decimals: 0, label: "AI tools indexed", accent: "text-aurora" },
   { icon: TrendingUp, to: 120, suffix: "K", decimals: 0, label: "comparisons / month", accent: "text-star" },
   { icon: Users, to: 60, suffix: "K", decimals: 0, label: "people guided", accent: "text-nebula" },
   { icon: Star, to: 4.8, suffix: "", decimals: 1, label: "avg tool rating", accent: "text-teal" },

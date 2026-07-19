@@ -175,7 +175,7 @@ export function computeMatches(answers: QuizAnswers): ToolMatch[] {
 function taskRelated(a: string, b: string): boolean {
   const groups: string[][] = [
     ["Writing", "Data", "Search"],
-    ["Coding", "Agents"],
+    ["Coding", "Agents", "Build"],
     ["Images", "Video"],
     ["Voice", "Video"],
   ];
@@ -192,4 +192,5 @@ export const useCaseScenarios = [
   { id: "voice", label: "Clone a voice", task: "Voice", budget: "Freemium" as BudgetTier },
   { id: "video", label: "Make a video", task: "Video", budget: "$" as BudgetTier },
   { id: "research", label: "Research a topic", task: "Search", budget: "Freemium" as BudgetTier },
+  { id: "app", label: "Build an app", task: "Build", budget: "Freemium" as BudgetTier },
 ];
