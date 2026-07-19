@@ -139,6 +139,19 @@ export interface ToolSpec {
   [key: string]: string | boolean;
 }
 
+export interface AiModel {
+  /** model variant name, e.g. "GPT-5.6 Sol", "Claude Fable 5", "GLM-5.2" */
+  name: string;
+  /** per-model context window */
+  context: string;
+  /** per-model starting price */
+  price: string;
+  /** per-model capability overrides (only include keys that differ from tool.spec) */
+  spec?: Partial<ToolSpec>;
+  /** short note about this variant */
+  note?: string;
+}
+
 export interface AiTool {
   id: string;
   name: string;
@@ -163,6 +176,8 @@ export interface AiTool {
   /** canonical spec keys used in the compare table */
   spec: ToolSpec;
   website: string;
+  /** specific model variants users can pick in the compare deck */
+  models?: AiModel[];
 }
 
 /** Canonical capability/spec keys rendered in the compare + detail views. */
@@ -225,6 +240,14 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "chat.openai.com",
+    models: [
+      { name: "GPT-5.6 Sol", context: "1M", price: "$200/mo", note: "Frontier reasoning" },
+      { name: "GPT-5.5", context: "400K", price: "$20/mo", note: "Balanced flagship" },
+      { name: "GPT-5.4", context: "256K", price: "$20/mo", note: "Fast + cheap" },
+      { name: "GPT-5.1", context: "128K", price: "Free", note: "Free tier model" },
+      { name: "GPT-4o", context: "128K", price: "Free · $20/mo", note: "Multimodal workhorse" },
+      { name: "o1 / o3", context: "200K", price: "$20/mo", note: "Deep reasoning", spec: { imageGen: false } },
+    ],
   },
   {
     id: "claude",
@@ -268,6 +291,13 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "claude.ai",
+    models: [
+      { name: "Claude Opus 4.8", context: "500K", price: "$20/mo", note: "Top reasoning + coding" },
+      { name: "Claude Sonnet 5", context: "200K", price: "Free · $20/mo", note: "Balanced default" },
+      { name: "Claude Haiku 4.5", context: "200K", price: "Free", note: "Fast + cheap", spec: { imageGen: false } },
+      { name: "Claude Fable 5", context: "200K", price: "$20/mo", note: "Creative writing tuned" },
+      { name: "Claude Mythos 5", context: "200K", price: "$20/mo", note: "Storytelling & worldbuilding" },
+    ],
   },
   {
     id: "midjourney",
@@ -479,6 +509,11 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "gemini.google.com",
+    models: [
+      { name: "Gemini 3.5 Pro", context: "2M", price: "$20/mo", note: "Frontier + huge context" },
+      { name: "Gemini 3.1 Pro", context: "1M", price: "$20/mo", note: "Previous flagship" },
+      { name: "Gemini Flash", context: "1M", price: "Free", note: "Fast + cheap" },
+    ],
   },
   {
     id: "perplexity",
@@ -881,6 +916,11 @@ export const tools: AiTool[] = [
       price: "Free · $30/mo",
     },
     website: "x.ai/grok",
+    models: [
+      { name: "Grok 4.5", context: "256K", price: "$30/mo", note: "Frontier reasoning" },
+      { name: "Grok 4.1 Fast", context: "256K", price: "$30/mo", note: "Fast + cheap" },
+      { name: "Grok 4", context: "128K", price: "Free", note: "Free on X" },
+    ],
   },
   {
     id: "ms-copilot",
@@ -954,6 +994,11 @@ export const tools: AiTool[] = [
       price: "Free / open",
     },
     website: "llama.com",
+    models: [
+      { name: "Llama 4 Behemoth", context: "10M", price: "API", note: "Frontier-class open" },
+      { name: "Llama 4 Maverick", context: "1M", price: "Free", note: "Balanced open model" },
+      { name: "Llama 4 Scout", context: "10M", price: "Free", note: "Efficient, runs locally" },
+    ],
   },
   {
     id: "mistral",
@@ -991,6 +1036,11 @@ export const tools: AiTool[] = [
       price: "Free · $2/M tok",
     },
     website: "mistral.ai",
+    models: [
+      { name: "Mistral Large", context: "128K", price: "$2/M tok", note: "Frontier flagship" },
+      { name: "Mixtral 8x22B", context: "64K", price: "Free / open", note: "MoE open weights" },
+      { name: "Mistral Small", context: "32K", price: "$0.2/M tok", note: "Cheap + fast" },
+    ],
   },
   {
     id: "command-r",
@@ -2580,6 +2630,11 @@ export const tools: AiTool[] = [
       price: "Free · ¥2/M",
     },
     website: "chatglm.cn",
+    models: [
+      { name: "GLM-5.2", context: "128K", price: "¥2/M", note: "Latest frontier GLM" },
+      { name: "GLM-5", context: "128K", price: "¥2/M", note: "Previous flagship" },
+      { name: "GLM-4-9B", context: "128K", price: "Free / open", note: "Open-weights variant", spec: { offline: true } },
+    ],
   },
   {
     id: "qwen",
@@ -3173,6 +3228,48 @@ export const taskOptions: string[] = [
 
 export function getToolById(id: string): AiTool | undefined {
   return tools.find((t) => t.id === id);
+}
+
+/**
+ * Returns the merged spec for a tool at a given model index.
+ * - If the tool has models and index is valid, merges the model's spec
+ *   overrides + context + price over the tool-level spec.
+ * - Otherwise returns the tool-level spec unchanged.
+ */
+export function getMergedSpec(
+  tool: AiTool,
+  modelIndex?: number
+): ToolSpec {
+  if (
+    tool.models &&
+    tool.models.length > 0 &&
+    modelIndex !== undefined &&
+    modelIndex >= 0 &&
+    modelIndex < tool.models.length
+  ) {
+    const m = tool.models[modelIndex];
+    return {
+      ...tool.spec,
+      ...(m.spec || {}),
+      context: m.context,
+      price: m.price,
+    };
+  }
+  return tool.spec;
+}
+
+/** Returns the selected model name, or the tool name if no models / default. */
+export function getSelectedModelName(tool: AiTool, modelIndex?: number): string {
+  if (
+    tool.models &&
+    tool.models.length > 0 &&
+    modelIndex !== undefined &&
+    modelIndex >= 0 &&
+    modelIndex < tool.models.length
+  ) {
+    return tool.models[modelIndex].name;
+  }
+  return tool.name;
 }
 
 /**

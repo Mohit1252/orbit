@@ -21,6 +21,8 @@ interface OrbitState {
 
   // selection
   compareIds: string[];
+  /** per-tool selected model index (for the compare deck model selector) */
+  compareModelSelections: Record<string, number>;
   favoriteIds: string[];
   recentlyViewedIds: string[];
   detailToolId: string | null;
@@ -42,6 +44,7 @@ interface OrbitState {
   // compare actions
   toggleCompare: (id: string) => void;
   clearCompare: () => void;
+  setCompareModel: (toolId: string, modelIndex: number) => void;
 
   // favorite actions
   toggleFavorite: (id: string) => void;
@@ -128,6 +131,7 @@ export const useOrbitStore = create<OrbitState>((set) => ({
   favoritesOnly: false,
 
   compareIds: ["chatgpt", "midjourney"],
+  compareModelSelections: {},
   favoriteIds: [],
   recentlyViewedIds: [],
   detailToolId: null,
@@ -157,14 +161,23 @@ export const useOrbitStore = create<OrbitState>((set) => ({
     }),
 
   toggleCompare: (id) =>
-    set((s) => ({
-      compareIds: s.compareIds.includes(id)
+    set((s) => {
+      const isRemoving = s.compareIds.includes(id);
+      const nextIds = isRemoving
         ? s.compareIds.filter((x) => x !== id)
         : s.compareIds.length < MAX_COMPARE
           ? [...s.compareIds, id]
-          : s.compareIds,
+          : s.compareIds;
+      // when removing, also drop its model selection
+      const nextSel = { ...s.compareModelSelections };
+      if (isRemoving) delete nextSel[id];
+      return { compareIds: nextIds, compareModelSelections: nextSel };
+    }),
+  clearCompare: () => set({ compareIds: [], compareModelSelections: {} }),
+  setCompareModel: (toolId, modelIndex) =>
+    set((s) => ({
+      compareModelSelections: { ...s.compareModelSelections, [toolId]: modelIndex },
     })),
-  clearCompare: () => set({ compareIds: [] }),
 
   toggleFavorite: (id) =>
     set((s) => {

@@ -9,12 +9,15 @@ import {
   Plus,
   Sparkles,
   Trophy,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./categories";
 import { accentClasses } from "./block";
 import {
   getToolById,
+  getMergedSpec,
+  getSelectedModelName,
   specKeys,
   type AccentColor,
 } from "@/lib/ai-data";
@@ -37,7 +40,9 @@ function Cell({ value }: { value: string | boolean }) {
 
 export function Comparison() {
   const compareIds = useOrbitStore((s) => s.compareIds);
+  const compareModelSelections = useOrbitStore((s) => s.compareModelSelections);
   const toggleCompare = useOrbitStore((s) => s.toggleCompare);
+  const setCompareModel = useOrbitStore((s) => s.setCompareModel);
   const openDetail = useOrbitStore((s) => s.openDetail);
 
   const selected = compareIds
@@ -91,36 +96,63 @@ export function Comparison() {
                 {selected.map((t) => {
                   const a = accentClasses[t.accent];
                   const isWinner = t.id === winnerId;
+                  const modelIdx = compareModelSelections[t.id] ?? 0;
+                  const hasModels = !!(t.models && t.models.length > 0);
                   return (
-                    <div key={t.id} className="flex items-center gap-2">
-                      <button
-                        onClick={() => openDetail(t.id)}
-                        className={cn(
-                          "grid h-9 w-9 shrink-0 place-items-center rounded-lg border font-display text-sm font-bold transition-transform hover:-translate-y-0.5",
-                          a.bgSoft,
-                          a.border,
-                          a.text
-                        )}
-                        aria-label={`View ${t.name} details`}
-                      >
-                        {t.logo}
-                      </button>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1">
-                          <span className="truncate text-sm font-bold">{t.name}</span>
-                          {isWinner && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
+                    <div key={t.id} className="flex flex-col gap-1.5">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => openDetail(t.id)}
+                          className={cn(
+                            "grid h-9 w-9 shrink-0 place-items-center rounded-lg border font-display text-sm font-bold transition-transform hover:-translate-y-0.5",
+                            a.bgSoft,
+                            a.border,
+                            a.text
+                          )}
+                          aria-label={`View ${t.name} details`}
+                        >
+                          {t.logo}
+                        </button>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1">
+                            <span className="truncate text-sm font-bold">{t.name}</span>
+                            {isWinner && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
+                          </div>
+                          <div className="truncate text-[11px] text-muted-foreground">
+                            {t.vendor}
+                          </div>
                         </div>
-                        <div className="truncate text-[11px] text-muted-foreground">
-                          {t.vendor}
-                        </div>
+                        <button
+                          onClick={() => toggleCompare(t.id)}
+                          aria-label={`Remove ${t.name}`}
+                          className="grid h-6 w-6 shrink-0 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:border-coral/40 hover:text-coral"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => toggleCompare(t.id)}
-                        aria-label={`Remove ${t.name}`}
-                        className="ml-auto grid h-6 w-6 shrink-0 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:border-coral/40 hover:text-coral"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
+                      {/* model variant selector */}
+                      {hasModels && (
+                        <div className="relative">
+                          <select
+                            value={modelIdx}
+                            onChange={(e) => setCompareModel(t.id, Number(e.target.value))}
+                            aria-label={`Select ${t.name} model`}
+                            className={cn(
+                              "h-8 w-full cursor-pointer rounded-md border bg-ink/60 px-2 pr-7 text-[11px] font-semibold outline-none transition-colors focus:ring-2",
+                              a.border,
+                              a.text,
+                              "focus:ring-aurora/30"
+                            )}
+                          >
+                            {t.models!.map((m, i) => (
+                              <option key={m.name} value={i} className="bg-ink text-foreground">
+                                {m.name}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-muted-foreground" />
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -146,11 +178,15 @@ export function Comparison() {
                     >
                       {sk.label}
                     </div>
-                    {selected.map((t) => (
-                      <div key={t.id} className="flex items-center">
-                        <Cell value={t.spec[sk.key]} />
-                      </div>
-                    ))}
+                    {selected.map((t) => {
+                      const modelIdx = compareModelSelections[t.id] ?? 0;
+                      const merged = getMergedSpec(t, modelIdx);
+                      return (
+                        <div key={t.id} className="flex items-center">
+                          <Cell value={merged[sk.key]} />
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
