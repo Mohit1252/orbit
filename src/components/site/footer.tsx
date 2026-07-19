@@ -111,7 +111,7 @@ export function Footer() {
         {/* bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} ORBIT. Navigating the AI universe.
+            © 2026 ORBIT. Navigating the AI universe.
           </p>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <a href="#" className="hover:text-foreground">

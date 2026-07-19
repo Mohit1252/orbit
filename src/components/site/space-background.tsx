@@ -2,32 +2,56 @@
 
 import { useMemo } from "react";
 
+interface Star {
+  top: string;
+  left: string;
+  size: number;
+  delay: string;
+  dur: string;
+  opacity: number;
+}
+
+/**
+ * Mulberry32 — a tiny deterministic PRNG.
+ * Given the same seed, it always produces the same sequence of numbers.
+ * This lets us generate identical stars on the server and the client,
+ * avoiding React hydration mismatches (unlike Math.random()).
+ */
+function mulberry32(seed: number) {
+  let a = seed;
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /**
  * SpaceBackground — fixed full-viewport layered backdrop:
  *  - deep space gradient
  *  - subtle grid
- *  - twinkling stars (generated once)
- *  - drifting aurora/nebula orbs
+ *  - twinkling stars (deterministic — same on server & client)
+ *  - drifting aurora/nebula/star orbs
  *  - a faint orbit ring
+ *
+ * Uses a seeded PRNG (mulberry32) instead of Math.random() so that
+ * the star field is identical on the server and the client, preventing
+ * React hydration mismatches.
  */
 export function SpaceBackground() {
-  const stars = useMemo(() => {
-    const arr: {
-      top: string;
-      left: string;
-      size: number;
-      delay: string;
-      dur: string;
-      opacity: number;
-    }[] = [];
+  const stars = useMemo<Star[]>(() => {
+    const rand = mulberry32(20260719); // fixed seed → deterministic
+    const arr: Star[] = [];
     for (let i = 0; i < 90; i++) {
       arr.push({
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() < 0.8 ? 1 : 2,
-        delay: `${(Math.random() * 4).toFixed(2)}s`,
-        dur: `${(2.5 + Math.random() * 4).toFixed(2)}s`,
-        opacity: 0.3 + Math.random() * 0.6,
+        top: `${rand() * 100}%`,
+        left: `${rand() * 100}%`,
+        size: rand() < 0.8 ? 1 : 2,
+        delay: `${(rand() * 4).toFixed(2)}s`,
+        dur: `${(2.5 + rand() * 4).toFixed(2)}s`,
+        opacity: 0.3 + rand() * 0.6,
       });
     }
     return arr;
@@ -59,7 +83,7 @@ export function SpaceBackground() {
         <span className="absolute top-1/2 -right-1 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-nebula shadow-[0_0_12px_2px_rgba(244,114,182,0.6)]" />
       </div>
 
-      {/* stars */}
+      {/* stars — deterministic, safe for SSR */}
       {stars.map((s, i) => (
         <span
           key={i}
