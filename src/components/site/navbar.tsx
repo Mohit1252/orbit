@@ -93,13 +93,6 @@ export function Navbar() {
             Find my tool
           </Button>
           <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            Sign in
-          </Button>
-          <Button
             size="sm"
             className="h-9 gap-1.5 border border-aurora/40 bg-aurora text-primary-foreground hover:bg-aurora-soft block-shadow-aurora"
           >

@@ -69,7 +69,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-aurora" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-aurora" />
             </span>
-            Now tracking 500+ models · updated daily
+            Now tracking 80+ models · updated daily
           </motion.div>
 
           <motion.h1

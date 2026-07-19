@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutGrid,
@@ -10,6 +10,7 @@ import {
   SearchX,
   GitCompareArrows,
   X,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToolCard } from "./tool-card";
@@ -22,6 +23,9 @@ const sortTabs = [
   { id: "rating", label: "Top rated", icon: Star },
   { id: "all", label: "All tools", icon: LayoutGrid },
 ] as const;
+
+/** How many tools to show by default on the homepage (perf). */
+const DEFAULT_VISIBLE = 9;
 
 export function FeaturedTools() {
   const sort = useOrbitStore((s) => s.sort);
@@ -46,6 +50,11 @@ export function FeaturedTools() {
       }),
     [searchQuery, activeTasks, budget, sort, favoritesOnly, favoriteIds]
   );
+
+  // Show only the first 9 by default; expand when the user taps "Browse all".
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? list : list.slice(0, DEFAULT_VISIBLE);
+  const hiddenCount = list.length - DEFAULT_VISIBLE;
 
   return (
     <section id="tools" className="relative mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
@@ -89,7 +98,7 @@ export function FeaturedTools() {
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <AnimatePresence mode="popLayout">
-            {list.map((tool, i) => (
+            {visible.map((tool, i) => (
               <motion.div
                 key={tool.id}
                 layout
@@ -109,11 +118,35 @@ export function FeaturedTools() {
         </div>
       )}
 
-      <div className="mt-8 flex justify-center">
-        <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 text-sm font-semibold transition-all hover:-translate-y-0.5 hover:border-aurora/40 block-shadow-sm">
-          Browse all 500+ tools
-        </button>
-      </div>
+      {/* "Browse all tools" — only shows when there are hidden tools */}
+      {hiddenCount > 0 && (
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-aurora/40 bg-aurora/10 px-6 text-sm font-semibold text-aurora transition-all hover:-translate-y-0.5 hover:bg-aurora/20 block-shadow-aurora"
+          >
+            {expanded ? (
+              <>
+                Show fewer
+                <ChevronDown className="h-4 w-4 rotate-180 transition-transform" />
+              </>
+            ) : (
+              <>
+                Browse all {list.length} tools
+                <span className="rounded-md border border-aurora/40 bg-aurora/15 px-1.5 py-0.5 text-[11px] font-bold">
+                  +{hiddenCount} more
+                </span>
+                <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              </>
+            )}
+          </button>
+          {!expanded && (
+            <p className="text-xs text-muted-foreground">
+              Showing {DEFAULT_VISIBLE} of {list.length} tools · tap to expand
+            </p>
+          )}
+        </div>
+      )}
     </section>
   );
 }
