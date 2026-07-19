@@ -241,12 +241,12 @@ export const tools: AiTool[] = [
     },
     website: "chat.openai.com",
     models: [
-      { name: "GPT-5.6 Sol", context: "1M", price: "$200/mo", note: "Frontier reasoning" },
-      { name: "GPT-5.5", context: "400K", price: "$20/mo", note: "Balanced flagship" },
-      { name: "GPT-5.4", context: "256K", price: "$20/mo", note: "Fast + cheap" },
-      { name: "GPT-5.1", context: "128K", price: "Free", note: "Free tier model" },
-      { name: "GPT-4o", context: "128K", price: "Free · $20/mo", note: "Multimodal workhorse" },
-      { name: "o1 / o3", context: "200K", price: "$20/mo", note: "Deep reasoning", spec: { imageGen: false } },
+      { name: "GPT-4o", context: "128K", price: "Free · $20/mo", note: "Multimodal flagship" },
+      { name: "GPT-4o mini", context: "128K", price: "Free", note: "Fast + cheap default", spec: { imageGen: false } },
+      { name: "o3", context: "200K", price: "$20/mo", note: "Deep reasoning model", spec: { imageGen: false } },
+      { name: "o3-mini", context: "200K", price: "Free · $20/mo", note: "Affordable reasoning", spec: { imageGen: false } },
+      { name: "o1", context: "200K", price: "$20/mo", note: "First-gen reasoning", spec: { imageGen: false } },
+      { name: "GPT-4.1", context: "1M", price: "$20/mo", note: "Long-context coding" },
     ],
   },
   {
@@ -292,11 +292,11 @@ export const tools: AiTool[] = [
     },
     website: "claude.ai",
     models: [
-      { name: "Claude Opus 4.8", context: "500K", price: "$20/mo", note: "Top reasoning + coding" },
-      { name: "Claude Sonnet 5", context: "200K", price: "Free · $20/mo", note: "Balanced default" },
+      { name: "Claude Opus 4.1", context: "200K", price: "$20/mo", note: "Top reasoning + coding" },
+      { name: "Claude Sonnet 4.5", context: "200K", price: "Free · $20/mo", note: "Balanced default" },
       { name: "Claude Haiku 4.5", context: "200K", price: "Free", note: "Fast + cheap", spec: { imageGen: false } },
-      { name: "Claude Fable 5", context: "200K", price: "$20/mo", note: "Creative writing tuned" },
-      { name: "Claude Mythos 5", context: "200K", price: "$20/mo", note: "Storytelling & worldbuilding" },
+      { name: "Claude 3.7 Sonnet", context: "200K", price: "Free · $20/mo", note: "Previous balanced flagship" },
+      { name: "Claude 3.5 Haiku", context: "200K", price: "Free", note: "Lightweight + fast", spec: { imageGen: false } },
     ],
   },
   {
@@ -510,9 +510,10 @@ export const tools: AiTool[] = [
     },
     website: "gemini.google.com",
     models: [
-      { name: "Gemini 3.5 Pro", context: "2M", price: "$20/mo", note: "Frontier + huge context" },
-      { name: "Gemini 3.1 Pro", context: "1M", price: "$20/mo", note: "Previous flagship" },
-      { name: "Gemini Flash", context: "1M", price: "Free", note: "Fast + cheap" },
+      { name: "Gemini 2.5 Pro", context: "1M", price: "$20/mo", note: "Frontier + huge context" },
+      { name: "Gemini 2.5 Flash", context: "1M", price: "Free", note: "Fast + cheap" },
+      { name: "Gemini 2.0 Flash", context: "1M", price: "Free", note: "Previous fast model" },
+      { name: "Gemini 1.5 Pro", context: "2M", price: "Free · $20/mo", note: "Long-context legacy" },
     ],
   },
   {
@@ -917,9 +918,10 @@ export const tools: AiTool[] = [
     },
     website: "x.ai/grok",
     models: [
-      { name: "Grok 4.5", context: "256K", price: "$30/mo", note: "Frontier reasoning" },
-      { name: "Grok 4.1 Fast", context: "256K", price: "$30/mo", note: "Fast + cheap" },
-      { name: "Grok 4", context: "128K", price: "Free", note: "Free on X" },
+      { name: "Grok 4", context: "256K", price: "$30/mo", note: "Frontier reasoning" },
+      { name: "Grok 4 Fast", context: "256K", price: "$30/mo", note: "Fast + cheap" },
+      { name: "Grok 3", context: "128K", price: "Free", note: "Free on X" },
+      { name: "Grok 3 Mini", context: "128K", price: "Free", note: "Lightweight reasoning" },
     ],
   },
   {
@@ -995,9 +997,10 @@ export const tools: AiTool[] = [
     },
     website: "llama.com",
     models: [
-      { name: "Llama 4 Behemoth", context: "10M", price: "API", note: "Frontier-class open" },
       { name: "Llama 4 Maverick", context: "1M", price: "Free", note: "Balanced open model" },
       { name: "Llama 4 Scout", context: "10M", price: "Free", note: "Efficient, runs locally" },
+      { name: "Llama 3.3 70B", context: "128K", price: "Free", note: "Previous flagship" },
+      { name: "Llama 3.1 8B", context: "128K", price: "Free", note: "Small + fast" },
     ],
   },
   {
@@ -1037,9 +1040,10 @@ export const tools: AiTool[] = [
     },
     website: "mistral.ai",
     models: [
-      { name: "Mistral Large", context: "128K", price: "$2/M tok", note: "Frontier flagship" },
+      { name: "Mistral Large 2", context: "128K", price: "$2/M tok", note: "Frontier flagship" },
       { name: "Mixtral 8x22B", context: "64K", price: "Free / open", note: "MoE open weights" },
-      { name: "Mistral Small", context: "32K", price: "$0.2/M tok", note: "Cheap + fast" },
+      { name: "Mistral Small 3", context: "32K", price: "$0.2/M tok", note: "Cheap + fast" },
+      { name: "Codestral", context: "32K", price: "$0.3/M tok", note: "Code-tuned", spec: { bestFor: "Code generation" } },
     ],
   },
   {
@@ -2631,9 +2635,10 @@ export const tools: AiTool[] = [
     },
     website: "chatglm.cn",
     models: [
-      { name: "GLM-5.2", context: "128K", price: "¥2/M", note: "Latest frontier GLM" },
-      { name: "GLM-5", context: "128K", price: "¥2/M", note: "Previous flagship" },
+      { name: "GLM-4-Plus", context: "128K", price: "¥2/M", note: "Frontier closed model" },
+      { name: "GLM-4-Air", context: "128K", price: "¥0.5/M", note: "Cheap + fast" },
       { name: "GLM-4-9B", context: "128K", price: "Free / open", note: "Open-weights variant", spec: { offline: true } },
+      { name: "GLM-4-Flash", context: "128K", price: "Free", note: "Free tier model" },
     ],
   },
   {
