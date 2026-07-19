@@ -159,3 +159,30 @@ Stage Summary:
   - VLM confirmed all 5 views (hero, categories, trending, tools, modal) render with no visual problems.
   - ESLint clean.
 - Remaining for future rounds: light/dark theme toggle, real backend (Prisma + search API), persistent compare via URL params, tool screenshots in modal, user accounts/auth.
+
+---
+Task ID: 4
+Agent: direct (user request)
+Task: Expand the AI tool dataset using the user-provided "100 AI Models.pdf" list — add the major missing models so the site covers a meaningful slice of the real AI landscape.
+
+Work Log:
+- Read /home/z/my-project/upload/100_AI_Models.pdf — extracted the full 100-model list (GPT variants, Claude variants, Gemini, Grok, Llama, Mistral, image models, video models, voice models, coding tools, search engines, embedding models, regional LLMs).
+- Mapped the PDF list against the existing 16 tools. Identified ~24 high-impact missing models to add across all 8 categories.
+- Added 24 new tools to src/lib/ai-data.ts with full data (description, pricing tiers, pros/cons, spec, website, accent, tags):
+  - Writing/LLM: Grok, Microsoft Copilot, Llama 4, Mistral Large
+  - Data/Agents: Command R+ (Cohere)
+  - Images: Adobe Firefly, Ideogram, Leonardo AI, Imagen 4, FLUX.1
+  - Video: Veo 3.1, Kling 3.0, Pika 2.0, Luma Ray3
+  - Voice: Murf AI, Play.ht, Speechify, Udio
+  - Coding: Windsurf, Claude Code, Amazon Q Developer, Replit AI
+  - Search: You.com
+  - Agents: Character.AI
+- Updated hero stats ("500+" → "40+") and Stats section counter (500 → 40) to reflect the real tool count.
+- Category counts auto-update via getCategoryCounts() (already wired in Phase 4 fix).
+
+Stage Summary:
+- Dataset expanded from 16 → 40 AI tools (2.5x), now covering the major models from the user's 100-model PDF.
+- New category distribution (real, dynamic): Writing 7, Coding 7, Images 8, Video 7, Voice 6, Data 1, Agents 2, Search 2 = 40 total.
+- All new tools have complete data: description, 2-3 pricing tiers, pros/cons, 9-field spec object, tags, launch year, website — so they work fully in the detail modal, comparison deck, quiz, and filtering.
+- Verification: clean session, no runtime errors, lint clean, 40 tools render when filters cleared, category counts show real numbers, hero + stats show "40+".
+- ESLint clean.
