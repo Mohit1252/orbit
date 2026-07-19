@@ -77,20 +77,20 @@ function DetailBody({
   return (
     <div className="max-h-[90vh] overflow-y-auto">
       {/* header banner */}
-      <div className={cn("relative overflow-hidden border-b border-border p-6", a.bgSoft)}>
+      <div className={cn("relative z-20 overflow-hidden border-b border-border p-6", a.bgSoft)}>
         <div className={cn("absolute inset-x-0 top-0 h-1", a.bg)} />
         {/* decorative orbit */}
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full border border-white/5 animate-spin-slow">
           <span className={cn("absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full", a.bg)} />
         </div>
 
-        {/* close + favorite */}
-        <div className="absolute right-4 top-4 flex items-center gap-2">
+        {/* close + favorite — z-30 keeps them above the sticky footer when scrolling */}
+        <div className="absolute right-4 top-4 z-30 flex items-center gap-2">
           <FavoriteButton toolId={tool.id} accent={tool.accent} size="sm" stopPropagation={false} />
           <button
             onClick={onClose}
             aria-label="Close"
-            className="grid h-8 w-8 place-items-center rounded-md border border-border bg-ink/60 text-muted-foreground transition-colors hover:text-foreground"
+            className="grid h-8 w-8 place-items-center rounded-md border border-border bg-ink/80 text-muted-foreground transition-colors hover:text-foreground hover:bg-ink"
           >
             <X className="h-4 w-4" />
           </button>
