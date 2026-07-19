@@ -140,7 +140,7 @@ export interface ToolSpec {
 }
 
 export interface AiModel {
-  /** model variant name, e.g. "GPT-5.6 Sol", "Claude Fable 5", "GLM-5.2" */
+  /** model variant name, e.g. "GPT-4o", "Claude Opus 4.1", "Claude Fable 5" */
   name: string;
   /** per-model context window */
   context: string;
@@ -150,6 +150,8 @@ export interface AiModel {
   spec?: Partial<ToolSpec>;
   /** short note about this variant */
   note?: string;
+  /** access level — most models are public, some are limited/private */
+  access?: "public" | "limited" | "private";
 }
 
 export interface AiTool {
@@ -208,11 +210,11 @@ export const tools: AiTool[] = [
     tasks: ["Writing", "Agents", "Coding"],
     budget: "Freemium",
     priceNote: "Free · $20/mo Plus",
-    rating: 4.8,
+    rating: 4.6,
     reviews: 18420,
-    tagline: "The general-purpose conversational AI for almost any task.",
+    tagline: "The most widely used general-purpose AI assistant.",
     description:
-      "ChatGPT is the most widely used AI assistant, handling writing, coding, analysis and image generation through a single chat interface. GPT-4o brings realtime voice, vision and a built-in code interpreter to every conversation.",
+      "ChatGPT is the most widely used AI assistant, handling writing, coding, analysis and image generation through a single chat interface. GPT-4o brings realtime voice, vision and a built-in code interpreter to every conversation — strong all-rounder, though rivals now lead on context length and writing quality.",
     tags: ["GPT-4o", "Voice", "Vision", "Code interpreter"],
     featured: true,
     badge: "Most popular",
@@ -295,8 +297,9 @@ export const tools: AiTool[] = [
       { name: "Claude Opus 4.1", context: "200K", price: "$20/mo", note: "Top reasoning + coding" },
       { name: "Claude Sonnet 4.5", context: "200K", price: "Free · $20/mo", note: "Balanced default" },
       { name: "Claude Haiku 4.5", context: "200K", price: "Free", note: "Fast + cheap", spec: { imageGen: false } },
+      { name: "Claude Fable 5", context: "200K", price: "$20/mo", note: "Creative writing tuned", spec: { bestFor: "Creative writing" } },
+      { name: "Claude Mythos 5", context: "200K", price: "Limited", note: "Storytelling & worldbuilding", access: "limited", spec: { bestFor: "Storytelling" } },
       { name: "Claude 3.7 Sonnet", context: "200K", price: "Free · $20/mo", note: "Previous balanced flagship" },
-      { name: "Claude 3.5 Haiku", context: "200K", price: "Free", note: "Lightweight + fast", spec: { imageGen: false } },
     ],
   },
   {
@@ -479,9 +482,10 @@ export const tools: AiTool[] = [
     tasks: ["Writing", "Data", "Agents"],
     budget: "Freemium",
     priceNote: "Free · $20/mo Advanced",
-    rating: 4.6,
+    rating: 4.7,
     reviews: 12100,
-    tagline: "Multimodal model with deep Google Workspace integration.",
+    tagline: "Longest context + deepest Google Workspace integration.",
+    badge: "Longest context",
     description:
       "Gemini is Google's flagship multimodal model with a 1M-token context window. It powers AI features across Docs, Gmail, Sheets and Android, and integrates directly with Search for grounded answers.",
     tags: ["1M context", "Multimodal", "Workspace"],

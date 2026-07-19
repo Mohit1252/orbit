@@ -147,12 +147,29 @@ export function Comparison() {
                             {t.models!.map((m, i) => (
                               <option key={m.name} value={i} className="bg-ink text-foreground">
                                 {m.name}
+                                {m.access === "limited" ? " · limited" : ""}
+                                {m.access === "private" ? " · private" : ""}
                               </option>
                             ))}
                           </select>
                           <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-muted-foreground" />
                         </div>
                       )}
+                      {/* access badge for limited/private models */}
+                      {hasModels &&
+                        t.models![modelIdx]?.access &&
+                        t.models![modelIdx].access !== "public" && (
+                          <span
+                            className={cn(
+                              "inline-flex w-fit items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide",
+                              t.models![modelIdx].access === "limited"
+                                ? "border-star/40 bg-star/10 text-star"
+                                : "border-coral/40 bg-coral/10 text-coral"
+                            )}
+                          >
+                            {t.models![modelIdx].access === "limited" ? "Limited access" : "Private"}
+                          </span>
+                        )}
                     </div>
                   );
                 })}
