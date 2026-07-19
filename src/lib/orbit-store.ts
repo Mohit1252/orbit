@@ -8,6 +8,7 @@ import {
   type BudgetTier,
 } from "@/lib/ai-data";
 import type { QuizAnswers } from "@/lib/recommend";
+import type { UseCase } from "@/lib/scoring";
 
 export type SortId = "featured" | "popular" | "rating" | "all";
 
@@ -23,6 +24,8 @@ interface OrbitState {
   compareIds: string[];
   /** per-tool selected model index (for the compare deck model selector) */
   compareModelSelections: Record<string, number>;
+  /** use-case chosen for the compare deck scoring (drives weighted scoring) */
+  compareUseCase: UseCase;
   favoriteIds: string[];
   recentlyViewedIds: string[];
   detailToolId: string | null;
@@ -45,6 +48,7 @@ interface OrbitState {
   toggleCompare: (id: string) => void;
   clearCompare: () => void;
   setCompareModel: (toolId: string, modelIndex: number) => void;
+  setCompareUseCase: (uc: UseCase) => void;
 
   // favorite actions
   toggleFavorite: (id: string) => void;
@@ -132,6 +136,7 @@ export const useOrbitStore = create<OrbitState>((set) => ({
 
   compareIds: ["chatgpt", "midjourney"],
   compareModelSelections: {},
+  compareUseCase: "general",
   favoriteIds: [],
   recentlyViewedIds: [],
   detailToolId: null,
@@ -178,6 +183,7 @@ export const useOrbitStore = create<OrbitState>((set) => ({
     set((s) => ({
       compareModelSelections: { ...s.compareModelSelections, [toolId]: modelIndex },
     })),
+  setCompareUseCase: (uc) => set({ compareUseCase: uc }),
 
   toggleFavorite: (id) =>
     set((s) => {

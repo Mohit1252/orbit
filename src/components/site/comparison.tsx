@@ -1,15 +1,19 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
   X,
+  Minus,
   GitCompareArrows,
   Crown,
   Plus,
   Sparkles,
   Trophy,
   ChevronDown,
+  ChevronRight,
+  Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./categories";
@@ -17,30 +21,98 @@ import { accentClasses } from "./block";
 import {
   getToolById,
   getMergedSpec,
-  getSelectedModelName,
   specKeys,
   type AccentColor,
 } from "@/lib/ai-data";
 import { useOrbitStore, MAX_COMPARE_TOOLS } from "@/lib/orbit-store";
+import {
+  useCases,
+  scoreTool,
+  computeCategoryWinners,
+  isSpecApplicable,
+  isBooleanCap,
+  type UseCase,
+} from "@/lib/scoring";
 
-function Cell({ value }: { value: string | boolean }) {
+/**
+ * Cell renderer — now distinguishes N/A (grey dash) from Fail (red X).
+ *  - boolean true  → green check
+ *  - boolean false → red X (only if the capability is APPLICABLE to this tool)
+ *  - N/A           → grey dash (capability not relevant to this tool)
+ *  - string        → text value
+ */
+function Cell({
+  value,
+  applicable,
+}: {
+  value: string | boolean;
+  applicable: boolean;
+}) {
   if (typeof value === "boolean") {
+    if (!applicable) {
+      // N/A — not relevant to this tool
+      return (
+        <span
+          className="inline-flex h-6 items-center gap-1 rounded-md border border-border/60 bg-ink/20 px-1.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground/50"
+          title="Not applicable to this tool type"
+        >
+          <Minus className="h-3 w-3" />
+          N/A
+        </span>
+      );
+    }
     return value ? (
       <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-aurora/40 bg-aurora/10 text-aurora">
         <Check className="h-3.5 w-3.5" />
       </span>
     ) : (
-      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-border bg-ink/40 text-muted-foreground">
+      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-coral/40 bg-coral/10 text-coral" title="Applicable but not supported">
         <X className="h-3.5 w-3.5" />
+      </span>
+    );
+  }
+  if (!applicable && (value === "—" || value === "")) {
+    return (
+      <span className="inline-flex h-6 items-center gap-1 rounded-md border border-border/60 bg-ink/20 px-1.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground/50">
+        <Minus className="h-3 w-3" />
+        N/A
       </span>
     );
   }
   return <span className="text-sm font-medium text-foreground">{value}</span>;
 }
 
+/** Small score-bar segment for the breakdown panel. */
+function ScoreBar({
+  label,
+  value,
+  weight,
+  accent,
+}: {
+  label: string;
+  value: number;
+  weight: number;
+  accent: string;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="w-24 shrink-0 text-[11px] text-muted-foreground">{label}</span>
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full border border-border bg-ink/60">
+        <div className={cn("h-full rounded-full", accent)} style={{ width: `${value}%` }} />
+      </div>
+      <span className="w-16 shrink-0 text-right text-[11px] font-bold text-foreground">
+        {value}
+        <span className="ml-1 text-muted-foreground/70">×{weight}</span>
+      </span>
+    </div>
+  );
+}
+
 export function Comparison() {
   const compareIds = useOrbitStore((s) => s.compareIds);
   const compareModelSelections = useOrbitStore((s) => s.compareModelSelections);
+  const compareUseCase = useOrbitStore((s) => s.compareUseCase);
+  const setCompareUseCase = useOrbitStore((s) => s.setCompareUseCase);
   const toggleCompare = useOrbitStore((s) => s.toggleCompare);
   const setCompareModel = useOrbitStore((s) => s.setCompareModel);
   const openDetail = useOrbitStore((s) => s.openDetail);
@@ -49,11 +121,24 @@ export function Comparison() {
     .map((id) => getToolById(id))
     .filter((t): t is NonNullable<typeof t> => !!t);
 
-  // pick a "winner" = highest rating among selected (for the crown)
-  const winnerId =
-    selected.length > 0
-      ? selected.reduce((best, t) => (t.rating > best.rating ? t : best)).id
-      : null;
+  // Score every selected tool for the current use-case.
+  const scored = useMemo(
+    () =>
+      selected.map((t) =>
+        scoreTool(t, compareModelSelections[t.id] ?? 0, compareUseCase)
+      ),
+    [selected, compareModelSelections, compareUseCase]
+  );
+
+  // Per-category winners (a tool can win multiple).
+  const categoryWinners = useMemo(
+    () => computeCategoryWinners(scored),
+    [scored]
+  );
+
+  // The overall top scorer (for the crown).
+  const topScorer = scored.length > 0 ? scored[0] : null;
+  const topId = topScorer?.tool.id ?? null;
 
   // dynamic grid columns: 1 label col + N tool cols
   const colCount = Math.max(selected.length, 1);
@@ -64,7 +149,7 @@ export function Comparison() {
       <SectionHeading
         eyebrow="Side by side"
         title="Compare before you commit"
-        description="Add up to three tools from the directory above and they line up here against the specs that matter — capability, context, price."
+        description="Pick your use-case, add up to three tools, and we score them on capability, quality, price and breadth — with N/A properly distinguished from fails."
       />
 
       <motion.div
@@ -84,7 +169,41 @@ export function Comparison() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {/* column headers */}
+              {/* === USE-CASE SELECTOR === */}
+              <div className="border-b border-border bg-ink/40 p-4">
+                <div className="mb-2 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-aurora" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    What are you using it for?
+                  </span>
+                  <span className="ml-auto hidden text-[10px] text-muted-foreground/70 sm:inline">
+                    Scoring is weighted to this use-case
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {useCases.map((uc) => {
+                    const active = uc.id === compareUseCase;
+                    return (
+                      <button
+                        key={uc.id}
+                        onClick={() => setCompareUseCase(uc.id as UseCase)}
+                        aria-pressed={active}
+                        className={cn(
+                          "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all",
+                          active
+                            ? "border-aurora/60 bg-aurora/15 text-aurora block-shadow-aurora"
+                            : "border-border bg-ink/40 text-muted-foreground hover:border-aurora/40 hover:text-foreground"
+                        )}
+                      >
+                        <span className="text-sm">{uc.icon}</span>
+                        {uc.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* === COLUMN HEADERS === */}
               <div
                 className="grid gap-2 border-b border-border bg-ink/40 p-4"
                 style={{ gridTemplateColumns: gridTemplate }}
@@ -93,9 +212,10 @@ export function Comparison() {
                   <GitCompareArrows className="h-4 w-4 text-aurora" />
                   Spec
                 </div>
-                {selected.map((t) => {
+                {scored.map((s) => {
+                  const t = s.tool;
                   const a = accentClasses[t.accent];
-                  const isWinner = t.id === winnerId;
+                  const isTop = t.id === topId;
                   const modelIdx = compareModelSelections[t.id] ?? 0;
                   const hasModels = !!(t.models && t.models.length > 0);
                   return (
@@ -116,10 +236,10 @@ export function Comparison() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1">
                             <span className="truncate text-sm font-bold">{t.name}</span>
-                            {isWinner && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
+                            {isTop && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
                           </div>
                           <div className="truncate text-[11px] text-muted-foreground">
-                            {t.vendor}
+                            {t.vendor} · <span className="font-semibold text-foreground">{s.breakdown.total}</span>/100
                           </div>
                         </div>
                         <button
@@ -175,7 +295,7 @@ export function Comparison() {
                 })}
               </div>
 
-              {/* rows */}
+              {/* === SPEC ROWS (with N/A vs Fail) === */}
               <div>
                 {specKeys.map((sk, idx) => (
                   <div
@@ -195,12 +315,11 @@ export function Comparison() {
                     >
                       {sk.label}
                     </div>
-                    {selected.map((t) => {
-                      const modelIdx = compareModelSelections[t.id] ?? 0;
-                      const merged = getMergedSpec(t, modelIdx);
+                    {scored.map((s) => {
+                      const applicable = isSpecApplicable(s.tool, sk.key, s.mergedSpec);
                       return (
-                        <div key={t.id} className="flex items-center">
-                          <Cell value={merged[sk.key]} />
+                        <div key={s.tool.id} className="flex items-center">
+                          <Cell value={s.mergedSpec[sk.key]} applicable={applicable} />
                         </div>
                       );
                     })}
@@ -208,27 +327,103 @@ export function Comparison() {
                 ))}
               </div>
 
-              {/* winner banner */}
-              {winnerId && selected.length > 1 && (
-                <div className="flex items-center gap-3 border-t border-border bg-star/[0.06] p-4">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg border border-star/40 bg-star/10 text-star">
-                    <Trophy className="h-4.5 w-4.5" />
+              {/* === SCORE BREAKDOWN ROW === */}
+              <div className="border-t border-border bg-ink/30 p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <Trophy className="h-4 w-4 text-star" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Score breakdown — weighted for {useCases.find((u) => u.id === compareUseCase)?.label}
                   </span>
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-semibold text-foreground">
-                      {selected.find((t) => t.id === winnerId)?.name}
-                    </span>{" "}
-                    edges ahead on rating in your shortlist. Adjust your picks to
-                    see how the winner changes.
-                  </p>
+                </div>
+                <div
+                  className="grid gap-3"
+                  style={{ gridTemplateColumns: gridTemplate }}
+                >
+                  <div className="text-[11px] text-muted-foreground">
+                    Formula: <span className="font-semibold text-foreground">cap×0.4 + rating×0.3 + price×0.2 + breadth×0.1</span>
+                  </div>
+                  {scored.map((s) => {
+                    const a = accentClasses[s.tool.accent];
+                    const isTop = s.tool.id === topId;
+                    return (
+                      <ScoreBreakdownCard
+                        key={s.tool.id}
+                        scored={s}
+                        accentBar={a.bg}
+                        isTop={isTop}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* === CATEGORY WINNERS (not a single overall winner) === */}
+              {selected.length > 1 && (
+                <div className="border-t border-border bg-star/[0.04] p-4">
+                  <div className="mb-3 flex items-center gap-2">
+                    <Crown className="h-4 w-4 text-star" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Category winners
+                    </span>
+                    <span className="ml-auto text-[10px] text-muted-foreground/70">
+                      One tool can win multiple categories
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {categoryWinners.map((w) => {
+                      const winner = scored.find((s) => s.tool.id === w.winnerId);
+                      if (!winner) return null;
+                      const a = accentClasses[winner.tool.accent];
+                      return (
+                        <span
+                          key={w.category}
+                          className={cn(
+                            "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-semibold",
+                            a.bgSoft,
+                            a.border,
+                            a.text
+                          )}
+                          title={`${winner.tool.name} scored ${w.score}/100 in this category`}
+                        >
+                          <Trophy className="h-3 w-3" />
+                          {w.label}
+                          <span className="opacity-70">·</span>
+                          <span className="font-bold">{winner.tool.name}</span>
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
+
+              {/* === LEGEND (N/A vs Fail) === */}
+              <div className="flex flex-wrap items-center gap-4 border-t border-border bg-ink/20 px-4 py-3 text-[10px] text-muted-foreground">
+                <span className="font-semibold uppercase tracking-wide">Legend:</span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="inline-flex h-4 w-4 items-center justify-center rounded border border-aurora/40 bg-aurora/10 text-aurora">
+                    <Check className="h-2.5 w-2.5" />
+                  </span>
+                  Supported
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="inline-flex h-4 w-4 items-center justify-center rounded border border-coral/40 bg-coral/10 text-coral">
+                    <X className="h-2.5 w-2.5" />
+                  </span>
+                  Applicable but missing
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="inline-flex h-4 items-center gap-0.5 rounded border border-border/60 bg-ink/20 px-1 text-muted-foreground/60">
+                    <Minus className="h-2.5 w-2.5" />N/A
+                  </span>
+                  Not relevant to this tool type (not penalized)
+                </span>
+              </div>
 
               {/* footer cta */}
               <div className="flex flex-col gap-3 border-t border-border bg-ink/40 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-muted-foreground">
-                  {selected.length}/{MAX_COMPARE_TOOLS} slots used · highlighted
-                  rows are weighted heaviest in your match score.
+                  {selected.length}/{MAX_COMPARE_TOOLS} slots used · scores are
+                  weighted to your chosen use-case.
                 </p>
                 <a
                   href="#tools"
@@ -243,6 +438,76 @@ export function Comparison() {
         </AnimatePresence>
       </motion.div>
     </section>
+  );
+}
+
+/** Expandable "Why this won?" breakdown card per tool. */
+function ScoreBreakdownCard({
+  scored,
+  accentBar,
+  isTop,
+}: {
+  scored: ReturnType<typeof scoreTool>;
+  accentBar: string;
+  isTop: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const b = scored.breakdown;
+
+  return (
+    <div className="rounded-lg border border-border bg-card/60 p-3">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-2 text-left"
+      >
+        <div className="h-1.5 flex-1 overflow-hidden rounded-full border border-border bg-ink/60">
+          <div className={cn("h-full rounded-full", accentBar)} style={{ width: `${b.total}%` }} />
+        </div>
+        <span className="text-sm font-bold text-foreground">{b.total}</span>
+        {isTop && <Crown className="h-3.5 w-3.5 shrink-0 text-star" />}
+        <ChevronRight
+          className={cn(
+            "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform",
+            open && "rotate-90"
+          )}
+        />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-3 space-y-1.5">
+              <ScoreBar label="Capability" value={Math.round(b.capability)} weight={0.4} accent="bg-aurora" />
+              <ScoreBar label="Quality" value={Math.round(b.rating)} weight={0.3} accent="bg-star" />
+              <ScoreBar label="Price value" value={Math.round(b.price)} weight={0.2} accent="bg-teal" />
+              <ScoreBar label="Breadth" value={Math.round(b.breadth)} weight={0.1} accent="bg-nebula" />
+              {b.reasons.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1 border-t border-border/60 pt-2">
+                  {b.reasons.map((r) => (
+                    <span
+                      key={r}
+                      className="rounded border border-border bg-ink/40 px-1.5 py-0.5 text-[10px] text-muted-foreground"
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="mt-2 flex items-start gap-1 text-[10px] text-muted-foreground/70">
+                <Info className="mt-0.5 h-2.5 w-2.5 shrink-0" />
+                N/A capabilities are excluded from the capability score — only relevant features count.
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
