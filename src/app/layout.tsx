@@ -40,9 +40,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ORBIT — Find the right AI tool for any mission",
     description:
-      "Compare 500+ AI models by task, budget and capability. Your shortcut to the right AI.",
-    siteName: "ORBIT",
+      "Compare 80+ AI models by task, budget and capability. Your shortcut to the right AI.",
+    siteName: "My AI Picker",
     type: "website",
+    url: "https://myaipicker.com",
   },
   twitter: {
     card: "summary_large_image",

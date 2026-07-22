@@ -10,7 +10,7 @@ import type { MetadataRoute } from "next";
 
 // Apna domain yahan set karo jab live ho.
 // Production mein NEXT_PUBLIC_SITE_URL env var set karna.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://orbit.example.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://myaipicker.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
