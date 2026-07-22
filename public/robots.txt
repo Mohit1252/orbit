@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap — jab domain live ho, is URL ko update karna
+Sitemap: https://orbit.example.com/sitemap.xml

@@ -52,3 +52,30 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Database (SQLite — should not be pushed)
+/db/
+
+# Downloads / scratch
+/download/
+
+# Example reference code
+/examples/
+
+# QA screenshots
+/preview-*.png
+/qa-*.png
+/p2-*.png
+/p3-*.png
+/p4-*.png
+/debug-*.png
+/fixed-*.png
+/expanded-*.png
+/build-*.png
+/category-*.png
+/modal-*.png
+/scoring-*.png
+/mythos-*.png
+/glm-*.png
+/navbar-*.png
+/footer-*.png
