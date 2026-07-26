@@ -10,6 +10,7 @@ import {
   Blocks,
   type LucideIcon,
 } from "lucide-react";
+import autoPricingData from "@/../data/models.json";
 
 export type AccentColor =
   | "aurora"
@@ -182,6 +183,12 @@ export interface AiTool {
   website: string;
   /** specific model variants users can pick in the compare deck */
   models?: AiModel[];
+  /** ISO timestamp of last auto-update from OpenRouter (null = never auto-updated) */
+  last_updated?: string | null;
+  /** true when pricing changed and needs manual review of description/tags */
+  needs_review?: boolean;
+  /** API pricing from OpenRouter (per million tokens) */
+  api_pricing?: { prompt_per_million: number | null; completion_per_million: number | null };
 }
 
 /** Canonical capability/spec keys rendered in the compare + detail views. */
@@ -3221,6 +3228,34 @@ export const tools: AiTool[] = [
     website: "google.com/search/aimode",
   },
 ];
+
+// ─── Auto-pricing merge ───────────────────────────────────────────────
+// Merge data/models.json (auto-updated from OpenRouter API) into tools.
+// Non-LLM tools are untouched. LLM tools get api_pricing, context_length
+// overrides, last_updated, and needs_review flags.
+const _autoData = autoPricingData as {
+  tools: Record<string, {
+    last_updated: string | null;
+    needs_review: boolean;
+    api_pricing: { prompt_per_million: number | null; completion_per_million: number | null };
+    context_length: string | null;
+    openrouter_models: Array<{ id: string; name: string; context: string; prompt_per_million: number; completion_per_million: number }>;
+  }>;
+};
+
+for (const tool of tools) {
+  const entry = _autoData.tools[tool.id];
+  if (!entry) continue;
+  tool.last_updated = entry.last_updated;
+  tool.needs_review = entry.needs_review;
+  if (entry.api_pricing.prompt_per_million !== null || entry.api_pricing.completion_per_million !== null) {
+    tool.api_pricing = entry.api_pricing;
+  }
+  // Override context in spec if we have live data
+  if (entry.context_length && entry.context_length !== "null") {
+    tool.spec.context = entry.context_length;
+  }
+}
 
 export const budgetTiers: { label: BudgetTier; hint: string }[] = [
   { label: "Free", hint: "No cost" },

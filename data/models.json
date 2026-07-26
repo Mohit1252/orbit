@@ -1,0 +1,394 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
+    "last_sync": "2026-07-26T06:01:34.729Z",
+    "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
+  },
+  "tools": {
+    "chatgpt": {
+      "openrouter_ids": [
+        "openai/gpt-4o",
+        "openai/gpt-4o-mini",
+        "openai/o3-mini",
+        "openai/o1",
+        "openai/gpt-4.1"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.15,
+        "completion_per_million": 0.6
+      },
+      "context_length": "1.0M",
+      "openrouter_models": [
+        {
+          "id": "openai/gpt-4o",
+          "name": "OpenAI: GPT-4o",
+          "context": "128K",
+          "context_tokens": 128000,
+          "prompt_per_million": 2.5,
+          "completion_per_million": 10
+        },
+        {
+          "id": "openai/gpt-4o-mini",
+          "name": "OpenAI: GPT-4o-mini",
+          "context": "128K",
+          "context_tokens": 128000,
+          "prompt_per_million": 0.15,
+          "completion_per_million": 0.6
+        },
+        {
+          "id": "openai/o3-mini",
+          "name": "OpenAI: o3 Mini",
+          "context": "200K",
+          "context_tokens": 200000,
+          "prompt_per_million": 1.1,
+          "completion_per_million": 4.4
+        },
+        {
+          "id": "openai/o1",
+          "name": "OpenAI: o1",
+          "context": "200K",
+          "context_tokens": 200000,
+          "prompt_per_million": 15,
+          "completion_per_million": 60
+        },
+        {
+          "id": "openai/gpt-4.1",
+          "name": "OpenAI: GPT-4.1",
+          "context": "1.0M",
+          "context_tokens": 1047576,
+          "prompt_per_million": 2,
+          "completion_per_million": 8
+        }
+      ]
+    },
+    "claude": {
+      "openrouter_ids": [
+        "anthropic/claude-3.5-sonnet",
+        "anthropic/claude-3-opus",
+        "anthropic/claude-3-haiku",
+        "anthropic/claude-3.5-haiku"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.25,
+        "completion_per_million": 1.25
+      },
+      "context_length": "200K",
+      "openrouter_models": [
+        {
+          "id": "anthropic/claude-3-haiku",
+          "name": "Anthropic: Claude 3 Haiku",
+          "context": "200K",
+          "context_tokens": 200000,
+          "prompt_per_million": 0.25,
+          "completion_per_million": 1.25
+        }
+      ]
+    },
+    "gemini": {
+      "openrouter_ids": [
+        "google/gemini-pro-1.5",
+        "google/gemini-flash-1.5",
+        "google/gemini-2.0-flash-001"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "grok": {
+      "openrouter_ids": [
+        "x-ai/grok-beta",
+        "x-ai/grok-vision-beta"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "llama": {
+      "openrouter_ids": [
+        "meta-llama/llama-3.1-70b-instruct",
+        "meta-llama/llama-3.1-8b-instruct",
+        "meta-llama/llama-3.3-70b-instruct"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.05,
+        "completion_per_million": 0.08
+      },
+      "context_length": "131K",
+      "openrouter_models": [
+        {
+          "id": "meta-llama/llama-3.1-70b-instruct",
+          "name": "Meta: Llama 3.1 70B Instruct",
+          "context": "131K",
+          "context_tokens": 131072,
+          "prompt_per_million": 0.4,
+          "completion_per_million": 0.4
+        },
+        {
+          "id": "meta-llama/llama-3.1-8b-instruct",
+          "name": "Meta: Llama 3.1 8B Instruct",
+          "context": "131K",
+          "context_tokens": 131072,
+          "prompt_per_million": 0.05,
+          "completion_per_million": 0.08
+        },
+        {
+          "id": "meta-llama/llama-3.3-70b-instruct",
+          "name": "Meta: Llama 3.3 70B Instruct",
+          "context": "131K",
+          "context_tokens": 131072,
+          "prompt_per_million": 0.13,
+          "completion_per_million": 0.4
+        }
+      ]
+    },
+    "mistral": {
+      "openrouter_ids": [
+        "mistralai/mistral-large",
+        "mistralai/mistral-small",
+        "mistralai/codestral"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 2,
+        "completion_per_million": 6
+      },
+      "context_length": "128K",
+      "openrouter_models": [
+        {
+          "id": "mistralai/mistral-large",
+          "name": "Mistral Large",
+          "context": "128K",
+          "context_tokens": 128000,
+          "prompt_per_million": 2,
+          "completion_per_million": 6
+        }
+      ]
+    },
+    "command-r": {
+      "openrouter_ids": [
+        "cohere/command-r-plus",
+        "cohere/command-r"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "deepseek": {
+      "openrouter_ids": [
+        "deepseek/deepseek-chat",
+        "deepseek/deepseek-r1"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.2,
+        "completion_per_million": 0.8
+      },
+      "context_length": "164K",
+      "openrouter_models": [
+        {
+          "id": "deepseek/deepseek-chat",
+          "name": "DeepSeek: DeepSeek V3",
+          "context": "164K",
+          "context_tokens": 163840,
+          "prompt_per_million": 0.2,
+          "completion_per_million": 0.8
+        },
+        {
+          "id": "deepseek/deepseek-r1",
+          "name": "DeepSeek: R1",
+          "context": "164K",
+          "context_tokens": 163840,
+          "prompt_per_million": 0.7,
+          "completion_per_million": 2.5
+        }
+      ]
+    },
+    "glm": {
+      "openrouter_ids": [
+        "zhipuai/glm-4",
+        "zhipuai/glm-4v"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "qwen": {
+      "openrouter_ids": [
+        "qwen/qwen-2.5-72b-instruct",
+        "qwen/qwen-2.5-7b-instruct"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.04,
+        "completion_per_million": 0.1
+      },
+      "context_length": "33K",
+      "openrouter_models": [
+        {
+          "id": "qwen/qwen-2.5-72b-instruct",
+          "name": "Qwen2.5 72B Instruct",
+          "context": "33K",
+          "context_tokens": 32768,
+          "prompt_per_million": 0.36,
+          "completion_per_million": 0.4
+        },
+        {
+          "id": "qwen/qwen-2.5-7b-instruct",
+          "name": "Qwen: Qwen2.5 7B Instruct",
+          "context": "33K",
+          "context_tokens": 32768,
+          "prompt_per_million": 0.04,
+          "completion_per_million": 0.1
+        }
+      ]
+    },
+    "gemma": {
+      "openrouter_ids": [
+        "google/gemma-2-27b-it",
+        "google/gemma-2-9b-it"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.65,
+        "completion_per_million": 0.65
+      },
+      "context_length": "8K",
+      "openrouter_models": [
+        {
+          "id": "google/gemma-2-27b-it",
+          "name": "Google: Gemma 2 27B",
+          "context": "8K",
+          "context_tokens": 8192,
+          "prompt_per_million": 0.65,
+          "completion_per_million": 0.65
+        }
+      ]
+    },
+    "phi-4": {
+      "openrouter_ids": [
+        "microsoft/phi-4"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 0.07,
+        "completion_per_million": 0.14
+      },
+      "context_length": "16K",
+      "openrouter_models": [
+        {
+          "id": "microsoft/phi-4",
+          "name": "Microsoft: Phi 4",
+          "context": "16K",
+          "context_tokens": 16384,
+          "prompt_per_million": 0.07,
+          "completion_per_million": 0.14
+        }
+      ]
+    },
+    "yi-large": {
+      "openrouter_ids": [
+        "01-ai/yi-large"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "jamba": {
+      "openrouter_ids": [
+        "ai21/jamba-1-5-large",
+        "ai21/jamba-1-5-mini"
+      ],
+      "auto_update": true,
+      "last_updated": null,
+      "needs_review": false,
+      "api_pricing": {
+        "prompt_per_million": null,
+        "completion_per_million": null
+      },
+      "context_length": null,
+      "openrouter_models": []
+    },
+    "inflection-pi": {
+      "openrouter_ids": [
+        "inflection/inflection-3-pi",
+        "inflection/inflection-3-productivity"
+      ],
+      "auto_update": true,
+      "last_updated": "2026-07-26T06:01:34.729Z",
+      "needs_review": true,
+      "api_pricing": {
+        "prompt_per_million": 2.5,
+        "completion_per_million": 10
+      },
+      "context_length": "8K",
+      "openrouter_models": [
+        {
+          "id": "inflection/inflection-3-pi",
+          "name": "Inflection: Inflection 3 Pi",
+          "context": "8K",
+          "context_tokens": 8000,
+          "prompt_per_million": 2.5,
+          "completion_per_million": 10
+        },
+        {
+          "id": "inflection/inflection-3-productivity",
+          "name": "Inflection: Inflection 3 Productivity",
+          "context": "8K",
+          "context_tokens": 8000,
+          "prompt_per_million": 2.5,
+          "completion_per_million": 10
+        }
+      ]
+    }
+  }
+}

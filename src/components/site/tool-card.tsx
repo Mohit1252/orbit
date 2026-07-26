@@ -49,9 +49,16 @@ export function ToolCard({
               {tool.logo}
             </span>
             <div className="min-w-0">
-              <h3 className="truncate font-display text-base font-bold tracking-tight">
-                {tool.name}
-              </h3>
+              <div className="flex items-center gap-1.5">
+                <h3 className="truncate font-display text-base font-bold tracking-tight">
+                  {tool.name}
+                </h3>
+                {tool.needs_review && (
+                  <span className="inline-flex items-center gap-0.5 rounded border border-aurora/40 bg-aurora/10 px-1 py-0.5 text-[8px] font-bold uppercase tracking-wide text-aurora" title={`Updated ${tool.last_updated ? new Date(tool.last_updated).toLocaleDateString() : "recently"}`}>
+                  Updated
+                </span>
+                )}
+              </div>
               <p className="truncate text-xs text-muted-foreground">
                 {tool.vendor}
               </p>
