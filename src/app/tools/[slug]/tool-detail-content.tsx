@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -34,6 +35,7 @@ export function ToolDetailContent({
   const toggleCompare = useOrbitStore((s) => s.toggleCompare);
   const compareIds = useOrbitStore((s) => s.compareIds);
   const selected = compareIds.includes(tool.id);
+  const [selectedTier, setSelectedTier] = useState(0);
 
   return (
     <div className="min-h-screen pb-16">
@@ -137,17 +139,60 @@ export function ToolDetailContent({
             {/* Pricing */}
             <section>
               <h2 className="font-display text-xl font-bold tracking-tight">Pricing Tiers</h2>
+              <p className="mt-1 text-xs text-muted-foreground">Click a tier to see full details</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {tool.pricing.map((p, i) => (
-                  <div key={p.name} className={cn("rounded-xl border bg-card p-4", i === 0 ? cn(a.border, a.shadow) : "border-border")}>
+                  <button
+                    key={p.name}
+                    onClick={() => setSelectedTier(i)}
+                    className={cn(
+                      "rounded-xl border bg-card p-4 text-left transition-all hover:-translate-y-0.5",
+                      selectedTier === i ? cn(a.border, a.shadow, "ring-2 ring-aurora/30") : "border-border"
+                    )}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{p.name}</span>
                       {i === 0 && <span className={cn("text-[10px] font-bold uppercase", a.text)}>Best Value</span>}
+                      {selectedTier === i && (
+                        <span className={cn("inline-flex h-5 w-5 items-center justify-center rounded-full border", a.border, a.bgSoft, a.text)}>
+                          <Check className="h-3 w-3" />
+                        </span>
+                      )}
                     </div>
                     <div className="mt-1 font-display text-2xl font-bold">{p.price}</div>
                     <p className="mt-1 text-xs text-muted-foreground">{p.note}</p>
-                  </div>
+                  </button>
                 ))}
+              </div>
+
+              {/* Selected tier detail */}
+              <div className={cn("mt-4 rounded-xl border p-5", a.border, a.bgSoft)}>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display text-lg font-bold">
+                    {tool.pricing[selectedTier].name} — {tool.pricing[selectedTier].price}
+                  </h3>
+                  <a
+                    href={`https://${tool.website}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cn("inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-xs font-semibold text-primary-foreground transition-all hover:-translate-y-0.5", a.border, a.bg)}
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Subscribe
+                  </a>
+                </div>
+                <p className="mt-2 text-sm text-foreground/90">{tool.pricing[selectedTier].note}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="rounded-md border border-border bg-ink/40 px-2 py-0.5 text-[11px] text-muted-foreground">
+                    Plan: {tool.pricing[selectedTier].name}
+                  </span>
+                  <span className="rounded-md border border-border bg-ink/40 px-2 py-0.5 text-[11px] text-muted-foreground">
+                    Price: {tool.pricing[selectedTier].price}
+                  </span>
+                  <span className="rounded-md border border-border bg-ink/40 px-2 py-0.5 text-[11px] text-muted-foreground">
+                    Tool: {tool.name}
+                  </span>
+                </div>
               </div>
             </section>
 
