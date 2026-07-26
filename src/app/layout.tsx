@@ -44,12 +44,21 @@ export const metadata: Metadata = {
     siteName: "My AI Picker",
     type: "website",
     url: "https://myaipicker.com",
+    images: [
+      {
+        url: "https://myaipicker.com/og-image.png",
+        width: 1024,
+        height: 1024,
+        alt: "My AI Picker — Find the right AI tool for any mission",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "My AI Picker — Find the right AI tool for any mission",
     description:
-      "Compare 500+ AI models by task, budget and capability. Your shortcut to the right AI.",
+      "Compare 80+ AI models by task, budget and capability. Your shortcut to the right AI.",
+    images: ["https://myaipicker.com/og-image.png"],
   },
 };
 
