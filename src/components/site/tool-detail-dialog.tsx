@@ -133,7 +133,7 @@ function DetailBody({
                 <Star className="h-3.5 w-3.5 fill-star text-star" />
                 <span className="font-semibold text-foreground">{tool.rating.toFixed(1)}</span>
                 <RatingBar rating={tool.rating} accent={tool.accent} />
-                <span>({(tool.reviews / 1000).toFixed(1)}k)</span>
+                <span>· Benchmark</span>
               </span>
               <span className="inline-flex items-center gap-1">
                 <CalendarDays className="h-3.5 w-3.5" />

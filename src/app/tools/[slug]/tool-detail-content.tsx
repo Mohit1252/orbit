@@ -83,7 +83,7 @@ export function ToolDetailContent({
                   <Star className="h-4 w-4 fill-star text-star" />
                   <span className="font-bold text-foreground">{tool.rating.toFixed(1)}</span>
                   <RatingBar rating={tool.rating} accent={tool.accent} />
-                  <span className="text-xs">({(tool.reviews / 1000).toFixed(1)}k reviews)</span>
+                  <span className="text-xs">Benchmark Rating</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <CalendarDays className="h-4 w-4" />

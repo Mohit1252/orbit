@@ -10,7 +10,7 @@ import { FeaturedTools } from "@/components/site/featured-tools";
 import { Comparison } from "@/components/site/comparison";
 import { HowItWorks } from "@/components/site/how-it-works";
 import { Stats } from "@/components/site/stats";
-import { Testimonials } from "@/components/site/testimonials";
+import { Feedback } from "@/components/site/feedback";
 import { CTA } from "@/components/site/cta";
 import { Footer } from "@/components/site/footer";
 import { ToolDetailDialog } from "@/components/site/tool-detail-dialog";
@@ -39,7 +39,7 @@ export default function Home() {
           <Stats />
         </div>
         <HowItWorks />
-        <Testimonials />
+        <Feedback />
         <CTA />
       </main>
       <Footer />

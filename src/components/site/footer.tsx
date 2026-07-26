@@ -53,7 +53,13 @@ export function Footer() {
             </p>
           </div>
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={(e) => {
+              e.preventDefault();
+              const input = (e.target as HTMLFormElement).querySelector('input[type="email"]') as HTMLInputElement;
+              if (input?.value) {
+                window.location.href = `mailto:support@myaipicker.com?subject=Subscribe to AI Launch Radar&body=Please add ${input.value} to the weekly newsletter.`;
+              }
+            }}
             className="flex w-full max-w-md items-center gap-2"
           >
             <div className="relative flex-1">

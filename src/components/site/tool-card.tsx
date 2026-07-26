@@ -103,9 +103,6 @@ export function ToolCard({
             <Star className="h-3.5 w-3.5 fill-star text-star" />
             <span className="text-sm font-semibold">{tool.rating.toFixed(1)}</span>
             <RatingBar rating={tool.rating} accent={tool.accent} />
-            <span className="text-xs text-muted-foreground">
-              ({(tool.reviews / 1000).toFixed(1)}k)
-            </span>
           </div>
           <div className="flex items-center gap-1.5">
             {tool.tasks.slice(0, 2).map((t) => (
