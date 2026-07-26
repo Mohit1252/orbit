@@ -192,11 +192,19 @@ async function main() {
 
     if (updatedCount > 0) {
       log("\n📝 These tools have needs_review=true — verify descriptions/tags manually.");
-      // Output summary for GitHub Actions to detect changes
-      console.log(`::set-output name=changes::${updatedCount}`);
-      console.log(`::set-output name=has_changes::true`);
+      // Output summary for GitHub Actions (new environment file syntax)
+      const fs2 = await import("fs");
+      const ghOutput = process.env.GITHUB_OUTPUT;
+      if (ghOutput) {
+        fs2.appendFileSync(ghOutput, `changes=${updatedCount}\n`);
+        fs2.appendFileSync(ghOutput, `has_changes=true\n`);
+      }
     } else {
-      console.log(`::set-output name=has_changes::false`);
+      const fs2 = await import("fs");
+      const ghOutput = process.env.GITHUB_OUTPUT;
+      if (ghOutput) {
+        fs2.appendFileSync(ghOutput, `has_changes=false\n`);
+      }
     }
   }
 }
