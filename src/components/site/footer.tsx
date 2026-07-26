@@ -174,10 +174,18 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © 2026 My AI Picker. Find the right AI, every time.
           </p>
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-aurora" />
-            All systems nominal
-          </span>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <a href="/privacy-policy" className="hover:text-foreground transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/terms-and-conditions" className="hover:text-foreground transition-colors">
+              Terms &amp; Conditions
+            </a>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-aurora" />
+              All systems nominal
+            </span>
+          </div>
         </div>
       </div>
     </footer>

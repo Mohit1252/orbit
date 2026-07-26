@@ -12,13 +12,25 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://myaipicker.com";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  // 1. Homepage
+  // 1. Homepage + Legal Pages
   const routes: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
       lastModified: now,
       changeFrequency: "daily",
       priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/privacy-policy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/terms-and-conditions`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
   ];
 
