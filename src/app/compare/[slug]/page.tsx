@@ -25,15 +25,19 @@ export function generateStaticParams() {
     }
     if (pairs.length >= MAX_PAIRS) break;
   }
-  return pairs.map((p) => ({ a: p.a, b: p.b }));
+  return pairs.map((p) => ({ slug: `${p.a}-vs-${p.b}` }));
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: Promise<{ a: string; b: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  return params.then(({ a, b }) => {
+  return params.then(({ slug }) => {
+    const parts = slug.split("-vs-");
+    if (parts.length !== 2) return { title: "Comparison not found" };
+    const a = parts[0];
+    const b = parts[1];
     const ta = getToolById(a);
     const tb = getToolById(b);
     if (!ta || !tb) return { title: "Comparison not found" };
@@ -49,10 +53,10 @@ export function generateMetadata({
         title,
         description,
         type: "article",
-        url: `https://myaipicker.com/compare/${a}-vs-${b}`,
+        url: `https://myaipicker.com/compare/${slug}`,
       },
       alternates: {
-        canonical: `https://myaipicker.com/compare/${a}-vs-${b}`,
+        canonical: `https://myaipicker.com/compare/${slug}`,
       },
     };
   });
@@ -83,9 +87,13 @@ function Cell({ value }: { value: string | boolean }) {
 export default async function ComparePage({
   params,
 }: {
-  params: Promise<{ a: string; b: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { a, b } = await params;
+  const { slug } = await params;
+  const parts = slug.split("-vs-");
+  if (parts.length !== 2) notFound();
+  const a = parts[0];
+  const b = parts[1];
   const ta = getToolById(a);
   const tb = getToolById(b);
   if (!ta || !tb) notFound();
