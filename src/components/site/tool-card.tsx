@@ -1,6 +1,7 @@
 "use client";
 
-import { Star, ArrowUpRight, Plus, Check } from "lucide-react";
+import { Star, ArrowUpRight, Plus, Check, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { AiTool } from "@/lib/ai-data";
 import { accentClasses, AccentChip } from "./block";
@@ -127,10 +128,18 @@ export function ToolCard({
             )}
           >
             <ArrowUpRight className="h-3 w-3" />
-            Details
+            Quick view
           </span>
         </div>
       </button>
+
+      {/* SEO link to full tool detail page (crawlers follow this) */}
+      <Link
+        href={`/tools/${tool.id}`}
+        className="block border-t border-border/60 bg-ink/20 px-4 py-2 text-center text-[11px] font-semibold text-aurora transition-colors hover:bg-ink/40 hover:underline"
+      >
+        View full {tool.name} details →
+      </Link>
 
       {/* compare + favorite footer */}
       <div className="flex items-center gap-2 border-t border-border/60 bg-ink/30 p-4">

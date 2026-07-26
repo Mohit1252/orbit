@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { categories, getCategoryCounts } from "@/lib/ai-data";
 import { useOrbitStore } from "@/lib/orbit-store";
@@ -89,17 +90,26 @@ export function Categories() {
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">{c.blurb}</p>
 
-                <div
-                  className={cn(
-                    "mt-4 flex items-center gap-1 text-xs font-medium transition-colors",
-                    disabled
-                      ? "text-muted-foreground/50"
-                      : "text-muted-foreground group-hover:text-foreground"
-                  )}
-                >
-                  {disabled ? "No tools yet" : "Explore tools"}
+                <div className="mt-4 flex items-center justify-between">
+                  <span
+                    className={cn(
+                      "flex items-center gap-1 text-xs font-medium transition-colors",
+                      disabled
+                        ? "text-muted-foreground/50"
+                        : "text-muted-foreground group-hover:text-foreground"
+                    )}
+                  >
+                    {disabled ? "No tools yet" : "Filter in deck"}
+                  </span>
                   {!disabled && (
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <Link
+                      href={`/best/${c.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-aurora hover:underline"
+                    >
+                      Explore page
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </Link>
                   )}
                 </div>
 
