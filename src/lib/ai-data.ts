@@ -132,6 +132,8 @@ export interface PricingTier {
   name: string;
   price: string;
   note: string;
+  /** What's included in this tier (features list) */
+  features?: string[];
 }
 
 export interface ToolSpec {
@@ -220,9 +222,9 @@ export const tools: AiTool[] = [
     badge: "Most popular",
     launched: "2022",
     pricing: [
-      { name: "Free", price: "$0", note: "GPT-4o mini, limited messages" },
-      { name: "Plus", price: "$20/mo", note: "GPT-4o, higher limits" },
-      { name: "Team", price: "$25/mo", note: "Shared workspace" },
+      { name: "Free", price: "$0", note: "GPT-4o mini, limited messages", features: ["GPT-4o mini access", "Limited messages per day", "Web + mobile app", "Standard response speed"] },
+      { name: "Plus", price: "$20/mo", note: "GPT-4o, higher limits", features: ["GPT-4o full access", "5x higher message limits", "Image generation (DALL·E)", "Code interpreter", "Priority access to new features"] },
+      { name: "Team", price: "$25/mo", note: "Shared workspace", features: ["Everything in Plus", "Shared team workspace", "Higher message caps", "Admin console", "Custom GPTs sharing"] },
     ],
     pros: [
       "Excellent all-rounder across tasks",
@@ -271,9 +273,10 @@ export const tools: AiTool[] = [
     badge: "Best for coding",
     launched: "2023",
     pricing: [
-      { name: "Free", price: "$0", note: "Sonnet, daily limits" },
-      { name: "Pro", price: "$20/mo", note: "Opus access, 5x usage" },
-      { name: "Team", price: "$30/mo", note: "Shared projects" },
+      { name: "Free", price: "$0", note: "Sonnet, daily limits", features: ["Claude Sonnet access", "Daily message limits", "Web app access", "Artifacts preview"] },
+      { name: "Pro", price: "$20/mo", note: "Opus access, 5x usage", features: ["Claude Opus 4.1 access", "5x more usage than Free", "Priority access during peak", "Projects + Artifacts", "Computer use beta"] },
+      { name: "Max", price: "$100/mo", note: "Highest limits + Opus priority", features: ["20x Pro usage limits", "Priority Opus access", "Extended thinking", "Advanced Projects", "Priority support"] },
+      { name: "Team", price: "$30/mo", note: "Shared projects", features: ["Everything in Pro", "Shared team projects", "Admin console", "Centralized billing", "SSO (SAML)"] },
     ],
     pros: [
       "Best-in-class long-context handling",
@@ -491,9 +494,9 @@ export const tools: AiTool[] = [
     tags: ["1M context", "Multimodal", "Workspace"],
     launched: "2023",
     pricing: [
-      { name: "Free", price: "$0", note: "Flash model" },
-      { name: "Advanced", price: "$20/mo", note: "Pro + 2TB storage" },
-      { name: "AI Pro", price: "$200/mo", note: "Highest limits" },
+      { name: "Free", price: "$0", note: "Flash model", features: ["Gemini Flash access", "Basic Gemini app", "15GB Google storage", "Standard response speed"] },
+      { name: "Advanced", price: "$20/mo", note: "Pro + 2TB storage", features: ["Gemini 2.5 Pro access", "2TB Google storage", "Gemini in Gmail + Docs", "NotebookLM access", "Priority response"] },
+      { name: "AI Pro", price: "$200/mo", note: "Highest limits", features: ["Highest Gemini limits", "Veo 3 video generation", "Whisk image tools", "Advanced Deep Research", "Priority GPU access"] },
     ],
     pros: [
       "Massive 1M context",

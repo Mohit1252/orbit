@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Star,
   Plus,
@@ -73,6 +74,7 @@ function DetailBody({
   const a = accentClasses[tool.accent];
   const openDetail = useOrbitStore((s) => s.openDetail);
   const similar = getSimilarTools(tool, 3);
+  const [selectedTier, setSelectedTier] = useState(0);
 
   return (
     <div className="max-h-[90vh] overflow-y-auto">
@@ -164,13 +166,15 @@ function DetailBody({
           <h3 className="font-display text-sm font-bold uppercase tracking-wider text-muted-foreground">
             Pricing tiers
           </h3>
+          <p className="mt-0.5 text-[10px] text-muted-foreground/70">Tap a tier to see what&apos;s included</p>
           <div className="mt-3 grid gap-2 sm:grid-cols-3">
             {tool.pricing.map((p, i) => (
-              <div
+              <button
                 key={p.name}
+                onClick={() => setSelectedTier(i)}
                 className={cn(
-                  "rounded-lg border bg-ink/30 p-3",
-                  i === 0 ? cn(a.border) : "border-border"
+                  "rounded-lg border bg-ink/30 p-3 text-left transition-all hover:-translate-y-0.5",
+                  selectedTier === i ? cn(a.border, "ring-2 ring-aurora/30") : i === 0 ? cn(a.border) : "border-border"
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -180,11 +184,46 @@ function DetailBody({
                       Best value
                     </span>
                   )}
+                  {selectedTier === i && (
+                    <span className={cn("inline-flex h-4 w-4 items-center justify-center rounded-full border", a.border, a.bgSoft, a.text)}>
+                      <Check className="h-2.5 w-2.5" />
+                    </span>
+                  )}
                 </div>
                 <div className="mt-1 font-display text-lg font-bold">{p.price}</div>
                 <p className="mt-0.5 text-[11px] leading-tight text-muted-foreground">{p.note}</p>
-              </div>
+              </button>
             ))}
+          </div>
+
+          {/* Selected tier detail — full information */}
+          <div className={cn("mt-3 rounded-lg border p-4", a.border, a.bgSoft)}>
+            <div className="flex items-center justify-between">
+              <h4 className="font-display text-base font-bold">
+                {tool.pricing[selectedTier].name} — {tool.pricing[selectedTier].price}
+              </h4>
+              <a
+                href={`https://${tool.website}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className={cn("inline-flex h-7 items-center gap-1 rounded-md border px-2.5 text-[11px] font-semibold text-primary-foreground transition-all hover:-translate-y-0.5", a.border, a.bg)}
+              >
+                <ExternalLink className="h-3 w-3" />
+                Get {tool.pricing[selectedTier].name}
+              </a>
+            </div>
+            <p className="mt-1.5 text-xs text-foreground/90">{tool.pricing[selectedTier].note}</p>
+            {tool.pricing[selectedTier].features && tool.pricing[selectedTier].features!.length > 0 && (
+              <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
+                {tool.pricing[selectedTier].features!.map((f) => (
+                  <li key={f} className="flex items-start gap-1.5 text-[11px] text-foreground/90">
+                    <Check className={cn("mt-0.5 h-3 w-3 shrink-0", a.text)} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 
