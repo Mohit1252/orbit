@@ -79,7 +79,7 @@ function DetailBody({
       {/* header banner */}
       <div className={cn("relative z-20 overflow-hidden border-b border-border p-6", a.bgSoft)}>
         <div className={cn("absolute inset-x-0 top-0 h-1", a.bg)} />
-        {/* decorative orbit */}
+        {/* decorative My AI Picker */}
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full border border-white/5 animate-spin-slow">
           <span className={cn("absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full", a.bg)} />
         </div>

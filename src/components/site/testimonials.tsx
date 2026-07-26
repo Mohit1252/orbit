@@ -14,7 +14,7 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     quote:
-      "ORBIT cut my AI research from 3 hours to 5 minutes. Found a voice tool I'd never heard of that was perfect.",
+      "My AI Picker cut my AI research from 3 hours to 5 minutes. Found a voice tool I'd never heard of that was perfect.",
     name: "Maya Chen",
     role: "Podcast producer",
     accent: "aurora",
@@ -42,7 +42,7 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "I track AI launches for a living. ORBIT's trending section catches things I miss. It's now my morning check.",
+      "I track AI launches for a living. My AI Picker's trending section catches things I miss. It's now my morning check.",
     name: "Aisha Okonkwo",
     role: "AI newsletter writer",
     accent: "coral",

@@ -20,9 +20,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "ORBIT — Find the right AI tool for any mission",
+  title: "My AI Picker — Find the right AI tool for any mission",
   description:
-    "ORBIT is the AI tool universe. Compare 500+ AI models by task, budget and capability — writing, coding, images, video, voice, data and agents. Find your perfect match in seconds.",
+    "My AI Picker is the AI tool universe. Compare 500+ AI models by task, budget and capability — writing, coding, images, video, voice, data and agents. Find your perfect match in seconds.",
   keywords: [
     "AI tools",
     "compare AI",
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     "Midjourney",
     "AI directory",
   ],
-  authors: [{ name: "ORBIT" }],
+  authors: [{ name: "My AI Picker" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/logo-myaipicker.png",
   },
   openGraph: {
-    title: "ORBIT — Find the right AI tool for any mission",
+    title: "My AI Picker — Find the right AI tool for any mission",
     description:
       "Compare 80+ AI models by task, budget and capability. Your shortcut to the right AI.",
     siteName: "My AI Picker",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ORBIT — Find the right AI tool for any mission",
+    title: "My AI Picker — Find the right AI tool for any mission",
     description:
       "Compare 500+ AI models by task, budget and capability. Your shortcut to the right AI.",
   },

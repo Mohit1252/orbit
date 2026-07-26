@@ -13,7 +13,7 @@ export function CTA() {
         transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl border border-aurora/30 bg-gradient-to-br from-aurora/12 via-card to-card p-8 block-shadow-aurora sm:p-12"
       >
-        {/* decorative orbit */}
+        {/* decorative My AI Picker */}
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-aurora/20 animate-spin-slow">
           <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-aurora shadow-[0_0_12px_2px_rgba(52,211,153,0.7)]" />
         </div>
@@ -29,7 +29,7 @@ export function CTA() {
           </h2>
           <p className="mt-3 text-muted-foreground text-balance">
             Join 60,000+ builders, writers and founders who skip the research
-            rabbit hole and ship faster with ORBIT.
+            rabbit hole and ship faster with My AI Picker.
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">

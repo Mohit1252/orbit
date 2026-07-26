@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Rocket, Sparkles, Heart } from "lucide-react";
+import { Menu, X, Sparkles, Heart, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useOrbitStore } from "@/lib/orbit-store";
@@ -33,17 +33,19 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-ink/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
+        {/* Logo — My AI Picker */}
         <a href="#top" className="group flex items-center gap-2.5">
-          <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-aurora/40 bg-aurora/10 block-shadow-aurora">
-            <Rocket className="h-4.5 w-4.5 text-aurora" strokeWidth={2.4} />
+          <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-aurora/40 bg-aurora/10 block-shadow-aurora">
+            {/* Use generated logo image */}
+            <img
+              src="/logo-myaipicker.png"
+              alt="My AI Picker logo"
+              className="h-full w-full object-cover"
+            />
             <span className="absolute inset-0 rounded-lg ring-1 ring-inset ring-aurora/20" />
           </span>
           <span className="font-display text-lg font-bold tracking-tight">
-            ORBIT
-            <span className="ml-1 align-super text-[10px] font-semibold text-aurora">
-              ◦
-            </span>
+            My AI Picker
           </span>
         </a>
 
@@ -84,20 +86,12 @@ export function Navbar() {
             )}
           </button>
           <Button
-            variant="ghost"
             size="sm"
             onClick={() => openQuiz()}
-            className="gap-1.5 text-muted-foreground hover:text-aurora"
-          >
-            <Sparkles className="h-4 w-4" />
-            Find my tool
-          </Button>
-          <Button
-            size="sm"
             className="h-9 gap-1.5 border border-aurora/40 bg-aurora text-primary-foreground hover:bg-aurora-soft block-shadow-aurora"
           >
             <Sparkles className="h-4 w-4" />
-            Submit a tool
+            Find my AI tool
           </Button>
         </div>
 
@@ -151,10 +145,14 @@ export function Navbar() {
           ))}
           <Button
             size="sm"
+            onClick={() => {
+              openQuiz();
+              setOpen(false);
+            }}
             className="mt-2 gap-1.5 border border-aurora/40 bg-aurora text-primary-foreground hover:bg-aurora-soft"
           >
             <Sparkles className="h-4 w-4" />
-            Submit a tool
+            Find my AI tool
           </Button>
         </nav>
       </div>

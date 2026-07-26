@@ -38,7 +38,7 @@ export function HowItWorks() {
       <SectionHeading
         eyebrow="The flow"
         title="From question to tool in three moves"
-        description="No more 20-tab research sessions. ORBIT compresses the discovery loop into a clear, fast path."
+        description="No more 20-tab research sessions. My AI Picker compresses the discovery loop into a clear, fast path."
         align="center"
       />
 

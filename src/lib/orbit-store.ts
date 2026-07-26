@@ -71,8 +71,8 @@ interface OrbitState {
 }
 
 const MAX_COMPARE = 3;
-const FAVES_KEY = "orbit:favorites";
-const RECENT_KEY = "orbit:recently-viewed";
+const FAVES_KEY = "My AI Picker:favorites";
+const RECENT_KEY = "My AI Picker:recently-viewed";
 const MAX_RECENT = 6;
 
 /** Load favorites from localStorage (safe for SSR). */

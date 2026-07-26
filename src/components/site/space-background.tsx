@@ -34,7 +34,7 @@ function mulberry32(seed: number) {
  *  - subtle grid
  *  - twinkling stars (deterministic — same on server & client)
  *  - drifting aurora/nebula/star orbs
- *  - a faint orbit ring
+ *  - a faint My AI Picker ring
  *
  * Uses a seeded PRNG (mulberry32) instead of Math.random() so that
  * the star field is identical on the server and the client, preventing
@@ -75,7 +75,7 @@ export function SpaceBackground() {
       {/* star orb */}
       <div className="absolute bottom-0 -left-40 h-[30rem] w-[30rem] rounded-full bg-star/8 blur-[120px] animate-float-slow" />
 
-      {/* faint orbit ring near top */}
+      {/* faint My AI Picker ring near top */}
       <div className="absolute left-1/2 top-[-18rem] h-[44rem] w-[44rem] -translate-x-1/2 rounded-full border border-white/5 animate-spin-slow">
         <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-aurora shadow-[0_0_12px_2px_rgba(52,211,153,0.7)]" />
       </div>

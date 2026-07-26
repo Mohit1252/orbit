@@ -104,7 +104,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="mt-6 max-w-xl text-base text-muted-foreground text-balance sm:text-lg"
           >
-            The AI universe is crowded. ORBIT compares every model by what it can
+            The AI universe is crowded. My AI Picker compares every model by what it can
             actually do, your budget and your task — so you land on the perfect
             tool in seconds, not hours.
           </motion.p>
@@ -177,7 +177,7 @@ export function Hero() {
           </motion.dl>
         </div>
 
-        {/* RIGHT — orbit visual */}
+        {/* RIGHT — My AI Picker visual */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -194,7 +194,7 @@ export function Hero() {
 function OrbitVisual({ onLaunch }: { onLaunch: () => void }) {
   return (
     <div className="relative h-full w-full">
-      {/* orbit rings */}
+      {/* My AI Picker rings */}
       <div className="absolute inset-[8%] rounded-full border border-white/[0.06] animate-spin-slow" />
       <div className="absolute inset-[2%] rounded-full border border-white/[0.04]" />
       <div className="absolute inset-[20%] rounded-full border border-dashed border-white/[0.05] animate-spin-reverse-slow" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Rocket, Github, Twitter, Linkedin, Send } from "lucide-react";
+import { Github, Twitter, Linkedin, Send, Sparkles } from "lucide-react";
 import { useOrbitStore } from "@/lib/orbit-store";
 
 /** Category-filter links that actually work (set filter + scroll to tools). */
@@ -26,6 +26,7 @@ const compareLinks = [
 
 export function Footer() {
   const setBudget = useOrbitStore((s) => s.setBudget);
+  const openQuiz = useOrbitStore((s) => s.openQuiz);
 
   const clickFilter = (task: string) => {
     useOrbitStore.setState({ activeTasks: [task] });
@@ -77,16 +78,20 @@ export function Footer() {
         <div className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
             <a href="#top" className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-lg border border-aurora/40 bg-aurora/10">
-                <Rocket className="h-4.5 w-4.5 text-aurora" strokeWidth={2.4} />
+              <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-aurora/40 bg-aurora/10">
+                <img
+                  src="/logo-myaipicker.png"
+                  alt="My AI Picker logo"
+                  className="h-full w-full object-cover"
+                />
               </span>
               <span className="font-display text-lg font-bold tracking-tight">
-                ORBIT
+                My AI Picker
               </span>
             </a>
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              The AI tool universe. Compare every model by task, budget and
-              capability — find your perfect match in seconds.
+              Compare 80+ AI models by task, budget and real benchmarks — find
+              your perfect AI match in seconds.
             </p>
             <div className="mt-4 flex items-center gap-2">
               {[Twitter, Github, Linkedin].map((Icon, i) => (
@@ -152,9 +157,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#top" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Submit a tool
-                </a>
+                <button
+                  onClick={() => openQuiz()}
+                  className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <Sparkles className="h-3 w-3 text-aurora" />
+                  Find my AI tool
+                </button>
               </li>
             </ul>
           </div>
@@ -163,7 +172,7 @@ export function Footer() {
         {/* bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © 2026 ORBIT. Navigating the AI universe.
+            © 2026 My AI Picker. Find the right AI, every time.
           </p>
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-aurora" />

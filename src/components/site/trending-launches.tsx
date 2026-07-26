@@ -29,7 +29,7 @@ export function TrendingLaunches() {
         <SectionHeading
           eyebrow="Fresh launches"
           title="Trending in the universe"
-          description="The newest AI tools to land on ORBIT, sorted by launch date. Swipe through to catch up."
+          description="The newest AI tools to land on My AI Picker, sorted by launch date. Swipe through to catch up."
         />
         <div className="flex items-center gap-2">
           <button
