@@ -10,6 +10,8 @@ const navLinks = [
   { label: "Explore", href: "#explore" },
   { label: "Categories", href: "#categories" },
   { label: "Compare", href: "#compare" },
+  { label: "Leaderboard", href: "/leaderboard" },
+  { label: "Blog", href: "/blog" },
   { label: "How it works", href: "#how" },
 ];
 
