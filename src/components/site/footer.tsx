@@ -163,6 +163,16 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/how-we-score" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  How we score
+                </a>
+              </li>
+              <li>
+                <a href="/blog" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Blog
+                </a>
+              </li>
+              <li>
                 <button
                   onClick={() => openQuiz()}
                   className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"

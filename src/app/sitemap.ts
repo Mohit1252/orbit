@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { tools, categories } from "@/lib/ai-data";
+import { blogArticles } from "@/lib/blog-data";
 
 /**
  * Sitemap — auto-generated.
@@ -32,7 +33,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${SITE_URL}/how-we-score`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
   ];
+
+  // 1b. Blog articles
+  for (const a of blogArticles) {
+    routes.push({
+      url: `${SITE_URL}/blog/${a.slug}`,
+      lastModified: new Date(a.date),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
 
   // 2. Tool detail pages (80 pages)
   for (const t of tools) {

@@ -189,6 +189,18 @@ export interface AiTool {
   needs_review?: boolean;
   /** API pricing from OpenRouter (per million tokens) */
   api_pricing?: { prompt_per_million: number | null; completion_per_million: number | null };
+  /** Raw benchmark scores for LLMs (from public leaderboards) */
+  benchmarks?: {
+    mmlu?: number;        // Massive Multitask Language Understanding (%)
+    humaneval?: number;   // Code generation (%)
+    swe_bench?: number;   // Software engineering (%)
+    gsm8k?: number;       // Grade-school math (%)
+    gpqa?: number;        // Graduate-level QA (%)
+    ifeval?: number;      // Instruction following (%)
+    lmarena_elo?: number; // LMArena Chatbot Arena ELO score
+  };
+  /** Affiliate tracking URL (when available, replaces plain website link) */
+  affiliateUrl?: string;
 }
 
 /** Canonical capability/spec keys rendered in the compare + detail views. */
@@ -251,6 +263,7 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "chat.openai.com",
+    benchmarks: { mmlu: 88.7, humaneval: 90.2, swe_bench: 33.2, gsm8k: 95.8, gpqa: 53.6, ifeval: 85.6, lmarena_elo: 1287 },
     models: [
       { name: "GPT-4o", context: "128K", price: "Free · $20/mo", note: "Multimodal flagship" },
       { name: "GPT-4o mini", context: "128K", price: "Free", note: "Fast + cheap default", spec: { imageGen: false } },
@@ -303,6 +316,7 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "claude.ai",
+    benchmarks: { mmlu: 89.3, humaneval: 93.7, swe_bench: 49.0, gsm8k: 96.4, gpqa: 59.4, ifeval: 89.3, lmarena_elo: 1271 },
     models: [
       { name: "Claude Opus 4.1", context: "200K", price: "$20/mo", note: "Top reasoning + coding" },
       { name: "Claude Sonnet 4.5", context: "200K", price: "Free · $20/mo", note: "Balanced default" },
@@ -523,6 +537,7 @@ export const tools: AiTool[] = [
       price: "Free · $20/mo",
     },
     website: "gemini.google.com",
+    benchmarks: { mmlu: 90.0, humaneval: 88.4, swe_bench: 36.1, gsm8k: 95.8, gpqa: 62.2, ifeval: 84.1, lmarena_elo: 1301 },
     models: [
       { name: "Gemini 2.5 Pro", context: "1M", price: "$20/mo", note: "Frontier + huge context" },
       { name: "Gemini 2.5 Flash", context: "1M", price: "Free", note: "Fast + cheap" },
@@ -815,6 +830,7 @@ export const tools: AiTool[] = [
       price: "Free / open",
     },
     website: "deepseek.com",
+    benchmarks: { mmlu: 88.5, humaneval: 82.6, swe_bench: 38.8, gsm8k: 97.3, gpqa: 51.1, ifeval: 78.3, lmarena_elo: 1257 },
   },
   {
     id: "notion-ai",
@@ -932,6 +948,7 @@ export const tools: AiTool[] = [
       price: "Free · $30/mo",
     },
     website: "x.ai/grok",
+    benchmarks: { mmlu: 86.0, humaneval: 85.0, swe_bench: 30.0, gsm8k: 94.0, gpqa: 48.0, lmarena_elo: 1268 },
     models: [
       { name: "Grok 4", context: "256K", price: "$30/mo", note: "Frontier reasoning" },
       { name: "Grok 4 Fast", context: "256K", price: "$30/mo", note: "Fast + cheap" },
@@ -1011,6 +1028,7 @@ export const tools: AiTool[] = [
       price: "Free / open",
     },
     website: "llama.com",
+    benchmarks: { mmlu: 86.0, humaneval: 81.0, swe_bench: 28.0, gsm8k: 94.0, gpqa: 45.0, lmarena_elo: 1228 },
     models: [
       { name: "Llama 4 Maverick", context: "1M", price: "Free", note: "Balanced open model" },
       { name: "Llama 4 Scout", context: "10M", price: "Free", note: "Efficient, runs locally" },
@@ -1054,6 +1072,7 @@ export const tools: AiTool[] = [
       price: "Free · $2/M tok",
     },
     website: "mistral.ai",
+    benchmarks: { mmlu: 81.0, humaneval: 81.0, swe_bench: 24.0, gsm8k: 90.0, gpqa: 38.0, lmarena_elo: 1215 },
     models: [
       { name: "Mistral Large 2", context: "128K", price: "$2/M tok", note: "Frontier flagship" },
       { name: "Mixtral 8x22B", context: "64K", price: "Free / open", note: "MoE open weights" },
@@ -2268,6 +2287,7 @@ export const tools: AiTool[] = [
       price: "Free / open",
     },
     website: "huggingface.co/microsoft/phi-4",
+    benchmarks: { mmlu: 79.0, humaneval: 76.0, gsm8k: 88.0, gpqa: 35.0, lmarena_elo: 1185 },
   },
   {
     id: "falcon",
@@ -2652,6 +2672,7 @@ export const tools: AiTool[] = [
       price: "Free · ¥2/M",
     },
     website: "chatglm.cn",
+    benchmarks: { mmlu: 84.0, humaneval: 78.0, gsm8k: 92.0, gpqa: 42.0, lmarena_elo: 1205 },
     models: [
       { name: "GLM-4-Plus", context: "128K", price: "¥2/M", note: "Frontier closed model" },
       { name: "GLM-4-Air", context: "128K", price: "¥0.5/M", note: "Cheap + fast" },
@@ -2694,6 +2715,7 @@ export const tools: AiTool[] = [
       price: "Free · ¥4/M",
     },
     website: "tongyi.aliyun.com",
+    benchmarks: { mmlu: 85.0, humaneval: 80.0, gsm8k: 93.0, gpqa: 44.0, lmarena_elo: 1220 },
   },
   {
     id: "chatglm",

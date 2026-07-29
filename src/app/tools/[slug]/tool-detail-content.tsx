@@ -229,6 +229,39 @@ export function ToolDetailContent({
               </div>
             </section>
 
+            {/* Raw Benchmark Data (LLMs only) */}
+            {tool.benchmarks && (
+              <section>
+                <h2 className="font-display text-xl font-bold tracking-tight">Technical Benchmarks</h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Raw scores from public leaderboards (LMArena, OpenAI, Anthropic). Higher is better.
+                </p>
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {tool.benchmarks.mmlu !== undefined && (
+                    <BenchmarkCard label="MMLU" value={tool.benchmarks.mmlu} max={100} unit="%" accent={a.text} desc="Language Understanding" />
+                  )}
+                  {tool.benchmarks.humaneval !== undefined && (
+                    <BenchmarkCard label="HumanEval" value={tool.benchmarks.humaneval} max={100} unit="%" accent={a.text} desc="Code Generation" />
+                  )}
+                  {tool.benchmarks.swe_bench !== undefined && (
+                    <BenchmarkCard label="SWE-bench" value={tool.benchmarks.swe_bench} max={100} unit="%" accent={a.text} desc="Software Engineering" />
+                  )}
+                  {tool.benchmarks.gsm8k !== undefined && (
+                    <BenchmarkCard label="GSM8K" value={tool.benchmarks.gsm8k} max={100} unit="%" accent={a.text} desc="Math Reasoning" />
+                  )}
+                  {tool.benchmarks.gpqa !== undefined && (
+                    <BenchmarkCard label="GPQA" value={tool.benchmarks.gpqa} max={100} unit="%" accent={a.text} desc="Graduate QA" />
+                  )}
+                  {tool.benchmarks.ifeval !== undefined && (
+                    <BenchmarkCard label="IFEval" value={tool.benchmarks.ifeval} max={100} unit="%" accent={a.text} desc="Instruction Following" />
+                  )}
+                  {tool.benchmarks.lmarena_elo !== undefined && (
+                    <BenchmarkCard label="LMArena ELO" value={tool.benchmarks.lmarena_elo} max={1400} unit="" accent={a.text} desc="Chatbot Arena" />
+                  )}
+                </div>
+              </section>
+            )}
+
             {/* Pros & Cons */}
             <section className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-aurora/20 bg-aurora/[0.04] p-5">
@@ -347,6 +380,39 @@ export function ToolDetailContent({
           </div>
         </section>
       </div>
+    </div>
+  );
+}
+
+/** Benchmark score card — shows a single benchmark with a progress bar */
+function BenchmarkCard({
+  label,
+  value,
+  max,
+  unit,
+  accent,
+  desc,
+}: {
+  label: string;
+  value: number;
+  max: number;
+  unit: string;
+  accent: string;
+  desc: string;
+}) {
+  const pct = Math.round((value / max) * 100);
+  return (
+    <div className="rounded-lg border border-border bg-card p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold text-foreground">{label}</span>
+        <span className={cn("font-display text-lg font-bold", accent)}>
+          {value}{unit}
+        </span>
+      </div>
+      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full border border-border bg-ink/60">
+        <div className={cn("h-full rounded-full", accent.replace("text-", "bg-"))} style={{ width: `${pct}%` }} />
+      </div>
+      <p className="mt-1 text-[10px] text-muted-foreground">{desc}</p>
     </div>
   );
 }
