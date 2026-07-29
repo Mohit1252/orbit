@@ -12,7 +12,7 @@ const exploreLinks = [
   { label: "All tools", href: "#tools" },
   { label: "Categories", href: "#categories" },
   { label: "Trending", href: "#top" }, // trending section has no id; scroll top then it's right after categories
-  { label: "Compare deck", href: "#compare" },
+  { label: "Compare deck", href: "/compare" },
   { label: "How it works", href: "#how" },
 ];
 

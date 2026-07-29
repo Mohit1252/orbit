@@ -34,7 +34,6 @@ export default function Home() {
         <Categories />
         <TrendingLaunches />
         <FeaturedTools />
-        <Comparison />
         <div className="py-8">
           <Stats />
         </div>

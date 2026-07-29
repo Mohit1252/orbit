@@ -426,7 +426,7 @@ export function Comparison() {
                   weighted to your chosen use-case.
                 </p>
                 <a
-                  href="#tools"
+                  href="/#tools"
                   className="inline-flex h-9 items-center justify-center gap-1.5 self-start rounded-lg border border-aurora/50 bg-aurora px-4 text-xs font-semibold text-primary-foreground block-shadow-aurora hover:bg-aurora-soft sm:self-auto"
                 >
                   <Plus className="h-3.5 w-3.5" />
@@ -529,7 +529,7 @@ function EmptyCompare() {
         any tool. They&apos;ll line up here side-by-side.
       </p>
       <a
-        href="#tools"
+        href="/#tools"
         className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-aurora/50 bg-aurora px-5 text-sm font-semibold text-primary-foreground block-shadow-aurora transition-all hover:bg-aurora-soft"
       >
         <Plus className="h-4 w-4" />
