@@ -7,7 +7,7 @@ import { accentClasses } from "@/components/site/block";
 import { cn } from "@/lib/utils";
 import { Trophy, ArrowRight, List, BarChart3, ChevronDown } from "lucide-react";
 
-type SortKey = "lmarena_elo" | "mmlu" | "humaneval" | "swe_bench" | "gsm8k" | "price";
+type SortKey = "lmarena_elo" | "mmlu" | "humaneval" | "swe_bench" | "gsm8k" | "price" | "value";
 
 const sortOptions: { key: SortKey; label: string; max: number; unit: string }[] = [
   { key: "lmarena_elo", label: "LMArena ELO", max: 1400, unit: "" },
@@ -16,6 +16,7 @@ const sortOptions: { key: SortKey; label: string; max: number; unit: string }[] 
   { key: "swe_bench", label: "SWE-bench (SE)", max: 100, unit: "%" },
   { key: "gsm8k", label: "GSM8K (Math)", max: 100, unit: "%" },
   { key: "price", label: "Price (cheapest first)", max: 0, unit: "" },
+  { key: "value", label: "💰 Value Score", max: 0, unit: "" },
 ];
 
 export function LeaderboardContent() {
@@ -29,6 +30,16 @@ export function LeaderboardContent() {
         const pa = a.api_pricing?.prompt_per_million ?? 999;
         const pb = b.api_pricing?.prompt_per_million ?? 999;
         return pa - pb;
+      }
+      if (sortBy === "value") {
+        // Value Score = ELO / Price per M tokens (higher = better value)
+        const calcValue = (t: typeof a) => {
+          const elo = t.benchmarks?.lmarena_elo || 0;
+          const price = t.api_pricing?.prompt_per_million ?? 0;
+          if (price === 0) return elo / 0.01; // Free models get best value
+          return elo / price;
+        };
+        return calcValue(b) - calcValue(a);
       }
       return (b.benchmarks![sortBy] || 0) - (a.benchmarks![sortBy] || 0);
     });
@@ -124,8 +135,26 @@ export function LeaderboardContent() {
             <div>
               {ranked.map((t, idx) => {
                 const a = accentClasses[t.accent];
-                const score = sortBy === "price" ? (t.api_pricing?.prompt_per_million ?? 0) : (t.benchmarks![sortBy] || 0);
-                const scorePct = sortBy === "price" ? 100 : Math.round((score / currentSort.max) * 100);
+                let score: number;
+                let scorePct: number;
+                let scoreDisplay: string;
+
+                if (sortBy === "price") {
+                  score = t.api_pricing?.prompt_per_million ?? 999;
+                  scorePct = 100;
+                  scoreDisplay = score === 999 ? "—" : `$${score}`;
+                } else if (sortBy === "value") {
+                  const elo = t.benchmarks?.lmarena_elo || 0;
+                  const price = t.api_pricing?.prompt_per_million ?? 0;
+                  score = price === 0 ? elo / 0.01 : elo / price;
+                  scorePct = Math.min(100, Math.round((score / 200) * 100));
+                  scoreDisplay = Math.round(score).toString();
+                } else {
+                  score = t.benchmarks![sortBy] || 0;
+                  scorePct = Math.round((score / currentSort.max) * 100);
+                  scoreDisplay = `${score}${currentSort.unit}`;
+                }
+
                 const isTop3 = idx < 3;
                 const priceStr = t.api_pricing?.prompt_per_million
                   ? `$${t.api_pricing.prompt_per_million}`
@@ -164,7 +193,7 @@ export function LeaderboardContent() {
                     <div className="hidden text-right text-xs font-semibold text-muted-foreground sm:block">{priceStr}</div>
                     <div className="text-right">
                       <span className={cn("font-display text-base font-bold", a.text)}>
-                        {sortBy === "price" ? (score > 0 ? `$${score}` : "Free") : `${score}${currentSort.unit}`}
+                        {scoreDisplay}
                       </span>
                     </div>
                   </Link>

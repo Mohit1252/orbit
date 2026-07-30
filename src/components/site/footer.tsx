@@ -11,8 +11,9 @@ function filterLink(label: string, task: string) {
 const exploreLinks = [
   { label: "All tools", href: "#tools" },
   { label: "Categories", href: "#categories" },
-  { label: "Trending", href: "#top" }, // trending section has no id; scroll top then it's right after categories
+  { label: "Trending", href: "#top" },
   { label: "Compare deck", href: "/compare" },
+  { label: "🏆 Best AI 2026", href: "/best-ai-tools-2026" },
   { label: "How it works", href: "#how" },
 ];
 
