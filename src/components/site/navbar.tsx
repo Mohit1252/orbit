@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useOrbitStore } from "@/lib/orbit-store";
 
 const navLinks = [
-  { label: "Explore", href: "#explore" },
+  { label: "Tools", href: "#tools" },
   { label: "Categories", href: "#categories" },
   { label: "Compare", href: "/compare" },
   { label: "Leaderboard", href: "/leaderboard" },
