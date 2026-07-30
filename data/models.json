@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-07-29T08:51:36.014Z",
+    "last_sync": "2026-07-30T08:41:36.697Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -209,11 +209,11 @@
         "deepseek/deepseek-r1"
       ],
       "auto_update": true,
-      "last_updated": "2026-07-26T06:01:34.729Z",
+      "last_updated": "2026-07-30T08:41:36.697Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.2,
-        "completion_per_million": 0.8
+        "prompt_per_million": 0.26,
+        "completion_per_million": 1.03
       },
       "context_length": "164K",
       "openrouter_models": [
@@ -222,8 +222,8 @@
           "name": "DeepSeek: DeepSeek V3",
           "context": "164K",
           "context_tokens": 163840,
-          "prompt_per_million": 0.2,
-          "completion_per_million": 0.8
+          "prompt_per_million": 0.26,
+          "completion_per_million": 1.03
         },
         {
           "id": "deepseek/deepseek-r1",
@@ -256,11 +256,11 @@
         "qwen/qwen-2.5-7b-instruct"
       ],
       "auto_update": true,
-      "last_updated": "2026-07-26T06:01:34.729Z",
+      "last_updated": "2026-07-30T08:41:36.697Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.04,
-        "completion_per_million": 0.1
+        "prompt_per_million": 0.1,
+        "completion_per_million": 0.2
       },
       "context_length": "33K",
       "openrouter_models": [
@@ -277,8 +277,8 @@
           "name": "Qwen: Qwen2.5 7B Instruct",
           "context": "33K",
           "context_tokens": 32768,
-          "prompt_per_million": 0.04,
-          "completion_per_million": 0.1
+          "prompt_per_million": 0.1,
+          "completion_per_million": 0.2
         }
       ]
     },
