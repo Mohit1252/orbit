@@ -378,7 +378,101 @@
   .animate-spin-slow,
   .animate-spin-reverse-slow,
   .animate-pulse-ring,
-  .animate-drift {
+  .animate-drift,
+  .blackhole-disk,
+  .blackhole-disk-reverse,
+  .blackhole-core-pulse {
     animation: none;
   }
 }
+
+/* ============================================================
+   BLACK HOLE — Interstellar Gargantua style
+   Accretion disk that rotates around a dark event horizon.
+   ============================================================ */
+
+@keyframes blackhole-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blackhole-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes blackhole-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* The accretion disk — bright rotating ring */
+.blackhole-disk {
+  animation: blackhole-spin 20s linear infinite;
+}
+
+/* Secondary disk — rotates opposite direction */
+.blackhole-disk-reverse {
+  animation: blackhole-spin-reverse 30s linear infinite;
+}
+
+/* The event horizon — subtle pulsing dark center */
+.blackhole-core-pulse {
+  animation: blackhole-pulse 4s ease-in-out infinite;
+}
+
+/* The accretion disk gradient — amber/orange glow like Interstellar */
+.blackhole-disk-gradient {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.15) 10%,
+    rgba(251, 146, 60, 0.4) 25%,
+    rgba(252, 211, 77, 0.6) 40%,
+    rgba(251, 191, 36, 0.4) 55%,
+    rgba(244, 114, 182, 0.2) 70%,
+    rgba(52, 211, 153, 0.3) 85%,
+    transparent 100%
+  );
+}
+
+/* Inner disk — hotter, brighter */
+.blackhole-disk-inner {
+  background: conic-gradient(
+    from 180deg,
+    transparent 0%,
+    rgba(252, 211, 77, 0.3) 15%,
+    rgba(251, 146, 60, 0.5) 30%,
+    rgba(254, 240, 138, 0.6) 45%,
+    rgba(251, 146, 60, 0.5) 60%,
+    rgba(252, 211, 77, 0.3) 75%,
+    transparent 100%
+  );
+}
+
+/* Gravitational lensing ring — the bright edge around the black hole */
+.blackhole-lensing {
+  background: radial-gradient(
+    circle,
+    transparent 40%,
+    rgba(252, 211, 77, 0.15) 45%,
+    rgba(251, 146, 60, 0.3) 48%,
+    rgba(252, 211, 77, 0.15) 52%,
+    transparent 55%
+  );
+}
+
