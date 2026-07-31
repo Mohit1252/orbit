@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Sparkles, Heart, Image as ImageIcon } from "lucide-react";
+import { Menu, X, Sparkles, Heart, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useOrbitStore } from "@/lib/orbit-store";
 
+// Regular nav links (no dropdown)
 const navLinks = [
-  { label: "AI Tools", href: "#tools" },
   { label: "Categories", href: "#categories" },
   { label: "Compare", href: "/compare" },
   { label: "Leaderboard", href: "/leaderboard" },
@@ -15,8 +15,21 @@ const navLinks = [
   { label: "How it works", href: "#how" },
 ];
 
+// AI Tools dropdown sub-headings (keywords bhai dega, yahan add hote rahenge)
+const aiToolsDropdown = [
+  { label: "AI Resume Writer", href: "/tools/jasper", description: "Build ATS-friendly resumes with AI", emoji: "📄" },
+  { label: "AI Coding Tools", href: "/best/coding", description: "Cursor, Copilot, Claude Code & more", emoji: "⌨️" },
+  { label: "AI Image Generators", href: "/best/images", description: "Midjourney, DALL·E, FLUX & more", emoji: "🎨" },
+  { label: "AI Writing Tools", href: "/best/writing", description: "ChatGPT, Claude, Jasper & more", emoji: "✍️" },
+  { label: "AI Video Generators", href: "/best/video", description: "Runway, Veo, Kling, Sora & more", emoji: "🎬" },
+  { label: "AI Voice & TTS", href: "/best/voice", description: "ElevenLabs, Murf, Play.ht & more", emoji: "🔊" },
+  { label: "Free AI Tools", href: "#tools", description: "No cost, no signup required", emoji: "🆓" },
+  { label: "All AI Tools", href: "#tools", description: "Browse 100+ tools", emoji: "📋" },
+];
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const favoriteCount = useOrbitStore((s) => s.favoriteIds.length);
   const toggleFavoritesOnly = useOrbitStore((s) => s.toggleFavoritesOnly);
   const favoritesOnly = useOrbitStore((s) => s.favoritesOnly);
@@ -24,7 +37,6 @@ export function Navbar() {
 
   const onFavClick = () => {
     toggleFavoritesOnly();
-    // scroll to tools if turning on
     if (!favoritesOnly) {
       setTimeout(() => {
         document.querySelector("#tools")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -38,7 +50,6 @@ export function Navbar() {
         {/* Logo — My AI Picker */}
         <a href="#top" className="group flex items-center gap-2.5">
           <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-aurora/40 bg-aurora/10 block-shadow-aurora">
-            {/* Use generated logo image */}
             <img
               src="/logo-myaipicker.png"
               alt="My AI Picker logo"
@@ -53,6 +64,56 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
+          {/* AI Tools Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button
+              className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              AI Tools
+              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", dropdownOpen && "rotate-180")} />
+            </button>
+
+            {/* Dropdown menu */}
+            {dropdownOpen && (
+              <div className="absolute left-0 top-full w-80 pt-1">
+                <div className="overflow-hidden rounded-xl border border-border bg-card/95 backdrop-blur-xl block-shadow-neutral">
+                  <div className="p-2">
+                    {aiToolsDropdown.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="group flex items-start gap-3 rounded-lg p-2.5 transition-colors hover:bg-ink/40"
+                      >
+                        <span className="text-xl">{item.emoji}</span>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-bold text-foreground group-hover:text-aurora">
+                            {item.label}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground">
+                            {item.description}
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                  <div className="border-t border-border bg-ink/40 p-2">
+                    <a
+                      href="/best-ai-tools-2026"
+                      className="flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-star hover:bg-star/10"
+                    >
+                      🏆 Best AI Tools 2026 — See Winners
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Regular nav links */}
           {navLinks.map((l) => (
             <a
               key={l.label}
@@ -131,10 +192,31 @@ export function Navbar() {
       <div
         className={cn(
           "overflow-hidden border-t border-border/60 bg-ink/95 backdrop-blur-xl transition-[max-height] duration-300 md:hidden",
-          open ? "max-h-96" : "max-h-0"
+          open ? "max-h-[600px]" : "max-h-0"
         )}
       >
         <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-3">
+          {/* AI Tools section in mobile */}
+          <div className="mb-2">
+            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              AI Tools
+            </span>
+            {aiToolsDropdown.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+              >
+                <span className="text-lg">{item.emoji}</span>
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="my-1 border-t border-border/60" />
+
+          {/* Regular links */}
           {navLinks.map((l) => (
             <a
               key={l.label}
