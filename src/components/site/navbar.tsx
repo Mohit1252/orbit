@@ -17,7 +17,7 @@ const navLinks = [
 
 // AI Tools dropdown sub-headings (keywords bhai dega, yahan add hote rahenge)
 const aiToolsDropdown = [
-  { label: "AI Resume Writer", href: "/tools/jasper", description: "Build ATS-friendly resumes with AI", emoji: "📄" },
+  { label: "AI Resume Writer", href: "/ai-resume-writer", description: "Free AI Powered Resume Builder — No signup", emoji: "📄" },
   { label: "AI Coding Tools", href: "/best/coding", description: "Cursor, Copilot, Claude Code & more", emoji: "⌨️" },
   { label: "AI Image Generators", href: "/best/images", description: "Midjourney, DALL·E, FLUX & more", emoji: "🎨" },
   { label: "AI Writing Tools", href: "/best/writing", description: "ChatGPT, Claude, Jasper & more", emoji: "✍️" },

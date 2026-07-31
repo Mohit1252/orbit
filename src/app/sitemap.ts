@@ -63,6 +63,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${SITE_URL}/ai-resume-writer`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
   ];
 
   // 1b. Blog articles
