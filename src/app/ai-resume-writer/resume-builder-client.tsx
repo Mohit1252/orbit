@@ -5,60 +5,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   User, Mail, Phone, MapPin, Briefcase, GraduationCap, Wrench,
   Sparkles, Download, Copy, Check, Loader2, FileText, Palette,
-  Wand2, Printer,
+  Wand2, Printer, Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Template designs — each has a full visual style
+// Template definitions — each has a DIFFERENT LAYOUT (not just colors)
 const templates = [
-  {
-    id: "modern-dark",
-    name: "Modern Dark",
-    description: "Sleek dark theme with accent",
-    headerBg: "bg-ink",
-    headerText: "text-white",
-    accentColor: "text-aurora",
-    accentBar: "bg-aurora",
-    bodyBg: "bg-card",
-    bodyText: "text-foreground",
-    sectionTitle: "text-aurora",
-  },
-  {
-    id: "professional",
-    name: "Professional",
-    description: "Clean white with blue accent",
-    headerBg: "bg-white",
-    headerText: "text-gray-900",
-    accentColor: "text-blue-600",
-    accentBar: "bg-blue-600",
-    bodyBg: "bg-white",
-    bodyText: "text-gray-800",
-    sectionTitle: "text-blue-600",
-  },
-  {
-    id: "creative",
-    name: "Creative",
-    description: "Bold sidebar with color blocks",
-    headerBg: "bg-gradient-to-r from-purple-900 to-pink-800",
-    headerText: "text-white",
-    accentColor: "text-pink-400",
-    accentBar: "bg-pink-500",
-    bodyBg: "bg-gray-50",
-    bodyText: "text-gray-800",
-    sectionTitle: "text-purple-700",
-  },
-  {
-    id: "minimal",
-    name: "Minimal",
-    description: "Ultra clean, lots of whitespace",
-    headerBg: "bg-white",
-    headerText: "text-gray-900",
-    accentColor: "text-gray-700",
-    accentBar: "bg-gray-800",
-    bodyBg: "bg-white",
-    bodyText: "text-gray-700",
-    sectionTitle: "text-gray-900",
-  },
+  { id: "classic-word", name: "Classic Word", emoji: "📝", desc: "Traditional single-column" },
+  { id: "modern-sidebar", name: "Modern Sidebar", emoji: "📊", desc: "Left sidebar + main content" },
+  { id: "executive", name: "Executive", emoji: "👔", desc: "Centered header + clean body" },
+  { id: "two-column", name: "Two Column", emoji: "📰", desc: "Split experience & skills" },
+  { id: "tech-modern", name: "Tech Modern", emoji: "💻", desc: "Dark header + code-style" },
+  { id: "creative-bold", name: "Creative Bold", emoji: "🎨", desc: "Color blocks + bold accents" },
 ];
 
 type GeneratedData = {
@@ -76,7 +34,7 @@ type GeneratedData = {
 
 export function ResumeBuilder() {
   const [step, setStep] = useState<"form" | "generating" | "result">("form");
-  const [templateId, setTemplateId] = useState("modern-dark");
+  const [templateId, setTemplateId] = useState("classic-word");
   const [tone, setTone] = useState("professional");
   const [result, setResult] = useState<GeneratedData | null>(null);
   const [copied, setCopied] = useState(false);
@@ -87,8 +45,6 @@ export function ResumeBuilder() {
     fullName: "", jobTitle: "", email: "", phone: "", location: "",
     summary: "", experience: "", education: "", skills: "", targetRole: "",
   });
-
-  const tpl = templates.find((t) => t.id === templateId)!;
 
   const handleGenerate = async () => {
     setStep("generating");
@@ -121,11 +77,11 @@ export function ResumeBuilder() {
           </span>
           <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">AI Powered Resume Builder</h1>
           <p className="mt-3 max-w-2xl text-base text-muted-foreground">
-            Create a professional, ATS-optimized resume and cover letter in seconds. Choose your design, fill in your details, and let AI do the rest. No signup required.
+            Choose from 6 professional templates (like MS Word), fill in your details, and AI builds a polished, ATS-optimized resume. No signup required.
           </p>
           <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
             <span>✅ 100% Free</span><span>✅ No Signup</span><span>✅ ATS-Optimized</span>
-            <span>✅ 4 Professional Templates</span><span>✅ PDF Export</span>
+            <span>✅ 6 Professional Templates</span><span>✅ PDF Export</span>
           </div>
         </div>
       </section>
@@ -135,33 +91,29 @@ export function ResumeBuilder() {
           {/* === FORM === */}
           {step === "form" && (
             <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
-              {/* Template Selector */}
+              {/* Template Selector — MS Office style grid */}
               <div>
-                <h2 className="flex items-center gap-2 font-display text-lg font-bold"><Palette className="h-5 w-5 text-aurora" /> Choose Your Resume Design</h2>
-                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <h2 className="flex items-center gap-2 font-display text-lg font-bold"><Palette className="h-5 w-5 text-aurora" /> Choose a Template</h2>
+                <p className="mt-1 text-xs text-muted-foreground">Pick a design — like choosing a Word template. Your data fills in automatically.</p>
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {templates.map((t) => (
                     <button key={t.id} onClick={() => setTemplateId(t.id)}
-                      className={cn("rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5",
-                        templateId === t.id ? "border-aurora/60 bg-aurora/10 ring-2 ring-aurora/30" : "border-border bg-card")}>
-                      {/* Mini preview */}
-                      <div className={cn("mb-3 overflow-hidden rounded-lg", t.headerBg)}>
-                        <div className="p-2">
-                          <div className={cn("h-2 w-3/4 rounded-full bg-current opacity-60", t.headerText)} />
-                          <div className="mt-1 h-1 w-1/2 rounded-full bg-current opacity-30" />
-                        </div>
-                        <div className={cn("flex gap-1 p-2", t.bodyBg)}>
-                          <div className="flex-1 space-y-1">
-                            <div className={cn("h-1.5 w-full rounded bg-current opacity-15", t.bodyText)} />
-                            <div className={cn("h-1.5 w-5/6 rounded bg-current opacity-15", t.bodyText)} />
-                          </div>
-                          <div className={cn("w-1/3 space-y-1")}>
-                            <div className={cn("h-1.5 w-full rounded", t.accentBar, "opacity-40")} />
-                            <div className={cn("h-1.5 w-full rounded bg-current opacity-15", t.bodyText)} />
-                          </div>
+                      className={cn("group rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5",
+                        templateId === t.id ? "border-aurora/60 bg-aurora/10 ring-2 ring-aurora/30" : "border-border bg-card hover:border-aurora/40")}>
+                      {/* Mini layout preview */}
+                      <TemplatePreview templateId={t.id} />
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-lg">{t.emoji}</span>
+                        <div>
+                          <div className="text-sm font-bold">{t.name}</div>
+                          <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                         </div>
                       </div>
-                      <div className="text-sm font-bold">{t.name}</div>
-                      <div className="text-[10px] text-muted-foreground">{t.description}</div>
+                      {templateId === t.id && (
+                        <div className="mt-1 flex items-center gap-1 text-[10px] font-bold text-aurora">
+                          <Check className="h-3 w-3" /> Selected
+                        </div>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -186,18 +138,18 @@ export function ResumeBuilder() {
                 <h2 className="flex items-center gap-2 font-display text-lg font-bold"><User className="h-5 w-5 text-aurora" /> Your Information</h2>
                 <p className="mt-1 text-xs text-muted-foreground">Fill in what you have. AI will enhance and fill gaps.</p>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <Field icon={User} label="Full Name" placeholder="John Doe" value={formData.fullName} onChange={(v) => setFormData({ ...formData, fullName: v })} />
-                  <Field icon={Briefcase} label="Job Title" placeholder="Software Engineer" value={formData.jobTitle} onChange={(v) => setFormData({ ...formData, jobTitle: v })} />
-                  <Field icon={Mail} label="Email" placeholder="john@example.com" value={formData.email} onChange={(v) => setFormData({ ...formData, email: v })} />
-                  <Field icon={Phone} label="Phone" placeholder="+1 234 567 890" value={formData.phone} onChange={(v) => setFormData({ ...formData, phone: v })} />
-                  <Field icon={MapPin} label="Location" placeholder="San Francisco, CA" value={formData.location} onChange={(v) => setFormData({ ...formData, location: v })} />
-                  <Field icon={Briefcase} label="Target Role" placeholder="Senior Engineer at Google" value={formData.targetRole} onChange={(v) => setFormData({ ...formData, targetRole: v })} />
+                  <Field icon={User} label="Full Name" placeholder="John Doe" value={formData.fullName} onChange={(v: string) => setFormData({ ...formData, fullName: v })} />
+                  <Field icon={Briefcase} label="Job Title" placeholder="Software Engineer" value={formData.jobTitle} onChange={(v: string) => setFormData({ ...formData, jobTitle: v })} />
+                  <Field icon={Mail} label="Email" placeholder="john@example.com" value={formData.email} onChange={(v: string) => setFormData({ ...formData, email: v })} />
+                  <Field icon={Phone} label="Phone" placeholder="+1 234 567 890" value={formData.phone} onChange={(v: string) => setFormData({ ...formData, phone: v })} />
+                  <Field icon={MapPin} label="Location" placeholder="San Francisco, CA" value={formData.location} onChange={(v: string) => setFormData({ ...formData, location: v })} />
+                  <Field icon={Briefcase} label="Target Role" placeholder="Senior Engineer at Google" value={formData.targetRole} onChange={(v: string) => setFormData({ ...formData, targetRole: v })} />
                 </div>
                 <div className="mt-4 space-y-4">
-                  <Area icon={FileText} label="Summary (optional)" placeholder="5 years experience in..." value={formData.summary} onChange={(v) => setFormData({ ...formData, summary: v })} rows={2} />
-                  <Area icon={Briefcase} label="Work Experience" placeholder={"Software Engineer at Tech Corp (2022-Present)\n- Built React dashboard\n- Led migration to Next.js"} value={formData.experience} onChange={(v) => setFormData({ ...formData, experience: v })} rows={6} />
-                  <Area icon={GraduationCap} label="Education" placeholder="B.Tech CS, IIT Delhi (2016-2020)" value={formData.education} onChange={(v) => setFormData({ ...formData, education: v })} rows={2} />
-                  <Area icon={Wrench} label="Skills (comma separated)" placeholder="React, Node.js, Python, AWS" value={formData.skills} onChange={(v) => setFormData({ ...formData, skills: v })} rows={2} />
+                  <Area icon={FileText} label="Summary (optional)" placeholder="5 years experience in..." value={formData.summary} onChange={(v: string) => setFormData({ ...formData, summary: v })} rows={2} />
+                  <Area icon={Briefcase} label="Work Experience" placeholder={"Software Engineer at Tech Corp (2022-Present)\n- Built React dashboard\n- Led migration to Next.js"} value={formData.experience} onChange={(v: string) => setFormData({ ...formData, experience: v })} rows={6} />
+                  <Area icon={GraduationCap} label="Education" placeholder="B.Tech CS, IIT Delhi (2016-2020)" value={formData.education} onChange={(v: string) => setFormData({ ...formData, education: v })} rows={2} />
+                  <Area icon={Wrench} label="Skills (comma separated)" placeholder="React, Node.js, Python, AWS" value={formData.skills} onChange={(v: string) => setFormData({ ...formData, skills: v })} rows={2} />
                 </div>
               </div>
 
@@ -225,16 +177,16 @@ export function ResumeBuilder() {
               {/* Action bar */}
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-4">
                 <div className="flex items-center gap-3">
-                  <div className={cn("grid h-12 w-12 place-items-center rounded-lg", tpl.accentBar, "opacity-80")}>
-                    <span className="text-xl font-bold text-white">{result.atsScore}</span>
+                  <div className="grid h-12 w-12 place-items-center rounded-lg bg-aurora text-white">
+                    <span className="text-xl font-bold">{result.atsScore}</span>
                   </div>
                   <div>
                     <div className="text-xs font-bold uppercase text-muted-foreground">ATS Score</div>
-                    <div className="text-sm font-semibold">{result.atsScore >= 80 ? "Excellent — ATS ready!" : result.atsScore >= 60 ? "Good — minor improvements needed" : "Needs work"}</div>
+                    <div className="text-sm font-semibold">{result.atsScore >= 80 ? "Excellent — ATS ready!" : result.atsScore >= 60 ? "Good — minor improvements" : "Needs work"}</div>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => handleCopy(activeTab === "resume" ? result.resume.summary : result.coverLetter)} className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border bg-card px-3 text-xs font-semibold hover:text-foreground">
+                  <button onClick={() => handleCopy(activeTab === "resume" ? JSON.stringify(result.resume) : result.coverLetter)} className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border bg-card px-3 text-xs font-semibold hover:text-foreground">
                     {copied ? <Check className="h-3.5 w-3.5 text-aurora" /> : <Copy className="h-3.5 w-3.5" />} {copied ? "Copied" : "Copy"}
                   </button>
                   <button onClick={handlePrint} className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-aurora/50 bg-aurora px-3 text-xs font-semibold text-primary-foreground hover:bg-aurora-soft">
@@ -264,93 +216,22 @@ export function ResumeBuilder() {
                 </button>
               </div>
 
-              {/* === RESUME PREVIEW (Professional Design) === */}
+              {/* === RESUME PREVIEW === */}
               {activeTab === "resume" && (
-                <div ref={printRef} className="overflow-hidden rounded-xl border border-border shadow-2xl print:border-0 print:shadow-none">
-                  {/* Header */}
-                  <div className={cn("p-6", tpl.headerBg)}>
-                    <h2 className={cn("font-display text-3xl font-bold", tpl.headerText)}>{formData.fullName || "Your Name"}</h2>
-                    <p className={cn("mt-1 text-lg", tpl.accentColor)}>{formData.jobTitle || "Professional"}</p>
-                    <div className={cn("mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs", tpl.headerText, "opacity-80")}>
-                      {formData.email && <span className="inline-flex items-center gap-1"><Mail className="h-3 w-3" /> {formData.email}</span>}
-                      {formData.phone && <span className="inline-flex items-center gap-1"><Phone className="h-3 w-3" /> {formData.phone}</span>}
-                      {formData.location && <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {formData.location}</span>}
-                    </div>
-                  </div>
-
-                  {/* Body */}
-                  <div className={cn("p-6", tpl.bodyBg)}>
-                    {/* Summary */}
-                    {result.resume.summary && (
-                      <Section title="SUMMARY" tpl={tpl}>
-                        <p className="text-sm leading-relaxed">{result.resume.summary}</p>
-                      </Section>
-                    )}
-
-                    {/* Experience */}
-                    {result.resume.experience?.length > 0 && (
-                      <Section title="EXPERIENCE" tpl={tpl}>
-                        <div className="space-y-4">
-                          {result.resume.experience.map((exp, i) => (
-                            <div key={i}>
-                              <div className="flex items-baseline justify-between">
-                                <span className="text-sm font-bold">{exp.role}</span>
-                                <span className="text-xs text-muted-foreground">{exp.duration}</span>
-                              </div>
-                              <span className={cn("text-xs font-semibold", tpl.accentColor)}>{exp.company}</span>
-                              <ul className="mt-1 space-y-1">
-                                {exp.bullets?.map((b, j) => (
-                                  <li key={j} className="flex gap-2 text-xs leading-relaxed">
-                                    <span className={cn("mt-1.5 h-1 w-1 shrink-0 rounded-full", tpl.accentBar)} />
-                                    {b}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </Section>
-                    )}
-
-                    {/* Education */}
-                    {result.resume.education && (
-                      <Section title="EDUCATION" tpl={tpl}>
-                        <p className="text-sm">{result.resume.education}</p>
-                      </Section>
-                    )}
-
-                    {/* Skills */}
-                    {result.resume.skills?.length > 0 && (
-                      <Section title="SKILLS" tpl={tpl}>
-                        <div className="flex flex-wrap gap-1.5">
-                          {result.resume.skills.map((s, i) => (
-                            <span key={i} className={cn("rounded-md border px-2 py-0.5 text-xs", tpl.accentBar ? cn("border-current opacity-70", tpl.bodyText) : "border-border")}>{s}</span>
-                          ))}
-                        </div>
-                      </Section>
-                    )}
-
-                    {/* Suggested Skills */}
-                    {result.suggestedSkills?.length > 0 && (
-                      <div className={cn("mt-4 rounded-lg border p-3", tpl.bodyBg === "bg-white" ? "border-amber-200 bg-amber-50" : "border-star/30 bg-star/[0.04]")}>
-                        <h4 className="text-[10px] font-bold uppercase opacity-60">💡 Suggested Skills to Add</h4>
-                        <div className="mt-1 flex flex-wrap gap-1.5">
-                          {result.suggestedSkills.map((s, i) => <span key={i} className="rounded-md border border-star/30 bg-star/10 px-2 py-0.5 text-xs text-star">+ {s}</span>)}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                <div ref={printRef} className="overflow-hidden rounded-xl border border-border shadow-2xl print:border-0 print:shadow-none print:rounded-none">
+                  <ResumeTemplate templateId={templateId} data={result} user={formData} />
                 </div>
               )}
 
-              {/* === COVER LETTER PREVIEW === */}
+              {/* === COVER LETTER === */}
               {activeTab === "cover" && (
                 <div className="overflow-hidden rounded-xl border border-border shadow-2xl print:border-0 print:shadow-none">
-                  <div className={cn("p-6", tpl.headerBg)}>
-                    <h3 className={cn("font-display text-xl font-bold", tpl.headerText)}>Cover Letter</h3>
+                  <div className="border-b-2 border-aurora bg-ink p-6">
+                    <h3 className="font-display text-xl font-bold text-white">Cover Letter</h3>
+                    <p className="text-xs text-muted-foreground">{formData.fullName} — {formData.jobTitle}</p>
                   </div>
-                  <div className={cn("p-6", tpl.bodyBg)}>
-                    <div className={cn("whitespace-pre-wrap text-sm leading-relaxed", tpl.bodyText)}>
+                  <div className="bg-white p-6">
+                    <div className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800">
                       {result.coverLetter || "No cover letter generated."}
                     </div>
                   </div>
@@ -360,7 +241,7 @@ export function ResumeBuilder() {
               {/* CTA */}
               <div className="rounded-xl border border-aurora/30 bg-aurora/[0.04] p-5 text-center">
                 <h3 className="font-display text-lg font-bold">Compare premium resume tools</h3>
-                <p className="mt-1 text-sm text-muted-foreground">See the best AI resume builders with more templates and features.</p>
+                <p className="mt-1 text-sm text-muted-foreground">See the best AI resume builders with more templates.</p>
                 <a href="/best-ai-tools-2026" className="mt-3 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-aurora/50 bg-aurora px-5 text-sm font-semibold text-primary-foreground block-shadow-aurora hover:bg-aurora-soft">
                   <Sparkles className="h-4 w-4" /> Best AI Resume Tools 2026
                 </a>
@@ -373,20 +254,406 @@ export function ResumeBuilder() {
   );
 }
 
-// ─── Section wrapper ─────────────────────────────────────────
-function Section({ title, tpl, children }: { title: string; tpl: typeof templates[0]; children: React.ReactNode }) {
+// ─── Template Preview (mini mockup for selector) ──────────────
+function TemplatePreview({ templateId }: { templateId: string }) {
+  const base = "h-20 overflow-hidden rounded-md";
+  switch (templateId) {
+    case "classic-word":
+      return (
+        <div className={cn(base, "bg-white p-1.5")}>
+          <div className="border-b border-gray-300 pb-1">
+            <div className="mx-auto h-1.5 w-1/2 rounded bg-gray-800" />
+            <div className="mx-auto mt-0.5 h-1 w-1/3 rounded bg-gray-400" />
+          </div>
+          <div className="mt-1 space-y-0.5">
+            <div className="h-0.5 w-full rounded bg-gray-300" />
+            <div className="h-0.5 w-5/6 rounded bg-gray-200" />
+            <div className="h-0.5 w-full rounded bg-gray-300" />
+            <div className="h-0.5 w-3/4 rounded bg-gray-200" />
+          </div>
+        </div>
+      );
+    case "modern-sidebar":
+      return (
+        <div className={cn(base, "bg-white flex")}>
+          <div className="w-1/3 bg-gray-800 p-1">
+            <div className="h-1.5 w-full rounded bg-gray-400" />
+            <div className="mt-1 space-y-0.5">
+              <div className="h-0.5 w-full rounded bg-gray-500" />
+              <div className="h-0.5 w-2/3 rounded bg-gray-500" />
+            </div>
+          </div>
+          <div className="flex-1 p-1 space-y-0.5">
+            <div className="h-1 w-3/4 rounded bg-gray-800" />
+            <div className="h-0.5 w-full rounded bg-gray-200" />
+            <div className="h-0.5 w-5/6 rounded bg-gray-200" />
+            <div className="h-0.5 w-2/3 rounded bg-gray-200" />
+          </div>
+        </div>
+      );
+    case "executive":
+      return (
+        <div className={cn(base, "bg-white p-1.5 text-center")}>
+          <div className="mx-auto h-1.5 w-2/5 rounded bg-gray-900" />
+          <div className="mx-auto mt-0.5 h-0.5 w-1/3 rounded bg-gray-400" />
+          <div className="mx-auto mt-0.5 h-px w-3/4 bg-gray-300" />
+          <div className="mt-1 space-y-0.5 text-left">
+            <div className="h-0.5 w-full rounded bg-gray-200" />
+            <div className="h-0.5 w-5/6 rounded bg-gray-200" />
+          </div>
+        </div>
+      );
+    case "two-column":
+      return (
+        <div className={cn(base, "bg-white p-1.5")}>
+          <div className="border-b border-gray-300 pb-0.5">
+            <div className="h-1.5 w-1/2 rounded bg-blue-700" />
+          </div>
+          <div className="mt-1 flex gap-1">
+            <div className="flex-1 space-y-0.5">
+              <div className="h-0.5 w-full rounded bg-gray-300" />
+              <div className="h-0.5 w-5/6 rounded bg-gray-200" />
+            </div>
+            <div className="w-1/3 space-y-0.5">
+              <div className="h-0.5 w-full rounded bg-blue-200" />
+              <div className="h-0.5 w-2/3 rounded bg-blue-200" />
+            </div>
+          </div>
+        </div>
+      );
+    case "tech-modern":
+      return (
+        <div className={cn(base, "bg-gray-900 p-1.5")}>
+          <div className="flex items-center gap-1 border-b border-gray-700 pb-1">
+            <div className="h-1.5 w-1/3 rounded bg-teal-400" />
+            <div className="h-0.5 w-1/4 rounded bg-gray-500" />
+          </div>
+          <div className="mt-1 space-y-0.5">
+            <div className="h-0.5 w-full rounded bg-gray-600" />
+            <div className="h-0.5 w-5/6 rounded bg-gray-700" />
+            <div className="flex gap-0.5">
+              <div className="h-1 w-3 rounded bg-teal-500" />
+              <div className="h-1 w-3 rounded bg-teal-500" />
+              <div className="h-1 w-3 rounded bg-teal-500" />
+            </div>
+          </div>
+        </div>
+      );
+    case "creative-bold":
+      return (
+        <div className={cn(base, "bg-white")}>
+          <div className="h-6 bg-gradient-to-r from-purple-600 to-pink-500 p-1">
+            <div className="h-1 w-1/2 rounded bg-white" />
+          </div>
+          <div className="p-1 space-y-0.5">
+            <div className="h-0.5 w-full rounded bg-gray-300" />
+            <div className="h-0.5 w-3/4 rounded bg-gray-200" />
+            <div className="flex gap-0.5">
+              <div className="h-1 w-4 rounded bg-purple-200" />
+              <div className="h-1 w-4 rounded bg-pink-200" />
+            </div>
+          </div>
+        </div>
+      );
+    default:
+      return <div className={base} />;
+  }
+}
+
+// ─── Resume Template Renderer ─────────────────────────────────
+function ResumeTemplate({ templateId, data, user }: { templateId: string; data: GeneratedData; user: any }) {
+  const r = data.resume;
+  const contactItems = [user.email, user.phone, user.location].filter(Boolean);
+
+  switch (templateId) {
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 1: CLASSIC WORD (Traditional single-column)
+    // ═════════════════════════════════════════════════════════
+    case "classic-word":
+      return (
+        <div className="bg-white p-8 text-gray-900">
+          {/* Header — centered, classic */}
+          <div className="text-center border-b-2 border-gray-800 pb-3">
+            <h1 className="font-serif text-3xl font-bold tracking-wide">{user.fullName || "Your Name"}</h1>
+            <p className="mt-1 text-sm text-gray-600">{user.jobTitle}</p>
+            <p className="mt-1 text-xs text-gray-500">{contactItems.join(" | ")}</p>
+          </div>
+          {/* Sections */}
+          <div className="mt-4 space-y-4">
+            {r.summary && <ClassicSection title="Summary"><p className="text-sm">{r.summary}</p></ClassicSection>}
+            {r.experience?.length > 0 && (
+              <ClassicSection title="Experience">
+                {r.experience.map((e, i) => (
+                  <div key={i} className="mb-2">
+                    <div className="flex justify-between"><span className="font-bold text-sm">{e.role}</span><span className="text-xs text-gray-500">{e.duration}</span></div>
+                    <p className="text-xs text-gray-600 italic">{e.company}</p>
+                    <ul className="mt-0.5 list-disc pl-4">{e.bullets?.map((b, j) => <li key={j} className="text-xs">{b}</li>)}</ul>
+                  </div>
+                ))}
+              </ClassicSection>
+            )}
+            {r.education && <ClassicSection title="Education"><p className="text-sm">{r.education}</p></ClassicSection>}
+            {r.skills?.length > 0 && <ClassicSection title="Skills"><p className="text-sm">{r.skills.join(", ")}</p></ClassicSection>}
+          </div>
+        </div>
+      );
+
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 2: MODERN SIDEBAR (Left sidebar + main)
+    // ═════════════════════════════════════════════════════════
+    case "modern-sidebar":
+      return (
+        <div className="flex bg-white text-gray-900">
+          {/* Sidebar */}
+          <div className="w-1/3 bg-gray-900 p-5 text-white">
+            <h1 className="text-xl font-bold">{user.fullName || "Name"}</h1>
+            <p className="text-sm text-aurora">{user.jobTitle}</p>
+            {/* Contact */}
+            <div className="mt-4">
+              <h3 className="border-b border-gray-700 pb-1 text-[10px] font-bold uppercase text-gray-400">Contact</h3>
+              <div className="mt-1 space-y-1 text-xs text-gray-300">
+                {user.email && <p>✉ {user.email}</p>}
+                {user.phone && <p>☎ {user.phone}</p>}
+                {user.location && <p>📍 {user.location}</p>}
+              </div>
+            </div>
+            {/* Skills in sidebar */}
+            {r.skills?.length > 0 && (
+              <div className="mt-4">
+                <h3 className="border-b border-gray-700 pb-1 text-[10px] font-bold uppercase text-gray-400">Skills</h3>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {r.skills.map((s, i) => <span key={i} className="rounded border border-gray-600 px-1.5 py-0.5 text-[10px]">{s}</span>)}
+                </div>
+              </div>
+            )}
+            {/* Education in sidebar */}
+            {r.education && (
+              <div className="mt-4">
+                <h3 className="border-b border-gray-700 pb-1 text-[10px] font-bold uppercase text-gray-400">Education</h3>
+                <p className="mt-1 text-xs text-gray-300">{r.education}</p>
+              </div>
+            )}
+          </div>
+          {/* Main content */}
+          <div className="flex-1 p-5">
+            {r.summary && (
+              <div className="mb-4">
+                <h3 className="mb-1 text-xs font-bold uppercase text-gray-400">Summary</h3>
+                <p className="text-sm">{r.summary}</p>
+              </div>
+            )}
+            {r.experience?.length > 0 && (
+              <div>
+                <h3 className="mb-2 text-xs font-bold uppercase text-gray-400">Experience</h3>
+                {r.experience.map((e, i) => (
+                  <div key={i} className="mb-3 border-l-2 border-aurora pl-3">
+                    <div className="flex justify-between"><span className="font-bold text-sm">{e.role}</span><span className="text-xs text-gray-400">{e.duration}</span></div>
+                    <p className="text-xs text-aurora">{e.company}</p>
+                    <ul className="mt-0.5 list-disc pl-4">{e.bullets?.map((b, j) => <li key={j} className="text-xs">{b}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 3: EXECUTIVE (Centered header + clean)
+    // ═════════════════════════════════════════════════════════
+    case "executive":
+      return (
+        <div className="bg-white p-8 text-gray-900">
+          <div className="text-center">
+            <h1 className="font-serif text-3xl font-bold tracking-wider">{user.fullName || "Name"}</h1>
+            <div className="mx-auto mt-1 h-px w-32 bg-gray-800" />
+            <p className="mt-1 text-sm tracking-wide text-gray-600 uppercase">{user.jobTitle}</p>
+            <p className="mt-1 text-xs text-gray-500">{contactItems.join("  •  ")}</p>
+          </div>
+          <div className="mt-6 space-y-4">
+            {r.summary && <ExecSection title="Summary"><p className="text-sm">{r.summary}</p></ExecSection>}
+            {r.experience?.length > 0 && (
+              <ExecSection title="Experience">
+                {r.experience.map((e, i) => (
+                  <div key={i} className="mb-2">
+                    <div className="flex justify-between"><span className="font-bold text-sm">{e.role}, {e.company}</span><span className="text-xs text-gray-400">{e.duration}</span></div>
+                    <ul className="mt-0.5 list-disc pl-4">{e.bullets?.map((b, j) => <li key={j} className="text-xs">{b}</li>)}</ul>
+                  </div>
+                ))}
+              </ExecSection>
+            )}
+            {r.education && <ExecSection title="Education"><p className="text-sm">{r.education}</p></ExecSection>}
+            {r.skills?.length > 0 && <ExecSection title="Skills"><p className="text-sm">{r.skills.join("  •  ")}</p></ExecSection>}
+          </div>
+        </div>
+      );
+
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 4: TWO COLUMN (Split experience & skills)
+    // ═════════════════════════════════════════════════════════
+    case "two-column":
+      return (
+        <div className="bg-white p-8 text-gray-900">
+          <div className="border-b-2 border-blue-700 pb-2">
+            <h1 className="text-2xl font-bold text-blue-900">{user.fullName || "Name"}</h1>
+            <p className="text-sm text-blue-700">{user.jobTitle}</p>
+            <p className="mt-0.5 text-xs text-gray-500">{contactItems.join(" | ")}</p>
+          </div>
+          {r.summary && <div className="mt-3"><p className="text-sm italic text-gray-600">{r.summary}</p></div>}
+          <div className="mt-3 flex gap-5">
+            {/* Left: Experience */}
+            <div className="flex-1">
+              <h3 className="border-b border-blue-200 pb-0.5 text-xs font-bold uppercase text-blue-800">Experience</h3>
+              {r.experience?.map((e, i) => (
+                <div key={i} className="mt-2">
+                  <div className="font-bold text-sm">{e.role}</div>
+                  <p className="text-xs text-blue-700">{e.company} | {e.duration}</p>
+                  <ul className="mt-0.5 list-disc pl-4">{e.bullets?.map((b, j) => <li key={j} className="text-xs">{b}</li>)}</ul>
+                </div>
+              ))}
+            </div>
+            {/* Right: Skills + Education */}
+            <div className="w-1/3">
+              <h3 className="border-b border-blue-200 pb-0.5 text-xs font-bold uppercase text-blue-800">Skills</h3>
+              <div className="mt-1 flex flex-wrap gap-1">
+                {r.skills?.map((s, i) => <span key={i} className="rounded bg-blue-50 px-1.5 py-0.5 text-[10px] text-blue-800">{s}</span>)}
+              </div>
+              {r.education && (
+                <>
+                  <h3 className="mt-3 border-b border-blue-200 pb-0.5 text-xs font-bold uppercase text-blue-800">Education</h3>
+                  <p className="mt-1 text-xs">{r.education}</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 5: TECH MODERN (Dark header + code-style)
+    // ═════════════════════════════════════════════════════════
+    case "tech-modern":
+      return (
+        <div className="bg-gray-900 text-gray-100">
+          <div className="border-b border-teal-500 p-5">
+            <h1 className="font-mono text-2xl font-bold text-teal-400">$ {user.fullName || "name"}</h1>
+            <p className="font-mono text-sm text-gray-400">{"// "}{user.jobTitle}</p>
+            <p className="mt-1 font-mono text-xs text-gray-500">{contactItems.join("  ")}</p>
+          </div>
+          <div className="p-5">
+            {r.summary && (
+              <div className="mb-4">
+                <h3 className="font-mono text-xs font-bold text-teal-400">{"// SUMMARY"}</h3>
+                <p className="mt-1 text-sm text-gray-300">{r.summary}</p>
+              </div>
+            )}
+            {r.experience?.length > 0 && (
+              <div className="mb-4">
+                <h3 className="font-mono text-xs font-bold text-teal-400">{"// EXPERIENCE"}</h3>
+                {r.experience.map((e, i) => (
+                  <div key={i} className="mt-2 border-l border-teal-800 pl-3">
+                    <div className="font-mono text-sm font-bold">{e.role}</div>
+                    <p className="font-mono text-xs text-teal-500">{e.company} — {e.duration}</p>
+                    <ul className="mt-0.5 font-mono text-xs text-gray-400">{e.bullets?.map((b, j) => <li key={j}>→ {b}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="flex gap-6">
+              {r.skills?.length > 0 && (
+                <div>
+                  <h3 className="font-mono text-xs font-bold text-teal-400">{"// SKILLS"}</h3>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {r.skills.map((s, i) => <span key={i} className="font-mono rounded border border-teal-800 px-1.5 py-0.5 text-[10px] text-teal-300">{s}</span>)}
+                  </div>
+                </div>
+              )}
+              {r.education && (
+                <div>
+                  <h3 className="font-mono text-xs font-bold text-teal-400">{"// EDUCATION"}</h3>
+                  <p className="mt-1 font-mono text-xs text-gray-400">{r.education}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+
+    // ═════════════════════════════════════════════════════════
+    // TEMPLATE 6: CREATIVE BOLD (Color blocks + bold)
+    // ═════════════════════════════════════════════════════════
+    case "creative-bold":
+      return (
+        <div className="bg-white text-gray-900">
+          {/* Gradient header */}
+          <div className="bg-gradient-to-r from-purple-700 to-pink-600 p-6 text-white">
+            <h1 className="font-display text-3xl font-bold">{user.fullName || "Name"}</h1>
+            <p className="text-lg text-pink-200">{user.jobTitle}</p>
+            <p className="mt-1 text-xs text-purple-200">{contactItems.join("  •  ")}</p>
+          </div>
+          <div className="p-6">
+            {r.summary && (
+              <div className="mb-4 rounded-lg bg-purple-50 p-3">
+                <h3 className="text-xs font-bold uppercase text-purple-700">Summary</h3>
+                <p className="mt-1 text-sm">{r.summary}</p>
+              </div>
+            )}
+            <div className="grid gap-4 sm:grid-cols-3">
+              {/* Experience takes 2 cols */}
+              <div className="sm:col-span-2">
+                <h3 className="border-b-2 border-pink-500 pb-1 text-xs font-bold uppercase text-pink-600">Experience</h3>
+                {r.experience?.map((e, i) => (
+                  <div key={i} className="mt-2">
+                    <div className="flex justify-between"><span className="font-bold text-sm">{e.role}</span><span className="text-xs text-gray-400">{e.duration}</span></div>
+                    <p className="text-xs text-purple-600">{e.company}</p>
+                    <ul className="mt-0.5 list-disc pl-4">{e.bullets?.map((b, j) => <li key={j} className="text-xs">{b}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+              {/* Skills + Education in 1 col */}
+              <div>
+                <h3 className="border-b-2 border-purple-500 pb-1 text-xs font-bold uppercase text-purple-600">Skills</h3>
+                <div className="mt-1 space-y-1">
+                  {r.skills?.map((s, i) => <div key={i} className="rounded bg-purple-50 px-2 py-0.5 text-xs text-purple-800">{s}</div>)}
+                </div>
+                {r.education && (
+                  <>
+                    <h3 className="mt-3 border-b-2 border-pink-500 pb-1 text-xs font-bold uppercase text-pink-600">Education</h3>
+                    <p className="mt-1 text-xs">{r.education}</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    default:
+      return <div className="bg-white p-8">Template not found</div>;
+  }
+}
+
+// ─── Section helpers ──────────────────────────────────────────
+function ClassicSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-5">
-      <div className="mb-2 flex items-center gap-2">
-        <span className={cn("h-3 w-1 rounded-full", tpl.accentBar)} />
-        <h3 className={cn("text-xs font-bold uppercase tracking-wider", tpl.sectionTitle)}>{title}</h3>
-      </div>
-      {children}
+    <div>
+      <h3 className="border-b border-gray-300 pb-0.5 font-serif text-sm font-bold uppercase tracking-wide text-gray-800">{title}</h3>
+      <div className="mt-1">{children}</div>
     </div>
   );
 }
 
-// ─── Input Fields ────────────────────────────────────────────
+function ExecSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500">{title}</h3>
+      <div className="mx-auto mt-1 h-px w-8 bg-gray-300" />
+      <div className="mt-2">{children}</div>
+    </div>
+  );
+}
+
+// ─── Input Fields ─────────────────────────────────────────────
 function Field({ icon: Icon, label, placeholder, value, onChange }: any) {
   return (
     <div>
