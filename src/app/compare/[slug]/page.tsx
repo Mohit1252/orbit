@@ -9,23 +9,90 @@ import { Check, X, Minus, ArrowRight, GitCompareArrows } from "lucide-react";
 /**
  * Comparison Page — /compare/[a]-vs-[b]
  * SEO target: "X vs Y", "X vs Y for coding", "X or Y"
+ *
+ * Strategy: Generate MEANINGFUL comparison pairs only.
+ * - Within-category pairs (LLM vs LLM, Image vs Image, etc.)
+ * - A few curated cross-category pairs that people actually search
+ * - Skip nonsense pairs (DeepL vs ChatGPT, Remove.bg vs Cursor, etc.)
+ * - Utility tools (DeepL, QuillBot, Grammarly, Remove.bg) excluded —
+ *   people don't comparison-shop these, they just use them.
  */
 
-const MAX_PAIRS = 50; // pre-generate top 50 pairs to keep build fast
+const MAX_PAIRS = 200;
 
-// Generate top comparison pairs (most popular tools)
+// Curated list of "comparison-worthy" tool IDs.
+// These are tools people actually search "X vs Y" for.
+// Excludes utility tools (translators, grammar checkers, bg removers).
+const COMPARISON_WORTHY = new Set([
+  // LLMs / Writing assistants (people compare these heavily)
+  "chatgpt", "claude", "gemini", "grok", "perplexity", "llama",
+  "deepseek", "mistral", "ms-copilot", "notion-ai", "poe", "jasper",
+  "writesonic", "rytr",
+  // Image generators
+  "midjourney", "dalle3", "stable-diffusion", "firefly", "leonardo",
+  "ideogram", "flux", "recraft", "playground", "imagen",
+  // Video generators
+  "runway", "pika", "luma", "veo", "kling",
+  // Voice / TTS
+  "elevenlabs", "murf", "play-ht", "speechify",
+  // Coding assistants
+  "cursor", "github-copilot", "windsurf", "claude-code",
+  // Music
+  "suno", "udio",
+]);
+
+// Meaningful cross-category pairs (curated — people actually search these)
+const CROSS_CATEGORY_PAIRS: [string, string][] = [
+  // LLM ↔ Coding (people ask "ChatGPT or Copilot for coding?")
+  ["chatgpt", "github-copilot"],
+  ["claude", "claude-code"],
+  ["gemini", "github-copilot"],
+  // LLM ↔ Image (same vendor comparisons)
+  ["chatgpt", "dalle3"],
+  // LLM ↔ Search (assistant vs answer engine)
+  ["chatgpt", "perplexity"],
+  ["gemini", "perplexity"],
+  ["claude", "perplexity"],
+];
+
 export function generateStaticParams() {
-  // pick top tools by reviews for comparison pairs
-  const top = [...tools].sort((a, b) => b.reviews - a.reviews).slice(0, 12);
-  const pairs: { a: string; b: string }[] = [];
-  for (let i = 0; i < top.length; i++) {
-    for (let j = i + 1; j < top.length; j++) {
-      pairs.push({ a: top[i].id, b: top[j].id });
-      if (pairs.length >= MAX_PAIRS) break;
-    }
-    if (pairs.length >= MAX_PAIRS) break;
+  // Filter to comparison-worthy tools only
+  const worthy = tools.filter((t) => COMPARISON_WORTHY.has(t.id));
+
+  // Group by category for within-category pairs
+  const byCategory = new Map<string, typeof worthy>();
+  for (const t of worthy) {
+    if (!byCategory.has(t.category)) byCategory.set(t.category, []);
+    byCategory.get(t.category)!.push(t);
   }
-  return pairs.map((p) => ({ slug: `${p.a}-vs-${p.b}` }));
+
+  const pairs: { a: string; b: string }[] = [];
+  const seen = new Set<string>();
+
+  const addPair = (a: string, b: string) => {
+    const key = `${a}-vs-${b}`;
+    if (seen.has(key) || a === b) return;
+    seen.add(key);
+    pairs.push({ a, b });
+  };
+
+  // 1. Within-category pairs (most meaningful — e.g., ChatGPT vs Claude)
+  for (const [, group] of byCategory) {
+    const sorted = [...group].sort((x, y) => y.reviews - x.reviews);
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        addPair(sorted[i].id, sorted[j].id);
+      }
+    }
+  }
+
+  // 2. Curated cross-category pairs (meaningful only)
+  for (const [a, b] of CROSS_CATEGORY_PAIRS) {
+    if (getToolById(a) && getToolById(b)) addPair(a, b);
+  }
+
+  // Cap at MAX_PAIRS
+  return pairs.slice(0, MAX_PAIRS).map((p) => ({ slug: `${p.a}-vs-${p.b}` }));
 }
 
 export function generateMetadata({

@@ -101,18 +101,58 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  // 4. Top comparison pairs (top 12 tools by reviews → ~50 pairs)
-  const top = [...tools].sort((a, b) => b.reviews - a.reviews).slice(0, 12);
-  let pairCount = 0;
-  for (let i = 0; i < top.length && pairCount < 50; i++) {
-    for (let j = i + 1; j < top.length && pairCount < 50; j++) {
-      routes.push({
-        url: `${SITE_URL}/compare/${top[i].id}-vs-${top[j].id}`,
-        lastModified: now,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-      pairCount++;
+  // 4. Comparison pairs — must match generateStaticParams in compare/[slug]/page.tsx
+  // Generate meaningful pairs only (within-category + curated cross-category).
+  // See COMPARISON_WORTHY + CROSS_CATEGORY_PAIRS in compare/[slug]/page.tsx.
+  const COMPARISON_WORTHY = new Set([
+    "chatgpt", "claude", "gemini", "grok", "perplexity", "llama",
+    "deepseek", "mistral", "ms-copilot", "notion-ai", "poe", "jasper",
+    "writesonic", "rytr",
+    "midjourney", "dalle3", "stable-diffusion", "firefly", "leonardo",
+    "ideogram", "flux", "recraft", "playground", "imagen",
+    "runway", "pika", "luma", "veo", "kling",
+    "elevenlabs", "murf", "play-ht", "speechify",
+    "cursor", "github-copilot", "windsurf", "claude-code",
+    "suno", "udio",
+  ]);
+  const CROSS_CATEGORY_PAIRS: [string, string][] = [
+    ["chatgpt", "github-copilot"],
+    ["claude", "claude-code"],
+    ["gemini", "github-copilot"],
+    ["chatgpt", "dalle3"],
+    ["chatgpt", "perplexity"],
+    ["gemini", "perplexity"],
+    ["claude", "perplexity"],
+  ];
+  const worthy = tools.filter((t) => COMPARISON_WORTHY.has(t.id));
+  const byCategory = new Map<string, typeof worthy>();
+  for (const t of worthy) {
+    if (!byCategory.has(t.category)) byCategory.set(t.category, []);
+    byCategory.get(t.category)!.push(t);
+  }
+  const seenPairs = new Set<string>();
+  const addPairToSitemap = (a: string, b: string) => {
+    const key = `${a}-vs-${b}`;
+    if (seenPairs.has(key) || a === b) return;
+    seenPairs.add(key);
+    routes.push({
+      url: `${SITE_URL}/compare/${a}-vs-${b}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    });
+  };
+  for (const [, group] of byCategory) {
+    const sorted = [...group].sort((x, y) => y.reviews - x.reviews);
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        addPairToSitemap(sorted[i].id, sorted[j].id);
+      }
+    }
+  }
+  for (const [a, b] of CROSS_CATEGORY_PAIRS) {
+    if (tools.find((t) => t.id === a) && tools.find((t) => t.id === b)) {
+      addPairToSitemap(a, b);
     }
   }
 
