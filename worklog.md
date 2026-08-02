@@ -497,3 +497,33 @@ Stage Summary:
   3. Continue adding comparison articles (target: 30-50 total).
   4. Set up Google Analytics tracking (already has gtag ID G-H3EHC0JLB0).
   5. Build backlinks (Reddit, Product Hunt, AI directories).
+
+---
+Task ID: 15
+Agent: direct (user request)
+Task: Fix blog hero images — user reported Chinese text artifacts in images. Regenerate all 15 as pure abstract art (no text), verify via VLM, push to GitHub.
+
+Work Log:
+- User reported that AI-generated blog images contained Chinese-looking text artifacts (e.g., "AI神经网络" = "AI Neural Network" in Chinese was visible in chatgpt-vs-claude.png).
+- Root cause: AI image generators naturally produce text-like patterns when prompts mention UI elements (interfaces, screens, editors, documents, etc.). These patterns often look like Chinese/Japanese characters because of the abstract stroke-like shapes.
+- Solution: Rewrote ALL 15 image prompts to be completely abstract:
+  - Removed all UI/interface/screen/editor/document mentions
+  - Used pure abstract concepts: "glowing energy orbs", "neural network patterns", "particle streams", "cosmic background"
+  - Added explicit exclusions to every prompt: "no UI, no interfaces, no screens, no text, no letters, no words, no characters, no writing of any kind, pure abstract illustration"
+- Regenerated all 15 images one-by-one using z-ai image CLI (1344x768 PNG).
+- Verified via VLM (z-ai vision) that images are text-free:
+  - chatgpt-vs-claude: NO ✅
+  - midjourney-vs-dall-e: NO ✅
+  - suno-vs-udio: NO ✅
+  - notion-ai-vs-chatgpt: NO ✅
+  - cursor-vs-windsurf: NO ✅
+  - best-ai-tools-for-coding-2026: Initially had small blurry text on "floating digital displays" — regenerated again removing all screen/display mentions → NO TEXT FOUND ✅
+- Committed fix and pushed to GitHub (commit de0ce00).
+- Token cleaned from git remote URL after push.
+
+Stage Summary:
+- All 15 blog hero images now use pure abstract art style — no UI elements, no text artifacts, no Chinese/Hindi/English characters.
+- Images verified text-free via VLM (Vision Language Model).
+- Image style: glowing energy orbs, neural network patterns, particle streams, cosmic backgrounds with accent colors (amber gold, teal, coral, nebula pink, star amber) matching site theme.
+- Pushed to GitHub: commit de0ce00 on main branch. Remote and local in sync.
+- Lesson learned for future image generation: always use "pure abstract, no UI, no screens, no text" in prompts to avoid AI-generated text artifacts.
