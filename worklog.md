@@ -331,3 +331,32 @@ Stage Summary:
 - All internal links verified working — no 404s. Each article links to: tool detail pages, comparison deck pages, related articles, and the interactive comparison CTA.
 - SEO foundation strong: 30+ keywords across 3 articles, FAQ sections for rich snippets, JSON-LD Article schema, proper H2/H3 hierarchy, comparison tables.
 - Next: user will provide more keywords for additional articles.
+
+---
+Task ID: 10
+Agent: direct (user request)
+Task: Add 5 more programmatic SEO comparison articles to the blog section — user said "blogpost dale g".
+
+Work Log:
+- User requested adding more blog posts. I selected 5 high-traffic comparison keywords that complement the existing 4 articles:
+  1. Gemini vs ChatGPT (search/vs/coding/context comparison)
+  2. Perplexity vs ChatGPT (answer engine vs assistant)
+  3. Runway vs Pika (AI video generation)
+  4. Suno vs Udio (AI music generation)
+  5. ElevenLabs vs Murf AI (AI text-to-speech)
+- Gathered real data from ai-data.ts: Gemini (MMLU 90.0, GPQA 62.2, ELO 1301, 1M context), ChatGPT (MMLU 88.7, GPQA 53.6, ELO 1287, 128K context), Perplexity (4.6★, $20/mo, multi-model), Runway (4.5★, $15/mo, Gen-3, API), Pika (4.3★, $10/mo, Pikaffects, free tier), Suno (4.5★, $10/mo, 10 songs/day free), Udio (4.4★, $10/mo, stems export), ElevenLabs (4.6★, $5/mo, 32 langs, instant cloning), Murf (4.4★, $19/mo, 200+ voices, timeline editor).
+- Verified all internal link targets exist: /compare/{gemini-vs-chatgpt, perplexity-vs-chatgpt, runway-vs-pika, suno-vs-udio, elevenlabs-vs-murf} and /tools/{gemini, chatgpt, perplexity, runway, pika, suno, udio, elevenlabs, murf, claude, midjourney} — all return 200.
+- Wrote 5 comprehensive comparison articles (9-11 min reads each, 1000-1500 words each), all added to blog-data.ts:
+  - Each has: TL;DR, feature comparison table, 4-6 deep-dive sections with winner callouts (🏆), pricing table, FAQ (5-6 questions), final verdict, internal links to tool detail pages + comparison deck + cross-links to related articles.
+  - 10 keywords each (mix of head + long-tail + "is X better than Y" + "X vs Y reddit" + "X vs Y pricing" + "X vs Y free").
+  - Real benchmark numbers (not made up) — pulled from ai-data.ts.
+  - Cross-linking between articles: suno-vs-udio ↔ elevenlabs-vs-murf, runway-vs-pika ↔ midjourney-vs-dall-e, gemini-vs-chatgpt ↔ chatgpt-vs-claude, perplexity-vs-chatgpt ↔ chatgpt-vs-claude.
+- Lint clean. All 9 articles render correctly on /blog with "Comparisons" category filter chip.
+- Verified via agent-browser: blog list shows 9 articles with featured banner on latest (Gemini vs ChatGPT). Article detail pages render all sections, FAQ, internal links, related articles, JSON-LD schema.
+
+Stage Summary:
+- 5 new comparison articles published, each 1000-1500 words with real data, internal links, and FAQ schema.
+- Blog now has 9 articles total: 1 guide + 8 comparisons covering all major AI tool categories (Writing/LLM, Coding, Images, Video, Voice/TTS, Music, Search).
+- 80+ SEO keywords across all articles. Strong internal linking mesh — every article links to 2-4 tool detail pages, 1 comparison deck, and 1-2 related articles.
+- All internal links verified working — no 404s.
+- Next: user may provide more keywords for additional articles (e.g., notion ai vs chatgpt, grok vs chatgpt, stable diffusion vs midjourney, etc.).
