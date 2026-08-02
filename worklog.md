@@ -299,3 +299,35 @@ Stage Summary:
 - Blog section is now a proper programmatic SEO engine ready for scale.
 - Workflow for adding new SEO articles: add ONE object to `blogArticles` array in `src/lib/blog-data.ts` with {slug, title, description, date, readTime, category, keywords[], content(HTML)}. Everything else is automatic: blog list, detail page, sitemap, SEO metadata, JSON-LD, related articles.
 - Next: user will provide keywords one by one; each keyword → one comparison or best-for article.
+
+---
+Task ID: 9
+Agent: direct (user request)
+Task: Create 3 programmatic SEO comparison articles (chatgpt vs claude, cursor vs copilot, midjourney vs dall-e) with full detail and internal links.
+
+Work Log:
+- User requested 3 comparison blog articles with full detail, self-found keywords, and internal links to make articles feel substantial.
+- Gathered real benchmark data from ai-data.ts for all 6 tools: ChatGPT (MMLU 88.7, SWE-bench 33.2, ELO 1287), Claude (MMLU 89.3, SWE-bench 49.0, ELO 1271), Cursor (4.7★, $20/mo), GitHub Copilot (4.5★, $10/mo), Midjourney (4.8★, $10/mo, no free tier), DALL·E 3 (4.5★, free in ChatGPT).
+- Verified all internal link targets exist: /tools/chatgpt, /tools/claude, /tools/cursor, /tools/github-copilot, /tools/midjourney, /tools/dalle3, /tools/claude-code, /compare/chatgpt-vs-claude, /compare/cursor-vs-github-copilot, /compare/midjourney-vs-dalle3.
+- Wrote 3 comprehensive comparison articles in blog-data.ts (replaced the short "chatgpt-vs-claude-for-writing" with a broader comprehensive "chatgpt-vs-claude" article, kept "best-ai-tools-for-coding-2026"):
+  1. **chatgpt-vs-claude** (12 min read, 13 H2 sections): TL;DR, benchmark table (7 metrics), coding comparison, writing comparison, context length, pricing table, API pricing, feature differentiators (both directions), privacy, 5-question FAQ, verdict. 10 keywords including long-tails ("chatgpt vs claude for coding", "chatgpt vs claude api pricing", "is claude better than chatgpt").
+  2. **cursor-vs-copilot** (11 min read, 11 H2 sections): TL;DR, feature comparison table, autocomplete quality, repo context, agent mode, IDE support, pricing table, performance, privacy, 6-question FAQ, verdict. 10 keywords ("cursor vs copilot pricing", "cursor vs copilot free tier", "is cursor better than copilot").
+  3. **midjourney-vs-dall-e** (10 min read, 12 H2 sections): TL;DR, feature comparison table, image quality, text in images, prompt adherence, style control, pricing table, ease of use, API, speed, community, 6-question FAQ, verdict. 10 keywords ("midjourney vs dall e free", "midjourney vs dall e api", "best ai image generator 2026").
+- Each article includes:
+  - Real benchmark data tables (not made-up numbers)
+  - 10 SEO keywords each (mix of head + long-tail)
+  - Internal links to tool detail pages (/tools/X) and comparison pages (/compare/X-vs-Y)
+  - Cross-links between articles (chatgpt-vs-claude → cursor-vs-copilot, etc.)
+  - FAQ section with H3 questions (Google featured snippet bait)
+  - Clear verdict with use-case-based recommendations
+  - CTA to interactive comparison deck
+  - "More AI Tool Guides" related articles section (auto-populated)
+- Lint clean. Dev log confirms all pages return 200.
+- Verified via agent-browser: blog list shows 4 articles with "Comparisons" category chip, featured article banner on latest. Article detail page renders all 13 sections, 5 FAQs, internal links, related articles, JSON-LD schema.
+
+Stage Summary:
+- 3 production-ready SEO comparison articles published, each 1000-1500 words with real data, internal links, and FAQ schema.
+- Blog now has 4 articles total: 1 guide (best-ai-tools-for-coding) + 3 comparisons (chatgpt-vs-claude, cursor-vs-copilot, midjourney-vs-dall-e).
+- All internal links verified working — no 404s. Each article links to: tool detail pages, comparison deck pages, related articles, and the interactive comparison CTA.
+- SEO foundation strong: 30+ keywords across 3 articles, FAQ sections for rich snippets, JSON-LD Article schema, proper H2/H3 hierarchy, comparison tables.
+- Next: user will provide more keywords for additional articles.
