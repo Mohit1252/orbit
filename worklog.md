@@ -360,3 +360,28 @@ Stage Summary:
 - 80+ SEO keywords across all articles. Strong internal linking mesh — every article links to 2-4 tool detail pages, 1 comparison deck, and 1-2 related articles.
 - All internal links verified working — no 404s.
 - Next: user may provide more keywords for additional articles (e.g., notion ai vs chatgpt, grok vs chatgpt, stable diffusion vs midjourney, etc.).
+
+---
+Task ID: 11
+Agent: direct (user request)
+Task: Add 2 more comparison articles (perplexity vs gemini, perplexity vs claude) + strategic discussion about programmatic SEO scaling.
+
+Work Log:
+- User asked about scaling programmatic SEO — comparing every AI tool with every other. Strategic discussion:
+  - Total tools: 131. Total possible pairs: 8,515 (n choose 2).
+  - But ~80% of pairs are nonsense (e.g., "ChatGPT vs Tortoise TTS" — different categories, no search volume).
+  - Google Helpful Content Update penalizes thin/programmatic/duplicate content. 8,000+ low-quality pages would tank the site.
+  - Recommended 3-tier strategy: (1) Hand-written top 50-100 comparisons [high effort, high reward], (2) Dynamic /compare/ pages for top 200-300 pairs [already coded], (3) Skip nonsense pairs.
+  - Realistic target: 250-400 indexed comparison pages total, not 8,000+.
+- Added 2 new hand-written comparison articles:
+  1. **perplexity-vs-gemini** (9 min, 13 H2 sections): TL;DR, feature table, live web search comparison, citations, context length (1M vs —), multimodal, Google Workspace, model choice, pricing, when-to-use, 6-question FAQ, verdict. 10 keywords.
+  2. **perplexity-vs-claude** (9 min, 13 H2 sections): TL;DR, feature table, live web search, citations, coding (SWE-bench 49%), writing quality, context length (200K), Artifacts & Projects, model choice (noting Claude available through Perplexity Pro), pricing, when-to-use, 6-question FAQ, verdict. 10 keywords.
+- Both articles cross-link to existing perplexity-vs-chatgpt, gemini-vs-chatgpt, and chatgpt-vs-claude articles.
+- Internal links verified: /tools/{perplexity, gemini, claude, claude-code}, /compare/{perplexity-vs-gemini, perplexity-vs-claude} — all return 200.
+- Lint clean. Blog now shows 11 articles total (1 guide + 10 comparisons).
+
+Stage Summary:
+- 2 new comparison articles published. Blog now has 11 articles covering the Perplexity comparison trio (vs ChatGPT, vs Gemini, vs Claude) + LLM trio (ChatGPT vs Claude, Gemini vs ChatGPT) + tool comparisons (Cursor vs Copilot, Midjourney vs DALL·E, Runway vs Pika, Suno vs Udio, ElevenLabs vs Murf).
+- 110+ SEO keywords across 11 articles.
+- Strategic recommendation documented: do NOT auto-generate all 8,515 pairs. Use tiered approach — hand-write top 50-100, use dynamic /compare/ pages for top 200-300, skip nonsense pairs.
+- Next: user to decide on scaling strategy (Option A: top 30 within-category pairs, Option B: top 50 most-searched hand-written, Option C: continue one-by-one).

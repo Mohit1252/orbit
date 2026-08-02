@@ -1043,6 +1043,318 @@ export const blogArticles: BlogArticle[] = [
 <p>Also read: <a href="https://myaipicker.com/blog/suno-vs-udio">Suno vs Udio AI music comparison &rarr;</a></p>
 `,
   },
+  {
+    slug: "perplexity-vs-gemini",
+    title: "Perplexity vs Gemini (2026): Answer Engine vs Google's Multimodal AI",
+    description:
+      "Perplexity vs Gemini in 2026 — we compare live web search, citations, Google Workspace integration, context length, pricing, and when to use each for research and creation.",
+    date: "2026-08-08",
+    readTime: "9 min",
+    category: "Comparisons",
+    keywords: [
+      "perplexity vs gemini",
+      "gemini vs perplexity",
+      "perplexity vs gemini 2026",
+      "is perplexity better than gemini",
+      "perplexity vs gemini for research",
+      "perplexity vs gemini pricing",
+      "perplexity vs gemini free",
+      "perplexity vs google gemini",
+      "perplexity vs gemini reddit",
+      "perplexity vs gemini api",
+    ],
+    content: `
+<h2>TL;DR — Quick Verdict</h2>
+<p><strong>Perplexity</strong> and <strong>Gemini</strong> are both powerful AI tools from major tech companies, but they're built for very different purposes. Perplexity is a <strong>cited answer engine</strong> — it searches the live web and writes responses with footnotes you can verify. Gemini is Google's <strong>multimodal AI assistant</strong> — it handles text, images, video, and voice, with deep Google Workspace integration and a massive 1M-token context window.</p>
+<p>Pick <strong>Perplexity</strong> for research, fact-checking, and cited answers. Pick <strong>Gemini</strong> if you live in Google's ecosystem, work with huge documents, or want a versatile AI that does everything.</p>
+<p><a href="https://myaipicker.com/compare/perplexity-vs-gemini">Skip to the full side-by-side spec comparison &rarr;</a></p>
+
+<h2>Feature Comparison Table</h2>
+<table>
+<tr><th>Feature</th><th>Perplexity</th><th>Gemini</th></tr>
+<tr><td>Type</td><td>Answer engine</td><td>Multimodal AI assistant</td></tr>
+<tr><td>Vendor</td><td>Perplexity</td><td>Google</td></tr>
+<tr><td>Live web search</td><td>✅ Always-on 🏆</td><td>✅ Google Search</td></tr>
+<tr><td>Citations</td><td>✅ Every response 🏆</td><td>Limited</td></tr>
+<tr><td>Context length</td><td>—</td><td>1M tokens 🏆</td></tr>
+<tr><td>Vision (image understanding)</td><td>Limited</td><td>✅ Native 🏆</td></tr>
+<tr><td>Image generation</td><td>❌</td><td>✅ (Whisk/Imagen) 🏆</td></tr>
+<tr><td>Voice mode</td><td>✅ Basic</td><td>✅</td></tr>
+<tr><td>Video understanding</td><td>❌</td><td>✅ Native 🏆</td></tr>
+<tr><td>Google Workspace integration</td><td>❌</td><td>✅ Deep 🏆</td></tr>
+<tr><td>Model choice</td><td>✅ Multi-model 🏆</td><td>Google only</td></tr>
+<tr><td>Free tier</td><td>5 Pro searches / 4h</td><td>Gemini Flash 🏆</td></tr>
+<tr><td>Paid price</td><td>$20/mo</td><td>$20/mo + 2TB storage</td></tr>
+<tr><td>Rating</td><td>4.6★</td><td>4.7★</td></tr>
+</table>
+
+<h2>Live Web Search — Both Have It, Different Strengths</h2>
+<p>Both tools search the live web, but their approach is completely different:</p>
+<ul>
+<li><strong>Perplexity</strong> is built <em>around</em> search. Every response cites multiple sources with inline footnotes. Its <strong>Pro Search</strong> breaks complex questions into sub-queries, reads multiple sources, and synthesizes a cited answer. Best for: research, fact-checking, comparison shopping.</li>
+<li><strong>Gemini</strong> uses Google Search for grounding — it can cite sources when needed, but its main strength is generating content from its training data. Best for: creative work, document analysis, Google ecosystem tasks.</li>
+</ul>
+<p><strong>For research with citations: Perplexity wins.</strong> For general AI assistance with web grounding: Gemini.</p>
+
+<h2>Citations & Trust — Perplexity Wins</h2>
+<p>Perplexity cites <strong>every</strong> claim with clickable footnotes. You see exactly where each fact comes from. This matters for:</p>
+<ul>
+<li>Academic research</li>
+<li>Journalism</li>
+<li>Legal work</li>
+<li>Product comparisons</li>
+<li>Any claim that needs a source</li>
+</ul>
+<p>Gemini grounds answers in Google Search when relevant, but citations are less prominent and not every claim is sourced. If verifiability matters, Perplexity is more trustworthy.</p>
+
+<h2>Context Length — Gemini's Massive Advantage</h2>
+<p>Gemini 2.5 Pro has a <strong>1 million token context window</strong> (~750,000 words). You can upload entire books, codebases, or 50 research papers in one prompt. Perplexity doesn't have an equivalent long-context document mode.</p>
+<p>If you work with massive documents (legal, research, codebases), Gemini is the clear winner. Perplexity is better for live web research, not document analysis.</p>
+
+<h2>Multimodal Capabilities — Gemini Wins Big</h2>
+<table>
+<tr><th>Capability</th><th>Perplexity</th><th>Gemini</th></tr>
+<tr><td>Text generation</td><td>✅</td><td>✅</td></tr>
+<tr><td>Vision (understand images)</td><td>Limited</td><td>✅ Native 🏆</td></tr>
+<tr><td>Image generation</td><td>❌</td><td>✅ (Whisk/Imagen) 🏆</td></tr>
+<tr><td>Video understanding</td><td>❌</td><td>✅ Native 🏆</td></tr>
+<tr><td>Voice conversations</td><td>✅ Basic</td><td>✅</td></tr>
+<tr><td>Code execution</td><td>❌</td><td>✅</td></tr>
+</table>
+<p>Gemini is a true multimodal AI — it sees images, watches videos, generates images, and handles voice. Perplexity is primarily a text-based answer engine. If you need multimodal work, Gemini wins decisively.</p>
+
+<h2>Google Workspace Integration — Gemini Wins Decisively</h2>
+<p>Gemini is woven into Google's ecosystem:</p>
+<ul>
+<li><strong>Gmail</strong> — summarize threads, draft replies</li>
+<li><strong>Google Docs</strong> — write, edit, brainstorm in-place</li>
+<li><strong>Google Sheets</strong> — formula help, data analysis</li>
+<li><strong>Google Drive</strong> — search across all your files</li>
+<li><strong>NotebookLM</strong> — turn documents into podcasts</li>
+</ul>
+<p>Perplexity has no equivalent integration. If you're a Google Workspace user, Gemini feels native. Perplexity is a standalone research tool.</p>
+
+<h2>Model Choice — Perplexity's Hidden Advantage</h2>
+<p>This is Perplexity's secret weapon. On the Pro tier, you can <strong>switch between models</strong>:</p>
+<ul>
+<li>GPT-4o (OpenAI)</li>
+<li>Claude (Anthropic)</li>
+<li>Sonar (Perplexity's own)</li>
+<li>Llama (Meta)</li>
+<li>Mistral</li>
+</ul>
+<p>Gemini only offers Google's models. With Perplexity Pro, you get access to multiple frontier models in one interface.</p>
+
+<h2>Pricing Comparison</h2>
+<table>
+<tr><th>Plan</th><th>Perplexity</th><th>Gemini</th></tr>
+<tr><td>Free</td><td>5 Pro searches / 4h</td><td>Gemini Flash, basic app 🏆</td></tr>
+<tr><td>Paid (individual)</td><td>$20/mo (Pro)</td><td>$20/mo (Advanced) + 2TB storage 🏆</td></tr>
+<tr><td>Top tier</td><td>$40/mo (Enterprise)</td><td>$200/mo (AI Pro) + Veo 3 video</td></tr>
+</table>
+<p>Same price ($20/mo). Gemini Advanced bundles 2TB Google storage + NotebookLM + Veo 3 video — better value if you use Google's ecosystem. Perplexity Pro gives you multi-model access + unlimited Pro search — better value for research.</p>
+
+<h2>When to Use Which</h2>
+<h3>Use Perplexity when:</h3>
+<ul>
+<li>You need cited, current information</li>
+<li>You're doing research or fact-checking</li>
+<li>You want to verify claims with sources</li>
+<li>You want to try multiple AI models in one interface</li>
+</ul>
+
+<h3>Use Gemini when:</h3>
+<ul>
+<li>You live in Google Workspace (Gmail, Docs, Sheets)</li>
+<li>You work with massive documents (1M context)</li>
+<li>You need multimodal AI (images, video, voice)</li>
+<li>You want grounded answers with Google Search</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Is Perplexity better than Gemini?</h3>
+<p>For research with citations, yes — Perplexity always cites sources and is built around live web search. For multimodal AI, Google ecosystem integration, and long-context work, Gemini is better. They serve different purposes.</p>
+
+<h3>Does Perplexity have a longer context than Gemini?</h3>
+<p>No — Gemini 2.5 Pro has a 1M token context window. Perplexity doesn't have an equivalent long-context document mode. For massive documents, Gemini wins.</p>
+
+<h3>Which is better for research?</h3>
+<p>Perplexity — it cites sources, breaks complex questions into steps, and is built around factual accuracy. Gemini is better for multimodal work and Google ecosystem tasks.</p>
+
+<h3>Which has better Google Workspace integration?</h3>
+<p>Gemini, hands down. It's integrated into Gmail, Docs, Sheets, and Drive. Perplexity has no equivalent integration.</p>
+
+<h3>Can Perplexity generate images or understand video?</h3>
+<p>No — Perplexity is primarily a text-based answer engine. Gemini handles images, video, and voice natively. For multimodal work, use Gemini.</p>
+
+<h3>Which is cheaper?</h3>
+<p>Same price ($20/mo paid). Gemini Advanced bundles 2TB Google storage — better value if you use Google's ecosystem. Perplexity Pro gives multi-model access — better value for research.</p>
+
+<h2>Final Verdict</h2>
+<ul>
+<li><strong>Choose Perplexity if:</strong> You need cited, current answers. Best for researchers, journalists, students, and anyone who values source verification.</li>
+<li><strong>Choose Gemini if:</strong> You live in Google's ecosystem, work with massive documents, or need multimodal AI (images, video, voice).</li>
+<li><strong>Choose both if:</strong> You're a knowledge worker — Perplexity for research, Gemini for creation and Google integration. Total: $40/month.</li>
+</ul>
+<p><a href="https://myaipicker.com/tools/perplexity">See full Perplexity specs &rarr;</a> | <a href="https://myaipicker.com/tools/gemini">See full Gemini specs &rarr;</a></p>
+<p><a href="https://myaipicker.com/compare/perplexity-vs-gemini">Open the interactive comparison deck &rarr;</a></p>
+<p>Also read: <a href="https://myaipicker.com/blog/perplexity-vs-chatgpt">Perplexity vs ChatGPT comparison &rarr;</a> | <a href="https://myaipicker.com/blog/gemini-vs-chatgpt">Gemini vs ChatGPT comparison &rarr;</a></p>
+`,
+  },
+  {
+    slug: "perplexity-vs-claude",
+    title: "Perplexity vs Claude (2026): Cited Research vs Deep Reasoning",
+    description:
+      "Perplexity vs Claude in 2026 — we compare live web search, citations, coding (SWE-bench), writing quality, context length, pricing, and when to use each AI assistant.",
+    date: "2026-08-08",
+    readTime: "9 min",
+    category: "Comparisons",
+    keywords: [
+      "perplexity vs claude",
+      "claude vs perplexity",
+      "perplexity vs claude 2026",
+      "is perplexity better than claude",
+      "perplexity vs claude for research",
+      "perplexity vs claude for coding",
+      "perplexity vs claude for writing",
+      "perplexity vs claude pricing",
+      "perplexity vs claude free",
+      "perplexity vs claude reddit",
+    ],
+    content: `
+<h2>TL;DR — Quick Verdict</h2>
+<p><strong>Perplexity</strong> and <strong>Claude</strong> are two of the most respected AI tools in 2026, but they excel at completely different things. Perplexity is a <strong>cited answer engine</strong> — it searches the live web and writes responses with footnotes. Claude (by Anthropic) is a <strong>deep reasoning AI</strong> — it leads on SWE-bench (real software engineering), writes the most natural prose, and handles massive 200K-token documents.</p>
+<p>Pick <strong>Perplexity</strong> for research, current events, and cited answers. Pick <strong>Claude</strong> for coding, long-form writing, and careful analysis. They're complementary, not competitors.</p>
+<p><a href="https://myaipicker.com/compare/perplexity-vs-claude">Skip to the full side-by-side spec comparison &rarr;</a></p>
+
+<h2>Feature Comparison Table</h2>
+<table>
+<tr><th>Feature</th><th>Perplexity</th><th>Claude</th></tr>
+<tr><td>Type</td><td>Answer engine</td><td>AI assistant</td></tr>
+<tr><td>Vendor</td><td>Perplexity</td><td>Anthropic</td></tr>
+<tr><td>Live web search</td><td>✅ Always-on 🏆</td><td>❌</td></tr>
+<tr><td>Citations</td><td>✅ Every response 🏆</td><td>❌</td></tr>
+<tr><td>Coding (SWE-bench)</td><td>—</td><td>49.0% 🏆</td></tr>
+<tr><td>Writing quality</td><td>Good</td><td>Best-in-class 🏆</td></tr>
+<tr><td>Context length</td><td>—</td><td>200K tokens 🏆</td></tr>
+<tr><td>Artifacts (live previews)</td><td>❌</td><td>✅ 🏆</td></tr>
+<tr><td>Projects (persistent context)</td><td>❌</td><td>✅ 🏆</td></tr>
+<tr><td>Model choice</td><td>✅ Multi-model 🏆</td><td>Claude only</td></tr>
+<tr><td>Free tier</td><td>5 Pro searches / 4h</td><td>Sonnet, daily limits</td></tr>
+<tr><td>Paid price</td><td>$20/mo</td><td>$20/mo</td></tr>
+<tr><td>Rating</td><td>4.6★</td><td>4.8★</td></tr>
+</table>
+
+<h2>Live Web Search — Perplexity's Core Strength</h2>
+<p>Perplexity is built around live web search. Every response cites real sources — you see exactly where each claim comes from. Its <strong>Pro Search</strong> breaks complex questions into sub-queries, reads multiple sources, and synthesizes a cited answer.</p>
+<p>Claude has no native web search. It generates responses from its training data (which has a cutoff date). If you need current information, Perplexity is the clear winner. Claude is better for reasoning, writing, and coding — not finding current facts.</p>
+
+<h2>Citations & Trust — Perplexity Wins</h2>
+<p>Perplexity cites every source with inline footnotes. You can click any claim to verify it. This is huge for:</p>
+<ul>
+<li>Academic research</li>
+<li>Journalism</li>
+<li>Legal work</li>
+<li>Product comparisons</li>
+<li>Any claim that needs a source</li>
+</ul>
+<p>Claude generates plausible answers but doesn't cite sources. If accuracy and verifiability matter, Perplexity is more trustworthy for factual claims.</p>
+
+<h2>Coding — Claude Wins Decisively</h2>
+<p>This is where Claude dominates. Claude leads the <strong>SWE-bench benchmark at 49.0%</strong> — it can solve real GitHub issues end-to-end, write code, run tests, and fix bugs. Perplexity doesn't have an equivalent coding capability.</p>
+<p>If you're a developer, Claude is dramatically better for:</p>
+<ul>
+<li>Writing and refactoring code</li>
+<li>Debugging complex issues</li>
+<li>Multi-file codebase changes</li>
+<li>Terminal-native agentic coding (via <a href="https://myaipicker.com/tools/claude-code">Claude Code</a>)</li>
+</ul>
+<p>For coding, Claude wins. Period.</p>
+
+<h2>Writing Quality — Claude Wins Big</h2>
+<p>Claude is widely considered the best AI writer. Its prose is natural, nuanced, and less "AI-sounding" than competitors. Its Fable 5 model is specifically tuned for creative writing. Claude handles tone (formal, casual, technical) more gracefully than any other AI.</p>
+<p>Perplexity can write, but it's not its strength. It's an answer engine, not a creator. For blog posts, essays, creative writing, or any long-form content, Claude is clearly better.</p>
+
+<h2>Context Length — Claude Wins</h2>
+<p>Claude's context window is <strong>200K tokens</strong> (~150,000 words). You can upload entire books, codebases, or long legal documents. Perplexity doesn't have an equivalent long-context document mode — it's built for live web search, not document analysis.</p>
+<p>For working with massive documents, Claude wins.</p>
+
+<h2>Artifacts & Projects — Claude's Productivity Edge</h2>
+<p>Claude has two features Perplexity lacks:</p>
+<ul>
+<li><strong>Artifacts</strong> — live previews of code, websites, and documents in the chat. You can see rendered React components, interactive previews, and formatted documents as Claude generates them.</li>
+<li><strong>Projects</strong> — persistent context across conversations. Upload your codebase or brand guidelines once, and Claude remembers them in future chats.</li>
+</ul>
+<p>These make Claude dramatically better for ongoing creative and development work. Perplexity is a one-shot research tool.</p>
+
+<h2>Model Choice — Perplexity's Hidden Advantage</h2>
+<p>This is Perplexity's secret weapon. On the Pro tier, you can <strong>switch between models</strong>:</p>
+<ul>
+<li>GPT-4o (OpenAI)</li>
+<li>Claude (Anthropic) 🎯</li>
+<li>Sonar (Perplexity's own)</li>
+<li>Llama (Meta)</li>
+<li>Mistral</li>
+</ul>
+<p>Yes — you can access Claude <em>through</em> Perplexity Pro. But you lose Claude's native features (Artifacts, Projects, 200K context). For full Claude capability, subscribe to Claude Pro directly.</p>
+
+<h2>Pricing Comparison</h2>
+<table>
+<tr><th>Plan</th><th>Perplexity</th><th>Claude</th></tr>
+<tr><td>Free</td><td>5 Pro searches / 4h</td><td>Sonnet, daily limits</td></tr>
+<tr><td>Paid (individual)</td><td>$20/mo (Pro)</td><td>$20/mo (Pro)</td></tr>
+<tr><td>Top tier</td><td>$40/mo (Enterprise)</td><td>$100/mo (Max)</td></tr>
+<tr><td>Team</td><td>—</td><td>$30/mo per user</td></tr>
+</table>
+<p>Same price ($20/mo). Perplexity Pro gives you multi-model access + unlimited Pro search. Claude Pro gives you Opus access + Artifacts + Projects. Choose based on what you need.</p>
+
+<h2>When to Use Which</h2>
+<h3>Use Perplexity when:</h3>
+<ul>
+<li>You need current, cited information</li>
+<li>You're doing research or fact-checking</li>
+<li>You want to verify claims with sources</li>
+<li>You want to try multiple AI models in one interface</li>
+</ul>
+
+<h3>Use Claude when:</h3>
+<ul>
+<li>You're writing long-form content (blogs, essays, books)</li>
+<li>You're coding and need a capable AI developer</li>
+<li>You work with long documents (200K context)</li>
+<li>You want Artifacts (live previews) or Projects (persistent context)</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Is Perplexity better than Claude?</h3>
+<p>For research with citations, yes — Perplexity always cites sources and searches the live web. For coding, writing, and deep reasoning, Claude is better. They serve different purposes.</p>
+
+<h3>Does Claude have web search?</h3>
+<p>No — Claude doesn't have native web search. It generates responses from its training data. If you need current information, use Perplexity. For reasoning and writing, Claude wins.</p>
+
+<h3>Which is better for coding?</h3>
+<p>Claude, by a wide margin. It leads SWE-bench at 49.0% (real software engineering). Perplexity doesn't have an equivalent coding capability. Pair Claude with <a href="https://myaipicker.com/tools/claude-code">Claude Code</a> for terminal-native agentic coding.</p>
+
+<h3>Which is better for writing?</h3>
+<p>Claude — its prose is more natural, it handles long documents better (200K context), and the Fable 5 model is specifically tuned for creative writing.</p>
+
+<h3>Can I use Claude through Perplexity?</h3>
+<p>Yes — Perplexity Pro lets you choose Claude as the underlying model. But you lose Claude's native features (Artifacts, Projects, 200K context). For full Claude capability, subscribe to Claude Pro directly.</p>
+
+<h3>Which has a longer context?</h3>
+<p>Claude — 200K tokens vs Perplexity's lack of a long-context document mode. For massive documents, Claude wins.</p>
+
+<h2>Final Verdict</h2>
+<ul>
+<li><strong>Choose Perplexity if:</strong> You need cited, current answers. Best for researchers, journalists, and anyone who values source verification.</li>
+<li><strong>Choose Claude if:</strong> You write, code, or work with long documents. Best for developers, writers, and analysts.</li>
+<li><strong>Choose both if:</strong> You're a knowledge worker — Perplexity for research, Claude for creation. Total: $40/month.</li>
+</ul>
+<p><a href="https://myaipicker.com/tools/perplexity">See full Perplexity specs &rarr;</a> | <a href="https://myaipicker.com/tools/claude">See full Claude specs &rarr;</a></p>
+<p><a href="https://myaipicker.com/compare/perplexity-vs-claude">Open the interactive comparison deck &rarr;</a></p>
+<p>Also read: <a href="https://myaipicker.com/blog/perplexity-vs-chatgpt">Perplexity vs ChatGPT comparison &rarr;</a> | <a href="https://myaipicker.com/blog/chatgpt-vs-claude">ChatGPT vs Claude comparison &rarr;</a></p>
+`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): BlogArticle | undefined {
