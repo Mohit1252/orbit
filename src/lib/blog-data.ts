@@ -26,6 +26,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "8 min",
     category: "Coding",
     keywords: ["best ai for coding", "cursor vs copilot", "claude code", "ai coding tools 2026"],
+    image: "/blog/best-ai-tools-for-coding-2026.png",
     content: `
 <h2>Introduction</h2>
 <p>AI coding tools have exploded in 2026. But which one actually makes you faster? We compared the top 5 AI coding assistants using real benchmark data (SWE-bench), pricing, and hands-on testing.</p>
@@ -86,6 +87,7 @@ export const blogArticles: BlogArticle[] = [
       "chatgpt vs claude reddit",
       "is claude better than chatgpt",
     ],
+    image: "/blog/chatgpt-vs-claude.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p>Two of the most popular AI assistants in 2026 — but they're built for different things. <strong>ChatGPT</strong> (by OpenAI) is the all-rounder: voice, vision, image generation, plugins, and the biggest ecosystem. <strong>Claude</strong> (by Anthropic) wins on writing quality, long-context handling, and real software engineering (it leads the SWE-bench benchmark at 49%).</p>
@@ -224,6 +226,7 @@ export const blogArticles: BlogArticle[] = [
       "best ai code editor 2026",
       "cursor vs copilot autocomplete",
     ],
+    image: "/blog/cursor-vs-copilot.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Cursor</strong> and <strong>GitHub Copilot</strong> are the two most popular AI coding tools in 2026, and they take very different approaches. Cursor is a full AI-first IDE (a fork of VS Code) built around deep repo context and agentic workflows. GitHub Copilot is an IDE extension that brings AI into whatever editor you already use (VS Code, JetBrains, Neovim).</p>
@@ -343,6 +346,7 @@ export const blogArticles: BlogArticle[] = [
       "midjourney vs dall e api",
       "best ai image generator 2026",
     ],
+    image: "/blog/midjourney-vs-dall-e.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Midjourney</strong> and <strong>DALL·E 3</strong> are the two most popular AI image generators in 2026, and they're built for very different use cases. Midjourney is the <strong>aesthetic champion</strong> — it produces the most beautiful, painterly, cinematic images. DALL·E 3 is the <strong>prompt-fidelity champion</strong> — it follows your instructions precisely and renders legible text inside images.</p>
@@ -477,6 +481,7 @@ export const blogArticles: BlogArticle[] = [
       "gemini vs chatgpt free",
       "gemini vs chatgpt reddit",
     ],
+    image: "/blog/gemini-vs-chatgpt.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Gemini</strong> (by Google) and <strong>ChatGPT</strong> (by OpenAI) are the two biggest AI assistants in 2026, and they're built on very different philosophies. Gemini is the <strong>long-context king</strong> — it handles up to 1 million tokens, integrates natively with Google Workspace (Docs, Gmail, Sheets), and grounds answers in live Google Search. ChatGPT is the <strong>versatility champion</strong> — it has the biggest ecosystem, best voice mode, image generation (DALL·E 3), and the largest user community.</p>
@@ -607,6 +612,7 @@ export const blogArticles: BlogArticle[] = [
       "perplexity vs chatgpt api",
       "perplexity vs chatgpt for search",
     ],
+    image: "/blog/perplexity-vs-chatgpt.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Perplexity</strong> and <strong>ChatGPT</strong> are often compared, but they're fundamentally different tools. Perplexity is an <strong>answer engine</strong> — it searches the live web, reads sources, and writes a cited response. ChatGPT is a <strong>general AI assistant</strong> — it generates text, code, images, and conversation from its training data (with optional web search).</p>
@@ -741,6 +747,7 @@ export const blogArticles: BlogArticle[] = [
       "runway vs pika for beginners",
       "best ai video generator 2026",
     ],
+    image: "/blog/runway-vs-pika.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Runway</strong> and <strong>Pika 2.0</strong> are two of the most popular AI video generators in 2026, and they target very different users. Runway is the <strong>professional's choice</strong> — higher quality, precise camera control, and the Gen-3 Alpha model that produces cinematic footage. Pika 2.0 is the <strong>creator's playground</strong> — faster, cheaper, and packed with fun "Pikaffects" (inflate, melt, explode) perfect for social media.</p>
@@ -853,6 +860,7 @@ export const blogArticles: BlogArticle[] = [
       "suno vs udio reddit",
       "best ai music generator 2026",
     ],
+    image: "/blog/suno-vs-udio.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Suno</strong> and <strong>Udio</strong> are the two leading AI music generators in 2026, and they're surprisingly close in quality. Suno is the <strong>popular choice</strong> — easier to use, more generous free tier, and a bigger community. Udio is the <strong>audiophile's choice</strong> — higher audio fidelity and more manual editing control, founded by ex-DeepMind researchers.</p>
@@ -957,6 +965,7 @@ export const blogArticles: BlogArticle[] = [
       "elevenlabs vs murf for voiceover",
       "best ai text to speech 2026",
     ],
+    image: "/blog/elevenlabs-vs-murf.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>ElevenLabs</strong> and <strong>Murf AI</strong> are the two leading AI text-to-speech platforms in 2026, and they take different approaches. ElevenLabs is the <strong>voice quality champion</strong> — the most realistic TTS available, with instant voice cloning and multilingual dubbing. Murf AI is the <strong>studio editor</strong> — a timeline-based voiceover production tool with 200+ voices and sync-to-video features.</p>
@@ -1064,6 +1073,7 @@ export const blogArticles: BlogArticle[] = [
       "perplexity vs gemini reddit",
       "perplexity vs gemini api",
     ],
+    image: "/blog/perplexity-vs-gemini.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Perplexity</strong> and <strong>Gemini</strong> are both powerful AI tools from major tech companies, but they're built for very different purposes. Perplexity is a <strong>cited answer engine</strong> — it searches the live web and writes responses with footnotes you can verify. Gemini is Google's <strong>multimodal AI assistant</strong> — it handles text, images, video, and voice, with deep Google Workspace integration and a massive 1M-token context window.</p>
@@ -1222,6 +1232,7 @@ export const blogArticles: BlogArticle[] = [
       "perplexity vs claude free",
       "perplexity vs claude reddit",
     ],
+    image: "/blog/perplexity-vs-claude.png",
     content: `
 <h2>TL;DR — Quick Verdict</h2>
 <p><strong>Perplexity</strong> and <strong>Claude</strong> are two of the most respected AI tools in 2026, but they excel at completely different things. Perplexity is a <strong>cited answer engine</strong> — it searches the live web and writes responses with footnotes. Claude (by Anthropic) is a <strong>deep reasoning AI</strong> — it leads on SWE-bench (real software engineering), writes the most natural prose, and handles massive 200K-token documents.</p>

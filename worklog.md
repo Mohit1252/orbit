@@ -455,3 +455,45 @@ Stage Summary:
 - Image generation workflow established: z-ai image CLI → public/blog/{slug}.png → reference in blog-data.ts `image` field. Reusable for future articles.
 - All 4 articles use real data from ai-data.ts (ratings, pricing, benchmarks). Zero made-up numbers.
 - Next: continue adding more comparison articles with images as user provides keywords.
+
+---
+Task ID: 14
+Agent: direct (user request)
+Task: Backfill hero images to all 11 existing articles (Option B) + verify sitemap + wrap up day's work.
+
+Work Log:
+- User chose Option B: backfill images to all 11 existing articles that didn't have hero images.
+- Previous batch script timed out (11 images at once). Tools recovered after ~5 min.
+- Found 9/11 images were already generated before timeout (background process completed). 3 were missing: elevenlabs-vs-murf, perplexity-vs-gemini, perplexity-vs-claude.
+- Generated 3 missing images one-by-one (not batch) using z-ai image CLI — all succeeded.
+- Total blog images: 15 (one per article).
+- Added `image` field to all 11 backfill articles in blog-data.ts using MultiEdit:
+  - best-ai-tools-for-coding-2026, chatgpt-vs-claude, cursor-vs-copilot, midjourney-vs-dall-e, gemini-vs-chatgpt, perplexity-vs-chatgpt, runway-vs-pika, suno-vs-udio, elevenlabs-vs-murf, perplexity-vs-gemini, perplexity-vs-claude.
+  - 4 newer articles (notion-ai-vs-chatgpt, midjourney-vs-stable-diffusion, claude-vs-gemini, cursor-vs-windsurf) already had images from Task 13.
+- Lint clean. All 15 articles now have hero images.
+- Verified via agent-browser: blog list shows 30 image references (15 articles × list + detail). All images render with alt text.
+- Sitemap verified:
+  - Total URLs: 297 (homepage, legal, blog list, leaderboard, compare hub, best-2026, resume writer, how-we-score, 9 category pages, 15 blog articles, 122 tool detail pages, 142 comparison pages).
+  - Blog URLs: 15 ✓
+  - Tool detail URLs: 122 ✓
+  - Comparison URLs: 142 ✓
+  - All return 200, no errors.
+
+Stage Summary:
+- **All 15 blog articles now have AI-generated hero images.** Blog section is visually complete.
+- Image workflow established: z-ai image CLI → public/blog/{slug}.png → `image` field in blog-data.ts. Reusable for future articles.
+- Sitemap is production-ready: 297 URLs covering all pages. Ready for Google Search Console submission.
+- Today's accomplishments (Tasks 8-14):
+  1. Blog infrastructure enhanced (filterable list, search, category chips, featured banner, JSON-LD schema, related articles).
+  2. 15 SEO comparison articles written (each 1000-1500 words, real benchmarks, FAQ, internal links).
+  3. 150+ SEO keywords across all articles.
+  4. Dynamic comparison pages expanded 50 → 142 (smart pair generation, zero nonsense).
+  5. 15 AI-generated hero images (one per article).
+  6. Sitemap expanded to 297 URLs.
+  7. All internal links verified — no 404s.
+- Next steps (future sessions):
+  1. Deploy to Vercel (production).
+  2. Submit sitemap to Google Search Console + Bing Webmaster Tools.
+  3. Continue adding comparison articles (target: 30-50 total).
+  4. Set up Google Analytics tracking (already has gtag ID G-H3EHC0JLB0).
+  5. Build backlinks (Reddit, Product Hunt, AI directories).
