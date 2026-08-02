@@ -134,6 +134,18 @@ export default async function BlogArticlePage({
             {article.description}
           </p>
 
+          {/* Hero image (optional) */}
+          {article.image && (
+            <figure className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
+              <img
+                src={article.image}
+                alt={`${article.title} — visual comparison`}
+                className="aspect-[1344/768] w-full object-cover"
+                loading="eager"
+              />
+            </figure>
+          )}
+
           {/* Divider */}
           <div className="mt-6 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 

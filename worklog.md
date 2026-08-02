@@ -419,3 +419,39 @@ Stage Summary:
 - Zero Google risk — every page has real benchmark data (MMLU, SWE-bench, pricing), interactive spec comparison deck, winner badges. Not thin content.
 - Sitemap updated — 293 total indexed URLs (homepage, blog, 131 tool pages, 9 category pages, 142 comparison pages, legal pages).
 - Next: Phase 2 — continue hand-writing top-searched comparison blog articles (currently 11, target 30-50). Phase 3 — skip nonsense pairs permanently.
+
+---
+Task ID: 13
+Agent: direct (user request)
+Task: Add 4 comparison articles (notion ai vs chatgpt, midjourney vs stable diffusion, claude vs gemini, cursor vs windsurf) with AI-generated hero images.
+
+Work Log:
+- User confirmed all 4 pairs are meaningful (not nonsense): all are same-category comparisons.
+- User requested images (jpg/png) be added to articles for better visual appeal.
+- Generated 4 hero images using z-ai image generation CLI (1344x768 landscape, ~80-160KB each):
+  - notion-ai-vs-chatgpt.png — split illustration: Notion doc editor vs ChatGPT chat interface
+  - midjourney-vs-stable-diffusion.png — split: painterly art (Midjourney) vs technical photorealism (SD)
+  - claude-vs-gemini.png — split: warm amber AI brain (Claude) vs cool teal Google-style brain (Gemini)
+  - cursor-vs-windsurf.png — split: teal code editor (Cursor) vs coral code editor (Windsurf)
+  - All images saved to public/blog/ folder.
+- Added optional `image?: string` field to BlogArticle interface in blog-data.ts.
+- Updated src/app/blog/[slug]/page.tsx: added hero image render between title/description and content divider. Image is responsive (aspect-[1344/768], w-full, object-cover), has alt text, eager loading.
+- Updated src/app/blog/blog-list.tsx:
+  - Featured article: now grid layout (sm:grid-cols-5) with image on left (sm:col-span-2) and content on right (sm:col-span-3). Hover scale-105 zoom on image.
+  - Article cards: thumbnail on top (aspect-[1344/768]) with border-b, content below. Hover scale-105 zoom.
+  - Lazy loading on grid thumbnails, eager on featured.
+- Wrote 4 comprehensive comparison articles (9-10 min reads each, ~1200-1500 words each):
+  1. **notion-ai-vs-chatgpt** — workspace assistant vs general AI. 10 keywords, 6-question FAQ.
+  2. **midjourney-vs-stable-diffusion** — paid aesthetics vs open source power. 10 keywords, 6-question FAQ. Covers LoRA, ControlNet, local run, privacy.
+  3. **claude-vs-gemini** — deep reasoning vs multimodal. 10 keywords, 6-question FAQ. Real benchmark table (SWE-bench 49% vs 36%).
+  4. **cursor-vs-windsurf** — AI code editor showdown. 10 keywords, 6-question FAQ. Covers Composer vs Cascade agents, pricing comparison.
+- All articles cross-link to related articles: notion-ai-vs-chatgpt ↔ chatgpt-vs-claude + perplexity-vs-chatgpt; midjourney-vs-stable-diffusion ↔ midjourney-vs-dall-e; claude-vs-gemini ↔ chatgpt-vs-claude + gemini-vs-chatgpt; cursor-vs-windsurf ↔ cursor-vs-copilot.
+- Lint clean. All pages return 200. Images render on both blog list (thumbnails) and article detail (hero image).
+
+Stage Summary:
+- 4 new comparison articles published with AI-generated hero images. Blog now has 15 articles total (1 guide + 14 comparisons).
+- 150+ SEO keywords across 15 articles.
+- Visual enhancement: blog list now shows image thumbnails on cards + featured article has side-by-side image+content layout. Article pages show hero image below title.
+- Image generation workflow established: z-ai image CLI → public/blog/{slug}.png → reference in blog-data.ts `image` field. Reusable for future articles.
+- All 4 articles use real data from ai-data.ts (ratings, pricing, benchmarks). Zero made-up numbers.
+- Next: continue adding more comparison articles with images as user provides keywords.

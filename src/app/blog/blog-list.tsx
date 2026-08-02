@@ -131,8 +131,19 @@ export function BlogList({ articles }: BlogListProps) {
       {showFeatured && (
         <Link
           href={`/blog/${featured.slug}`}
-          className="group mb-8 block overflow-hidden rounded-2xl border border-aurora/30 bg-gradient-to-br from-aurora/[0.06] via-card to-card p-6 transition-all hover:-translate-y-0.5 hover:border-aurora/50 sm:p-8"
+          className="group mb-8 grid overflow-hidden rounded-2xl border border-aurora/30 bg-gradient-to-br from-aurora/[0.06] via-card to-card transition-all hover:-translate-y-0.5 hover:border-aurora/50 sm:grid-cols-5"
         >
+          {featured.image && (
+            <div className="relative aspect-[1344/768] w-full overflow-hidden bg-ink/40 sm:col-span-2 sm:aspect-auto">
+              <img
+                src={featured.image}
+                alt={`${featured.title} — visual comparison`}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="eager"
+              />
+            </div>
+          )}
+          <div className={cn("p-6 sm:p-8", featured.image ? "sm:col-span-3" : "")}>
           <div className="flex items-center gap-2 text-xs">
             <span className="inline-flex items-center gap-1 rounded-md border border-aurora/50 bg-aurora/15 px-2 py-0.5 font-bold text-aurora">
               <Sparkles className="h-3 w-3" /> Featured
@@ -158,6 +169,7 @@ export function BlogList({ articles }: BlogListProps) {
           <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-aurora">
             Read article
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+          </div>
           </div>
         </Link>
       )}
@@ -186,8 +198,19 @@ export function BlogList({ articles }: BlogListProps) {
               <Link
                 key={article.slug}
                 href={`/blog/${article.slug}`}
-                className="group flex flex-col rounded-xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-aurora/40"
+                className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:-translate-y-0.5 hover:border-aurora/40"
               >
+                {article.image && (
+                  <div className="relative aspect-[1344/768] w-full overflow-hidden border-b border-border bg-ink/40">
+                    <img
+                      src={article.image}
+                      alt={`${article.title} — visual comparison`}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span
                     className={cn(
@@ -221,6 +244,7 @@ export function BlogList({ articles }: BlogListProps) {
                     Read
                     <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </span>
+                </div>
                 </div>
               </Link>
             );
