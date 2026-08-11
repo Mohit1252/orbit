@@ -527,3 +527,37 @@ Stage Summary:
 - Image style: glowing energy orbs, neural network patterns, particle streams, cosmic backgrounds with accent colors (amber gold, teal, coral, nebula pink, star amber) matching site theme.
 - Pushed to GitHub: commit de0ce00 on main branch. Remote and local in sync.
 - Lesson learned for future image generation: always use "pure abstract, no UI, no screens, no text" in prompts to avoid AI-generated text artifacts.
+
+---
+Task ID: 16
+Agent: direct (user request)
+Task: Add 3 new comparison articles for latest 2026 models with real benchmarks, low-competition keywords, and AI-generated hero images.
+
+Work Log:
+- User requested comparison articles for new AI models with real benchmarks, low-competition keywords, and images.
+- Web searched for real benchmark data:
+  - GPT-5 vs Claude Opus 4.6: SWE-bench Verified (50% vs 80.8%), MMLU (89.5% vs 90.8%), GPQA (55% vs 62.5%), BigLaw Bench (90.2% for Claude), LMArena ELO (1342 vs 1328)
+  - Gemini 3.6 Flash vs GPT-5: MMLU (91.2% vs 89.5%), SWE-bench (49% vs 50%), SWE-bench Pro (58.7%), LMArena ELO (1356 vs 1342), 1.1x cheaper
+  - Sora 2 vs Veo 4: 1080p vs 4K, 60s vs 30s clips, lip-synced dialogue, API ($0.40/sec for Veo)
+- Generated 3 hero images using z-ai image CLI (pure abstract style):
+  - gpt-5-vs-claude-opus-4-6.png — amber gold (GPT-5) vs teal green (Claude) energy orbs
+  - gemini-3-6-vs-gpt-5.png — rainbow gradient (Gemini) vs green teal (GPT-5) energy orbs
+  - sora-2-vs-veo-4.png — nebula pink (Sora) vs cool teal (Veo) energy orbs
+- Verified all 3 images text-free via VLM.
+- Wrote 3 comprehensive comparison articles (10-11 min reads each, 1200-1500 words each):
+  1. **gpt-5-vs-claude-opus-4-6** — frontier LLM showdown. 10 low-competition keywords. Real benchmark table with 7 metrics. BigLaw Bench highlighted (Claude's legal reasoning strength). 6-question FAQ.
+  2. **gemini-3-6-vs-gpt-5** — speed king vs flagship. 10 low-competition keywords. Real benchmark table. 2M vs 256K context comparison. Google Workspace integration. 6-question FAQ.
+  3. **sora-2-vs-veo-4** — 4K video battle. 10 low-competition keywords. Feature comparison table. 4K vs 1080p, 60s vs 30s clips, lip-synced dialogue. Use-case recommendations. 6-question FAQ.
+- All articles cross-link to existing articles (chatgpt-vs-claude, gemini-vs-chatgpt, runway-vs-pika) and tool detail pages.
+- Lint clean. All 18 articles render correctly on /blog with hero images.
+- Verified via agent-browser: blog list shows 18 articles with 3 new ones at top (latest dates). Article detail pages render with hero image, benchmark tables, FAQ sections.
+- Committed locally. Push pending (token invalid).
+
+Stage Summary:
+- 3 new comparison articles published with real 2026 benchmark data + AI-generated images.
+- Blog now has 18 articles total (1 guide + 17 comparisons).
+- 180+ SEO keywords across all articles, including 30 new low-competition keywords targeting latest 2026 models (GPT-5, Claude Opus 4.6, Gemini 3.6, Sora 2, Veo 4).
+- All images text-free (verified via VLM).
+- Real benchmark data from web search (not made up) — SWE-bench, MMLU, GPQA, BigLaw Bench, LMArena ELO.
+- Total unpushed commits: 4 (SEO fix, cron job, new models, new articles).
+- Next: user needs to provide new GitHub token for push, or push manually.
