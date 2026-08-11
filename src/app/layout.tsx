@@ -21,46 +21,73 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "My AI Picker — Find the right AI tool for any mission",
+  metadataBase: new URL("https://myaipicker.com"),
+  title: {
+    default: "My AI Picker — Compare 130+ AI Tools & Find the Right One (2026)",
+    template: "%s | My AI Picker",
+  },
   description:
-    "My AI Picker is the AI tool universe. Compare 500+ AI models by task, budget and capability — writing, coding, images, video, voice, data and agents. Find your perfect match in seconds.",
+    "Compare 130+ AI tools by task, budget, and real benchmarks. ChatGPT vs Claude, Midjourney vs DALL·E, Cursor vs Copilot — pricing, specs, and reviews for every AI model in 2026. Find your perfect AI match in seconds.",
   keywords: [
     "AI tools",
     "compare AI",
     "AI model comparison",
     "find AI tool",
-    "ChatGPT",
-    "Claude",
-    "Midjourney",
+    "best AI tools 2026",
+    "ChatGPT vs Claude",
+    "Midjourney vs DALL·E",
+    "Cursor vs Copilot",
     "AI directory",
+    "AI tool finder",
+    "AI pricing comparison",
+    "AI benchmarks",
   ],
   authors: [{ name: "My AI Picker" }],
+  creator: "My AI Picker",
+  publisher: "My AI Picker",
   icons: {
     icon: "/logo-myaipicker.png",
+    apple: "/logo-myaipicker.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://myaipicker.com",
   },
   openGraph: {
-    title: "My AI Picker — Find the right AI tool for any mission",
+    title: "My AI Picker — Compare 130+ AI Tools & Find the Right One (2026)",
     description:
-      "Compare 80+ AI models by task, budget and capability. Your shortcut to the right AI.",
+      "Compare 130+ AI tools by task, budget, and real benchmarks. ChatGPT vs Claude, Midjourney vs DALL·E, Cursor vs Copilot — find your perfect AI match in seconds.",
     siteName: "My AI Picker",
     type: "website",
     url: "https://myaipicker.com",
+    locale: "en_US",
     images: [
       {
         url: "https://myaipicker.com/og-image.png",
         width: 1024,
         height: 1024,
-        alt: "My AI Picker — Find the right AI tool for any mission",
+        alt: "My AI Picker — Compare 130+ AI tools by task, budget, and benchmarks",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "My AI Picker — Find the right AI tool for any mission",
+    title: "My AI Picker — Compare 130+ AI Tools (2026)",
     description:
-      "Compare 80+ AI models by task, budget and capability. Your shortcut to the right AI.",
+      "Compare 130+ AI tools by task, budget, and real benchmarks. Find your perfect AI match in seconds.",
     images: ["https://myaipicker.com/og-image.png"],
   },
+  category: "technology",
 };
 
 export default function RootLayout({

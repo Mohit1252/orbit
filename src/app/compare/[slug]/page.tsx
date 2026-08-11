@@ -95,6 +95,17 @@ export function generateStaticParams() {
   return pairs.slice(0, MAX_PAIRS).map((p) => ({ slug: `${p.a}-vs-${p.b}` }));
 }
 
+// Common misspellings / variants for popular tools (helps capture typo traffic)
+const SPELLING_VARIANTS: Record<string, string[]> = {
+  quillbot: ["quill bot"],
+  chatgpt: ["chat gpt"],
+  "github-copilot": ["copilot"],
+  "stable-diffusion": ["stable diffusion"],
+  "dalle3": ["dall e", "dall-e"],
+  "elevenlabs": ["eleven labs"],
+  "notion-ai": ["notion ai"],
+};
+
 export function generateMetadata({
   params,
 }: {
@@ -110,17 +121,49 @@ export function generateMetadata({
     if (!ta || !tb) return { title: "Comparison not found" };
 
     const title = `${ta.name} vs ${tb.name}: Which AI is Better? (2026)`;
-    const description = `Detailed comparison of ${ta.name} vs ${tb.name}. See pricing, context window, capabilities, and real benchmark scores side by side. Find out which AI tool wins for your use case.`;
+    const description = `Detailed ${ta.name} vs ${tb.name} comparison. See pricing, context window, capabilities, and real benchmark scores side by side. Find out which AI tool wins for coding, writing, or your use case.`;
+
+    // Use variant names in keywords to capture typo searches
+    const aName = SPELLING_VARIANTS[a]?.[0] || ta.name;
+    const bName = SPELLING_VARIANTS[b]?.[0] || tb.name;
+    const keywords = [
+      `${ta.name} vs ${tb.name}`,
+      `${aName} vs ${bName}`,
+      `${ta.name} or ${tb.name}`,
+      `${ta.name} comparison`,
+      `${tb.name} comparison`,
+      `${ta.name} vs ${tb.name} for coding`,
+      `${ta.name} vs ${tb.name} for writing`,
+      `${ta.name} vs ${tb.name} 2026`,
+      `${ta.name} vs ${tb.name} pricing`,
+      `${ta.name} vs ${tb.name} reddit`,
+      `is ${ta.name} better than ${tb.name}`,
+    ];
 
     return {
       title,
       description,
-      keywords: [`${ta.name} vs ${tb.name}`, `${ta.name} or ${tb.name}`, `${ta.name} comparison`, `${tb.name} comparison`],
+      keywords,
       openGraph: {
         title,
         description,
         type: "article",
         url: `https://myaipicker.com/compare/${slug}`,
+        siteName: "My AI Picker",
+        images: [
+          {
+            url: "https://myaipicker.com/og-image.png",
+            width: 1024,
+            height: 1024,
+            alt: `${ta.name} vs ${tb.name} comparison (2026)`,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: ["https://myaipicker.com/og-image.png"],
       },
       alternates: {
         canonical: `https://myaipicker.com/compare/${slug}`,

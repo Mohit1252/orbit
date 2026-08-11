@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 import { Trophy, ArrowRight, Star, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Best AI Tools 2026 — Ranked & Awarded | My AI Picker",
+  title: "Best AI Tools 2026 — Ranked & Awarded by Real Benchmarks",
   description:
-    "The definitive guide to the best AI tools of 2026. Ranked by real benchmarks (MMLU, SWE-bench, LMArena ELO) and pricing. Find the best AI for coding, writing, images, video, and more.",
+    "The definitive guide to the best AI tools of 2026. Ranked by real benchmarks (MMLU, SWE-bench, LMArena ELO) and pricing — not paid placements. Find the best AI for coding, writing, images, video, voice, and more across 130+ tools.",
   keywords: [
     "best AI tools 2026",
     "best AI for coding",
@@ -17,14 +17,21 @@ export const metadata: Metadata = {
     "best free AI tools",
     "top AI models 2026",
     "AI tool awards",
+    "best LLM 2026",
+    "best AI video generator",
+    "best AI voice generator",
+    "best AI for students",
+    "best value AI",
+    "best open source AI",
   ],
   alternates: { canonical: "https://myaipicker.com/best-ai-tools-2026" },
   openGraph: {
-    title: "Best AI Tools 2026 — Ranked & Awarded | My AI Picker",
+    title: "Best AI Tools 2026 — Ranked & Awarded by Real Benchmarks",
     description:
       "The definitive guide to the best AI tools of 2026. Ranked by real benchmarks and pricing.",
     url: "https://myaipicker.com/best-ai-tools-2026",
     type: "article",
+    siteName: "My AI Picker",
   },
 };
 

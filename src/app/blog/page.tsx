@@ -9,18 +9,33 @@ import { StoreHydration } from "@/components/site/store-hydration";
 import { BlogList } from "./blog-list";
 
 export const metadata: Metadata = {
-  title: "Blog — AI Tool Guides, Comparisons & Reviews | My AI Picker",
+  title: "AI Tool Blog — Comparisons, Reviews & Guides (2026)",
   description:
-    "In-depth AI tool comparisons, reviews, and guides. Find the right AI for writing, coding, images, video, and more — backed by real benchmarks and pricing data.",
+    "In-depth AI tool comparisons, reviews, and guides backed by real benchmarks and pricing data. ChatGPT vs Claude, Midjourney vs DALL·E, Cursor vs Copilot, and more — find the right AI for writing, coding, images, video, voice, and music.",
   keywords: [
     "AI tool blog",
     "AI comparisons",
     "ChatGPT vs Claude",
+    "Midjourney vs DALL·E",
+    "Cursor vs Copilot",
     "best AI tools 2026",
     "AI tool reviews",
     "AI guides",
+    "Suno vs Udio",
+    "ElevenLabs vs Murf",
+    "Gemini vs ChatGPT",
+    "Perplexity vs ChatGPT",
+    "AI tool comparison blog",
   ],
   alternates: { canonical: "https://myaipicker.com/blog" },
+  openGraph: {
+    title: "AI Tool Blog — Comparisons, Reviews & Guides (2026)",
+    description:
+      "In-depth AI tool comparisons backed by real benchmarks. ChatGPT vs Claude, Midjourney vs DALL·E, and more.",
+    url: "https://myaipicker.com/blog",
+    type: "website",
+    siteName: "My AI Picker",
+  },
 };
 
 export default function BlogPage() {
