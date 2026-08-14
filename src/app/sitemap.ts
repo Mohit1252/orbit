@@ -101,6 +101,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
+  // 3b. Pillar pages (use-case based)
+  const pillarPages = [
+    { url: `${SITE_URL}/best/for-students`, priority: 0.9 },
+    { url: `${SITE_URL}/best/for-developers`, priority: 0.9 },
+    { url: `${SITE_URL}/best/free-ai-tools`, priority: 0.9 },
+  ];
+  for (const p of pillarPages) {
+    routes.push({
+      url: p.url,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: p.priority,
+    });
+  }
+
+  // 3c. Pricing pages (130+ auto-generated, one per tool)
+  for (const t of tools) {
+    routes.push({
+      url: `${SITE_URL}/pricing/${t.id}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    });
+  }
+
+  // 3d. Alternatives pages (top 20 tools)
+  const ALT_TOOLS = new Set([
+    "chatgpt", "claude", "gemini", "midjourney", "dalle3", "stable-diffusion",
+    "cursor", "github-copilot", "notion-ai", "perplexity", "elevenlabs",
+    "runway", "suno", "grok", "deepseek", "llama", "mistral", "windsurf",
+    "firefly", "pika",
+  ]);
+  for (const t of tools) {
+    if (ALT_TOOLS.has(t.id)) {
+      routes.push({
+        url: `${SITE_URL}/alternatives/${t.id}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.8,
+      });
+    }
+  }
+
   // 4. Comparison pairs — must match generateStaticParams in compare/[slug]/page.tsx
   // Generate meaningful pairs only (within-category + curated cross-category).
   // See COMPARISON_WORTHY + CROSS_CATEGORY_PAIRS in compare/[slug]/page.tsx.

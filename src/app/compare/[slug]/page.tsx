@@ -345,6 +345,87 @@ export default async function ComparePage({
           </Link>
         </div>
       </section>
+
+      {/* JSON-LD Schemas for SEO */}
+      <CompareSchemas ta={ta} tb={tb} winner={winner} slug={slug} />
     </div>
+  );
+}
+
+function CompareSchemas({
+  ta,
+  tb,
+  winner,
+  slug,
+}: {
+  ta: ReturnType<typeof getToolById> extends infer T ? Exclude<T, undefined> : never;
+  tb: ReturnType<typeof getToolById> extends infer T ? Exclude<T, undefined> : never;
+  winner: ReturnType<typeof getToolById> extends infer T ? Exclude<T, undefined> : never;
+  slug: string;
+}) {
+  const faqs = [
+    {
+      question: `Is ${ta.name} better than ${tb.name}?`,
+      answer: `${winner.name} is better overall (rated ${winner.rating.toFixed(1)}/5). ${winner === ta ? `${ta.name} wins on ${ta.spec.bestFor.toLowerCase()}.` : `${tb.name} wins on ${tb.spec.bestFor.toLowerCase()}.`} For specific use cases, see our detailed comparison above.`,
+    },
+    {
+      question: `Which is cheaper, ${ta.name} or ${tb.name}?`,
+      answer: `${ta.name}: ${ta.priceNote}. ${tb.name}: ${tb.priceNote}. Compare the pricing tiers above for full breakdown.`,
+    },
+    {
+      question: `Can I use ${ta.name} and ${tb.name} together?`,
+      answer: `Yes — many users subscribe to both. Use ${ta.name} for ${ta.spec.bestFor.toLowerCase()} and ${tb.name} for ${tb.spec.bestFor.toLowerCase()}.`,
+    },
+    {
+      question: `Which has a longer context, ${ta.name} or ${tb.name}?`,
+      answer: `${ta.name}: ${ta.spec.context} context. ${tb.name}: ${tb.spec.context} context. ${ta.spec.context === tb.spec.context ? "Both are equal." : ta.spec.context > tb.spec.context ? `${ta.name} has a longer context window.` : `${tb.name} has a longer context window.`}`,
+    },
+  ];
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://myaipicker.com" },
+      { "@type": "ListItem", position: 2, name: "Compare", item: "https://myaipicker.com/compare" },
+      { "@type": "ListItem", position: 3, name: `${ta.name} vs ${tb.name}`, item: `https://myaipicker.com/compare/${slug}` },
+    ],
+  };
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${ta.name} vs ${tb.name}: Which AI is Better? (2026)`,
+    description: `Detailed comparison of ${ta.name} vs ${tb.name} — pricing, features, benchmarks, and verdict.`,
+    datePublished: "2026-08-12",
+    dateModified: "2026-08-12",
+    author: { "@type": "Organization", name: "My AI Picker" },
+    publisher: {
+      "@type": "Organization",
+      name: "My AI Picker",
+      logo: { "@type": "ImageObject", url: "https://myaipicker.com/logo-myaipicker.png" },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://myaipicker.com/compare/${slug}`,
+    },
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+    </>
   );
 }

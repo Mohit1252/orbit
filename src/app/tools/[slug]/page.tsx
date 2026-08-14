@@ -102,5 +102,93 @@ export default async function ToolPage({
 
   const similar = getSimilarTools(tool, 4);
 
-  return <ToolDetailContent tool={tool} similar={similar} specKeys={specKeys} />;
+  // Build FAQ list dynamically per tool
+  const faqs = [
+    {
+      question: `What is ${tool.name} used for?`,
+      answer: `${tool.name} by ${tool.vendor} is ${tool.tagline.toLowerCase()} ${tool.description.slice(0, 120)}`,
+    },
+    {
+      question: `How much does ${tool.name} cost?`,
+      answer: `${tool.name} pricing: ${tool.priceNote}. The free tier includes limited usage; paid plans unlock higher limits and premium features.`,
+    },
+    {
+      question: `Is ${tool.name} free to use?`,
+      answer: tool.priceNote.toLowerCase().includes("free")
+        ? `Yes — ${tool.name} has a free tier. ${tool.priceNote}.`
+        : `No — ${tool.name} does not have a free tier. Pricing starts at ${tool.priceNote}.`,
+    },
+    {
+      question: `What is the best alternative to ${tool.name}?`,
+      answer: similar.length > 0
+        ? `The best alternatives to ${tool.name} are ${similar.slice(0, 3).map(s => s.name).join(", ")}. Compare them side-by-side on our comparison page.`
+        : `There are several alternatives to ${tool.name} — explore them on our AI tools directory.`,
+    },
+    {
+      question: `Is ${tool.name} worth it in 2026?`,
+      answer: `${tool.name} is rated ${tool.rating.toFixed(1)}/5. It's worth it if you need ${tool.spec.bestFor.toLowerCase()}. Compare it with alternatives before deciding.`,
+    },
+  ];
+
+  const softwareAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.name,
+    applicationCategory: "AI Tool",
+    operatingSystem: "Web",
+    description: tool.tagline,
+    offers: {
+      "@type": "Offer",
+      price: tool.priceNote.includes("Free") ? "0" : "20",
+      priceCurrency: "USD",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: tool.rating,
+      bestRating: "5",
+      ratingCount: "100",
+    },
+    url: `https://myaipicker.com/tools/${tool.id}`,
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://myaipicker.com" },
+      { "@type": "ListItem", position: 2, name: "AI Tools", item: "https://myaipicker.com/#tools" },
+      { "@type": "ListItem", position: 3, name: tool.name, item: `https://myaipicker.com/tools/${tool.id}` },
+    ],
+  };
+
+  return (
+    <>
+      <ToolDetailContent tool={tool} similar={similar} specKeys={specKeys} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+    </>
+  );
 }

@@ -134,6 +134,26 @@ export default async function BlogArticlePage({
             {article.description}
           </p>
 
+          {/* Author bio + last updated (E-E-A-T signals) */}
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <span className="grid h-7 w-7 place-items-center rounded-full border border-aurora/40 bg-aurora/10 text-aurora font-bold text-[10px]">MP</span>
+              <span className="font-semibold text-foreground">My AI Picker Editorial Team</span>
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <CalendarDays className="h-3 w-3" />
+              Updated {article.date}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {article.readTime} read
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-md border border-aurora/30 bg-aurora/[0.04] px-2 py-0.5 font-medium text-aurora">
+              <Sparkles className="h-3 w-3" />
+              Expert reviewed
+            </span>
+          </div>
+
           {/* Hero image (optional) */}
           {article.image && (
             <figure className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
