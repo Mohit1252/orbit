@@ -69,6 +69,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1.0,
     },
+    // Job Application Suite pages
+    {
+      url: `${SITE_URL}/tools/job-application-suite`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/tools/resume-builder`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/tools/cover-letter-generator`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/tools/interview-prep`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
   ];
 
   // 1b. Blog articles

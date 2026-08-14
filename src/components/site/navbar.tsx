@@ -12,19 +12,20 @@ const navLinks = [
   { label: "Compare", href: "/compare" },
   { label: "Leaderboard", href: "/leaderboard" },
   { label: "Blog", href: "/blog" },
+  { label: "Job Suite", href: "/tools/job-application-suite" },
   { label: "How it works", href: "#how" },
 ];
 
 // AI Tools dropdown sub-headings (keywords bhai dega, yahan add hote rahenge)
 const aiToolsDropdown = [
-  { label: "AI Resume Writer", href: "/ai-resume-writer", description: "Free AI Powered Resume Builder — No signup", emoji: "📄" },
+  { label: "AI Job Application Suite", href: "/tools/job-application-suite", description: "Resume + Cover Letter + Interview Prep — Free", emoji: "💼" },
+  { label: "AI Resume Builder", href: "/tools/resume-builder", description: "Free ATS resume maker with AI tailoring", emoji: "📄" },
+  { label: "AI Cover Letter", href: "/tools/cover-letter-generator", description: "Free personalized cover letter generator", emoji: "✉️" },
+  { label: "AI Interview Prep", href: "/tools/interview-prep", description: "Free mock interview with AI feedback", emoji: "🎤" },
   { label: "AI Coding Tools", href: "/best/coding", description: "Cursor, Copilot, Claude Code & more", emoji: "⌨️" },
   { label: "AI Image Generators", href: "/best/images", description: "Midjourney, DALL·E, FLUX & more", emoji: "🎨" },
   { label: "AI Writing Tools", href: "/best/writing", description: "ChatGPT, Claude, Jasper & more", emoji: "✍️" },
-  { label: "AI Video Generators", href: "/best/video", description: "Runway, Veo, Kling, Sora & more", emoji: "🎬" },
-  { label: "AI Voice & TTS", href: "/best/voice", description: "ElevenLabs, Murf, Play.ht & more", emoji: "🔊" },
-  { label: "Free AI Tools", href: "#tools", description: "No cost, no signup required", emoji: "🆓" },
-  { label: "All AI Tools", href: "#tools", description: "Browse 100+ tools", emoji: "📋" },
+  { label: "Free AI Tools", href: "/best/free-ai-tools", description: "No cost, no signup required", emoji: "🆓" },
 ];
 
 export function Navbar() {
