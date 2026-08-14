@@ -609,3 +609,33 @@ Stage Summary:
 - Target keywords: 150+ new low-competition keywords (pricing, alternatives, use-case based)
 - All pages have: breadcrumbs, FAQ schema, internal linking to related pages, CTA
 - Next: Push to GitHub (token needed), then Phase 2 (content expansion) or Phase 3 (product features)
+
+---
+Task ID: 18
+Agent: direct (user request — Phase 2 content expansion)
+Task: Phase 2 — write 5 new comparison articles with real benchmarks, low-competition keywords, and AI-generated images.
+
+Work Log:
+- Generated 5 hero images using z-ai image CLI (pure abstract, no text):
+  - claude-vs-chatgpt-for-coding.png — amber gold vs green teal energy orbs
+  - deepseek-vs-chatgpt.png — aurora mint vs green teal energy orbs
+  - cursor-vs-claude-code.png — teal IDE vs amber terminal energy forms
+  - midjourney-vs-leonardo-ai.png — painterly vs geometric split
+  - grok-vs-chatgpt.png — star amber vs green teal energy orbs
+- Verified all 5 images text-free via VLM (all returned NO).
+- Wrote 5 comprehensive comparison articles (10-11 min reads each):
+  1. **claude-vs-chatgpt-for-coding** — SWE-bench 80.8% vs 50%, HumanEval, real-world coding (writing/debugging/refactoring), 5-question FAQ
+  2. **deepseek-vs-chatgpt** — free vs paid, 11x cheaper API ($0.27/M vs $3/M), self-hosting, 5-question FAQ
+  3. **cursor-vs-claude-code** — IDE vs terminal agent, autocomplete vs agentic, Composer vs Claude Code, 5-question FAQ
+  4. **midjourney-vs-leonardo-ai** — aesthetic vs versatile, free tier (150 tokens/day vs none), API, 5-question FAQ
+  5. **grok-vs-chatgpt** — benchmarks, real-time X data, personality, multimodal, 5-question FAQ
+- 50 new low-competition keywords targeting high-intent searches.
+- All articles cross-link to existing articles, tool pages, and pillar pages.
+- Lint clean. All 23 articles render correctly on /blog with images.
+
+Stage Summary:
+- Phase 2 content expansion complete (5 new articles).
+- Blog now has 23 articles total (1 guide + 22 comparisons).
+- 200+ SEO keywords across all articles.
+- Total unpushed commits: 2 (Option A SEO wins + Phase 2 articles).
+- Next: Push to GitHub (token needed), then continue Phase 2 (5 more articles) or move to Phase 3 (product features).
