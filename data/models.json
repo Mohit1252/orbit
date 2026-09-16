@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-09-15T11:33:14.142Z",
+    "last_sync": "2026-09-16T11:19:40.964Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
