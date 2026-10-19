@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-10-18T10:49:45.000Z",
+    "last_sync": "2026-10-19T12:51:17.612Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -209,7 +209,7 @@
         "deepseek/deepseek-r1"
       ],
       "auto_update": true,
-      "last_updated": "2026-10-17T10:29:33.645Z",
+      "last_updated": "2026-10-19T12:51:17.612Z",
       "needs_review": true,
       "api_pricing": {
         "prompt_per_million": 0.32,
@@ -224,14 +224,6 @@
           "context_tokens": 163840,
           "prompt_per_million": 0.32,
           "completion_per_million": 0.89
-        },
-        {
-          "id": "deepseek/deepseek-r1",
-          "name": "DeepSeek: R1",
-          "context": "64K",
-          "context_tokens": 64000,
-          "prompt_per_million": 0.7,
-          "completion_per_million": 2.5
         }
       ]
     },
