@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-10-27T11:57:55.589Z",
+    "last_sync": "2026-10-28T12:36:14.888Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -129,11 +129,11 @@
         "meta-llama/llama-3.3-70b-instruct"
       ],
       "auto_update": true,
-      "last_updated": "2026-10-16T11:10:43.402Z",
+      "last_updated": "2026-10-28T12:36:14.888Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.05,
-        "completion_per_million": 0.08
+        "prompt_per_million": 0.02,
+        "completion_per_million": 0.04
       },
       "context_length": "131K",
       "openrouter_models": [
@@ -150,8 +150,8 @@
           "name": "Meta: Llama 3.1 8B Instruct",
           "context": "131K",
           "context_tokens": 131072,
-          "prompt_per_million": 0.05,
-          "completion_per_million": 0.08
+          "prompt_per_million": 0.02,
+          "completion_per_million": 0.04
         },
         {
           "id": "meta-llama/llama-3.3-70b-instruct",
