@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-10-28T12:36:14.888Z",
+    "last_sync": "2026-10-29T12:46:17.433Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -15,7 +15,7 @@
         "openai/gpt-4.1"
       ],
       "auto_update": true,
-      "last_updated": "2026-07-26T06:01:34.729Z",
+      "last_updated": "2026-10-29T12:46:17.433Z",
       "needs_review": true,
       "api_pricing": {
         "prompt_per_million": 0.15,
@@ -38,22 +38,6 @@
           "context_tokens": 128000,
           "prompt_per_million": 0.15,
           "completion_per_million": 0.6
-        },
-        {
-          "id": "openai/o3-mini",
-          "name": "OpenAI: o3 Mini",
-          "context": "200K",
-          "context_tokens": 200000,
-          "prompt_per_million": 1.1,
-          "completion_per_million": 4.4
-        },
-        {
-          "id": "openai/o1",
-          "name": "OpenAI: o1",
-          "context": "200K",
-          "context_tokens": 200000,
-          "prompt_per_million": 15,
-          "completion_per_million": 60
         },
         {
           "id": "openai/gpt-4.1",
@@ -129,11 +113,11 @@
         "meta-llama/llama-3.3-70b-instruct"
       ],
       "auto_update": true,
-      "last_updated": "2026-10-28T12:36:14.888Z",
+      "last_updated": "2026-10-29T12:46:17.433Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.02,
-        "completion_per_million": 0.04
+        "prompt_per_million": 0.05,
+        "completion_per_million": 0.08
       },
       "context_length": "131K",
       "openrouter_models": [
@@ -150,8 +134,8 @@
           "name": "Meta: Llama 3.1 8B Instruct",
           "context": "131K",
           "context_tokens": 131072,
-          "prompt_per_million": 0.02,
-          "completion_per_million": 0.04
+          "prompt_per_million": 0.05,
+          "completion_per_million": 0.08
         },
         {
           "id": "meta-llama/llama-3.3-70b-instruct",
