@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-11-05T14:28:22.412Z",
+    "last_sync": "2026-11-06T14:05:37.195Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -113,7 +113,7 @@
         "meta-llama/llama-3.3-70b-instruct"
       ],
       "auto_update": true,
-      "last_updated": "2026-11-05T14:28:22.412Z",
+      "last_updated": "2026-11-06T14:05:37.195Z",
       "needs_review": true,
       "api_pricing": {
         "prompt_per_million": 0.05,
@@ -142,8 +142,8 @@
           "name": "Meta: Llama 3.3 70B Instruct",
           "context": "131K",
           "context_tokens": 131072,
-          "prompt_per_million": 0.2,
-          "completion_per_million": 0.52
+          "prompt_per_million": 0.59,
+          "completion_per_million": 0.79
         }
       ]
     },
@@ -193,11 +193,11 @@
         "deepseek/deepseek-r1"
       ],
       "auto_update": true,
-      "last_updated": "2026-10-20T11:20:19.457Z",
+      "last_updated": "2026-11-06T14:05:37.195Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.26,
-        "completion_per_million": 1.03
+        "prompt_per_million": 0.32,
+        "completion_per_million": 0.89
       },
       "context_length": "164K",
       "openrouter_models": [
@@ -206,8 +206,8 @@
           "name": "DeepSeek: DeepSeek V3",
           "context": "164K",
           "context_tokens": 163840,
-          "prompt_per_million": 0.26,
-          "completion_per_million": 1.03
+          "prompt_per_million": 0.32,
+          "completion_per_million": 0.89
         }
       ]
     },
