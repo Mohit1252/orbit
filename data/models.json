@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.0.0",
     "description": "Auto-updated LLM pricing data from OpenRouter API. Non-LLM tools (images, video, voice, build) are NOT included here — they stay manually curated in ai-data.ts.",
-    "last_sync": "2026-11-10T14:42:53.302Z",
+    "last_sync": "2026-11-11T13:58:28.758Z",
     "openrouter_endpoint": "https://openrouter.ai/api/v1/models"
   },
   "tools": {
@@ -232,11 +232,11 @@
         "qwen/qwen-2.5-7b-instruct"
       ],
       "auto_update": true,
-      "last_updated": "2026-07-30T08:41:36.697Z",
+      "last_updated": "2026-11-11T13:58:28.758Z",
       "needs_review": true,
       "api_pricing": {
-        "prompt_per_million": 0.1,
-        "completion_per_million": 0.2
+        "prompt_per_million": 0.36,
+        "completion_per_million": 0.4
       },
       "context_length": "33K",
       "openrouter_models": [
@@ -247,14 +247,6 @@
           "context_tokens": 32768,
           "prompt_per_million": 0.36,
           "completion_per_million": 0.4
-        },
-        {
-          "id": "qwen/qwen-2.5-7b-instruct",
-          "name": "Qwen: Qwen2.5 7B Instruct",
-          "context": "33K",
-          "context_tokens": 32768,
-          "prompt_per_million": 0.1,
-          "completion_per_million": 0.2
         }
       ]
     },
